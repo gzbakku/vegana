@@ -1,6 +1,7 @@
 const fs = require('fs-extra');
-const common = require('../common');
-const cmd = require('../cmd');
+const common = require('../../common');
+const cmd = require('../../cmd');
+const Spinner = require('cli-spinner').Spinner;
 
 module.exports= {
   init:init
@@ -9,6 +10,10 @@ module.exports= {
 async function init(projectName,location){
 
   common.tell('making new project');
+
+  var spinner = new Spinner('%s : ');
+  spinner.setSpinnerString('|/-\\');
+  spinner.start();
 
   //???????????????????????????
   //security checks
@@ -48,6 +53,9 @@ async function init(projectName,location){
 
   if(buildProject == false){
     return common.error('project build failed');
+  } else {
+    spinner.stop();
+    common.tell('@@@ project created successfully');
   }
 
 }
@@ -78,7 +86,9 @@ async function build(projectName){
     'index.html',
     'compile.js',
     'css',
-    'app'
+    'app',
+    'js',
+    'assets'
   ];
 
   let success = true;
@@ -145,7 +155,7 @@ async function build(projectName){
     return false;
   });
 
-  console.log(write);
+  //console.log(write);
 
   //check the write
   if(write == false){
@@ -205,9 +215,35 @@ async function doNpm(){
   }
 
   if(installVeganaEngine !== true){
-    if(installVeganaEngine.search('WARN') > 0){
-      return true;
-    } else {
+    if(installVeganaEngine.search('WARN') == 0){
+      return common.error('npm_install_failed vegana-engine');
+    }
+  }
+
+  //install globaly browerify and watchify
+
+  common.tell('installing browserify / watchify for web builds');
+
+  command = 'npm i -g watchify browserify';
+
+  const installGlobals = await cmd.run(command)
+  .then((stdout)=>{
+    return true;
+  })
+  .catch((err)=>{
+    //console.log(err);
+    return err;
+  },(stderr)=>{
+    common.error(stderr);
+    return false;
+  });
+
+  if(installGlobals == false){
+    return common.error('cannot_install browserify / watchify');
+  }
+
+  if(installGlobals !== true){
+    if(installGlobals.search('added') == 0){
       return common.error('npm_install_failed vegana-engine');
     }
   }

@@ -1,7 +1,7 @@
 //global imports
 const engine = require('vegana-engine');  //engine holds all the tools to build dom, bind events, route and control div views
 const log = false;                        //turn on to log engine.common.tell string inputs
-const compRef = '-comp-main';             //dont worry about this
+const compRef = '-comp-xxxx';             //dont worry about this
 const type = 'comp';                      //type of app
 
 //universal variables
@@ -36,7 +36,7 @@ function build(){
   //text exmaple
   let greetings = make.div(compId + "-text-div",compId,"greetings");
   if(greetings !== false){
-    engine.make.text(greetings,"this is the main comp");
+    engine.make.text(greetings,"this is the nnnn comp");
   }
 
   return; //always return after build it can be
