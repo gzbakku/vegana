@@ -14,8 +14,11 @@ async function init(){
   let files = [
     'index.html',
     'compile.js',
+    'lazy.json',
     'css',
     'css\\master.css',
+    'sass',
+    'sass\\master.scss',
     'js',
     'js\\bundle.js',
     'app',

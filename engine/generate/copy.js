@@ -3,7 +3,7 @@ const fs = require('fs-extra');
 
 module.exports = {
 
-  init : async function(type,compLocation){
+  init : async function(type,compLocation,name){
 
     //get app directory
     let scriptAddressRef = process.argv[1];
@@ -11,14 +11,28 @@ module.exports = {
     let appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '\\generate\\';
 
     let fileNames = {
-      page:'page.js',
-      comp:'comp.js',
-      cont:'cont.js',
-      panel:'panel.js',
+      page:'page',
+      comp:'comp',
+      cont:'cont',
+      panel:'panel',
+      sass:'css'
     };
 
-    let fileLocation = appDirectory + fileNames[type];
-    let fileDestination = compLocation + fileNames[type];
+    let fileExt = {
+      page:'.js',
+      comp:'.js',
+      cont:'.js',
+      panel:'.js',
+      sass:'.scss'
+    };
+
+    let fileLocation = appDirectory + fileNames[type] + fileExt[type];
+    let fileDestination;
+    if(type == 'sass'){
+      fileDestination = compLocation + name + fileExt[type];
+    } else {
+      fileDestination = compLocation + fileNames[type]  + fileExt[type];
+    }
 
     let copy = await fs.copy(fileLocation,fileDestination)
     .then(()=>{

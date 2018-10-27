@@ -1,19 +1,18 @@
-//modules
-const engine = require('vegana-engine');
-
 //controllers
 const log = false;
 const type = 'panel';
+const panelRef = '-panel-xxxx';
+const pageName = 'pgName';
+const contName = 'cnName';
+const panelName = 'pnName';
 
 //ids
-const panelRef = '-panel-xxxx';
-var parentId;
-var panelId;
+let parentId,panelId;
 
 //init dom build here
 const init = (pid) => {
 
-  common.tell('panel initiated',log);
+  engine.common.tell('panel initiated',log);
 
   if(pid == null || pid == undefined){
     return engine.common.error('parent_cont_id_not_found');            //check for prent page id
@@ -22,7 +21,7 @@ const init = (pid) => {
   parentId = pid;
   panelId = parentId + panelRef;
 
-  make.init.panel(panelId,parentId,"panel");
+  engine.make.init.panel(panelId,parentId,"panel");
 
   build();
 
@@ -30,25 +29,32 @@ const init = (pid) => {
 
 //fetch data before dom build here
 function fetch(){
-  common.tell('fetching',log);
+  engine.common.tell('fetching',log);
   build();
 }
 
 //build dom here
 function build(){
 
-  common.tell('building',log);
+  engine.common.tell('building',log);
 
-  //****************************************************************************
-  //text
-  //greetings text
-  let greetings = make.div(panelId + "-text-div",panelId,"greetings");
-  if(greetings !== false){
-    make.text(greetings,"this is the nnnn panel");
-  }
+  //sample greetings
+  let greetings = engine.make.div(
+    panelId + "-div-greetings",
+    panelId,
+    'greetings',
+    'greetings this is the nnnn panel'
+  );
 
-  return true; //always return 
+  return true; //always return
 
 }
 
-module.exports = {init:init,ref:panelRef,type:type}
+const panelController = {
+  init:init,
+  ref:panelRef,
+  type:type,
+  panelName:panelName
+};
+engine.router.set.panelModule(pageName,contName,panelName,panelController);
+module.exports = panelController;

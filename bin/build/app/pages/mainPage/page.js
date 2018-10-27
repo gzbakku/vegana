@@ -3,8 +3,8 @@ const log = false;
 const type = 'page';
 
 //ids
-const pageId = "page-xxxx";
-const pageName = 'mmmmPage';
+const pageId = "page-main";
+const pageName = 'mainPage';
 
 //init page
 const init = () => {
@@ -22,7 +22,7 @@ function build(){
     pageId + "-div-greetings",
     pageId,
     'greetings',
-    'greetings this is the nnnn page'
+    'greetings this is the main page'
   );
 
   //import conts when required to build required objects faster

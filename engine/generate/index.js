@@ -1,7 +1,7 @@
 const common = require('../../common');
 const gen = require('./gen');
 
-async function init(type,name){
+async function init(type,name,laziness){
 
   if(type == null || type == undefined){
     common.tell('what do you want us to generate page,comp,cont or panel please tell us.');
@@ -21,7 +21,7 @@ async function init(type,name){
     return common.error('invalid_comp_type');
   }
 
-  let typeBank = ['page','comp','cont','panel'];
+  let typeBank = ['page','comp','cont','panel','sass'];
 
   if(typeBank.indexOf(type) < 0){
     common.tell('valid components : page,comp,cont or panel');
@@ -39,7 +39,15 @@ async function init(type,name){
     return common.error('component name cannot be shorter then 4 letters');
   }
 
-  let work = await gen.init(type,name);
+  let isLazy = false;
+
+  if(process.argv[5]){
+    if(process.argv[5] == '--lazy'){
+      isLazy = true;
+    }
+  }
+
+  let work = await gen.init(type,name,isLazy);
 
   if(work == true){
     return common.tell('generate successfull');

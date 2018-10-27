@@ -67,9 +67,12 @@ async function build(projectName){
   //???????????????????????????
   //get addresses
 
-  let currentDirectory = process.cwd() + '\\';
+
   let scriptAddressRef = process.argv[1];
   let scriptMidPoint = scriptAddressRef.lastIndexOf('\\');
+
+  //prod
+  let currentDirectory = process.cwd() + '\\';
   let appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '\\build\\';
 
   //test
@@ -85,10 +88,12 @@ async function build(projectName){
   let files = [
     'index.html',
     'compile.js',
+    'lazy.json',
     'css',
     'app',
     'js',
-    'assets'
+    'assets',
+    'sass'
   ];
 
   let success = true;
@@ -168,15 +173,7 @@ async function build(projectName){
 
 async function doNpm(){
 
-  common.tell('configuring npm');
-
-  let command;
-
-  //npm init
-
-  common.tell('initiating npm');
-
-  command = 'npm init -y';
+  let command = 'npm init -y';
 
   const npmInit = await cmd.run(command)
   .then((stdout)=>{
@@ -222,9 +219,9 @@ async function doNpm(){
 
   //install globaly browerify and watchify
 
-  common.tell('installing browserify / watchify for web builds');
+  common.tell('installing browserify for web builds');
 
-  command = 'npm i -g watchify browserify';
+  command = 'npm i -g browserify';
 
   const installGlobals = await cmd.run(command)
   .then((stdout)=>{

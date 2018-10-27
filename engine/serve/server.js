@@ -1,7 +1,13 @@
 const express = require('express');
 const app = express();
 
-app.use(express.static(process.cwd()));
+//test
+//let projectLocation = process.cwd() + '\\akku\\';
+
+//prod
+let projectLocation = process.cwd() + '\\';
+
+app.use(express.static(projectLocation));
 
 module.exports = {init:init};
 

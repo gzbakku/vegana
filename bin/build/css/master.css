@@ -15,16 +15,6 @@ body {
 
 /* demo divs */
 
-.input{
-  width: 90%;
-  height: 40px;
-  font-size: 32px;
-  text-align: center;
-  margin-top: 20px;
-  margin-bottom: 20px;
-  margin: auto;
-}  
-
 .greetings{
   margin-top: 10vh;
   text-align: center;
@@ -33,36 +23,21 @@ body {
 
 /* demo divs */
 
-/* vegana objects */
-
-.page{
-  border: 5px solid blue;
-
-  font-size: 32px;
-}
-
-.comp{
-  border: 4px solid green;
-  min-height: 50px;
-  text-align: center;
-  padding-bottom: 20px;
-}
-
-.cont{
-  border:6px solid red;
-  min-height: 50px;
-}
-
-.panel{
-  border: 8px solid purple;
-  min-height: 50px;
-}
-
-/* vegana objects */
-
 /* loader */
 
-.loader{
+.loader-page{
+  margin-top: 10vh;
+  text-align: center;
+  font-size: 48px;
+}
+
+.loader-cont{
+  margin-top: 10vh;
+  text-align: center;
+  font-size: 48px;
+}
+
+.loader-panel{
   margin-top: 10vh;
   text-align: center;
   font-size: 48px;

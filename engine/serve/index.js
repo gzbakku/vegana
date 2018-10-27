@@ -8,6 +8,7 @@ const compile = require('./compiler');
 const server = require('./server');
 const socket = require('./socket');
 const watcher = require('./watcher');
+const sass = require('./sass');
 
 async function init(){
 
@@ -18,7 +19,21 @@ async function init(){
   let doCompile = await compile.init();
 
   if(doCompile == false){
-    return common.error('compilation failed');
+    return common.error('failed-bundle_compilation');
+  }
+
+  let doLazyLoad = await compile.lazyLoader();
+
+  if(doLazyLoad == false){
+    return common.error('failed-lazy_module_compilations');
+  }
+
+  //compile css here
+
+  let doSassCompilation = await sass.init();
+
+  if(doSassCompilation == false){
+    return common.error('failed-master_sass_compilation');
   }
 
   //check the files
@@ -66,7 +81,7 @@ async function init(){
   });
 
   if(run == false){
-    common.error('open_browser_url failed'); 
+    common.error('open_browser_url failed');
   }
 
 }

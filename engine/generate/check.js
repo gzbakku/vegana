@@ -7,46 +7,83 @@ module.exports = {
 
     common.tell('checking container directory');
 
+    //let currentDirectory = process.cwd() + '\\akku\\';  //test address
     let currentDirectory = process.cwd() + '\\';
 
     let containerBank = {
       page:'pages\\',
       cont:'conts\\',
       comp:'comps\\',
-      panel:'panels\\'
+      panel:'panels\\',
+      sass:''
     };
 
     let containerTag = {
       page:'Page',
       cont:'Cont',
       comp:'Comp',
-      panel:'Panel'
+      panel:'Panel',
+      sass:''
     };
 
     let currentContainer = containerBank[type];
-
     let containerLocation = currentDirectory + currentContainer;
-    let compLocation = containerLocation + name + containerTag[type] + '\\';
+    let compLocation;
+    if(type == 'sass'){
+      compLocation = currentDirectory;
+    } else {
+      compLocation = containerLocation + name + containerTag[type] + '\\';
+    }
 
-    if(!fs.existsSync(containerLocation)){
-      let makecd = await makeContainerDirectory(containerLocation);
-      if(makecd == false){
-        return  common.error('make_container_directory failed');
+    //check comp parents
+    let checkParents = await checkCompParents(type,currentDirectory);
+    if(checkParents == false){
+      return common.error('invalid-project_directory');
+    }
+
+    //check comp parent directories here
+    let expo = checkParents;
+
+    //check if the parent container directory exists
+    if(type !== 'sass'){
+      if(!fs.existsSync(containerLocation)){
+        let makecd = await makeContainerDirectory(containerLocation);
+        if(makecd == false){
+          return  common.error('make_container_directory failed');
+        }
       }
     }
 
-    if(fs.existsSync(compLocation)){
-      return  common.error('component : ' + containerTag[type] + ' with name of : ' + name + ' already exists in the container directory');
+    if(type !== 'sass'){
+      //check if the comp dirextory exist in the comp container
+      if(fs.existsSync(compLocation)){
+        return  common.error('component : ' + containerTag[type] + ' with name of : ' + name + ' already exists in the container directory');
+      }
+      //make comp directory if it doent exists
+      if(!fs.existsSync(compLocation)){
+        let makecd = await makeCompDirectory(compLocation);
+        if(makecd == false){
+          return  common.error('make_comp_directory failed');
+        }
+      }
+
     }
 
-    if(!fs.existsSync(compLocation)){
-      let makecd = await makeCompDirectory(compLocation);
-      if(makecd == false){
-        return  common.error('make_comp_directory failed');
+    if(type == 'sass'){
+      //check if sass file exist in the directory
+      if(fs.existsSync(compLocation + name + '.scss')){
+        return  common.error('sass file with name of ' + name + ' already exists in the sass directory');
       }
     }
 
-    return compLocation;
+    let bool = {
+      location:compLocation,
+      page:expo['page'],
+      cont:expo['cont'],
+      panel:expo['panel']
+    };
+
+    return bool;
 
   }
 
@@ -85,5 +122,92 @@ async function makeCompDirectory(compLocation){
   });
 
   return create;
+
+}
+
+async function checkCompParents(type,location){
+
+  if(type == 'sass'){
+
+    let locationArray = location.split("\\");
+    if(locationArray.indexOf('sass') < 0){
+      return common.error('not_found-sass_directory');
+    }
+
+    return {
+      page:null,
+      cont:null,
+      panel:null
+    };
+
+  }
+
+  if(type == 'panel'){
+
+    let locationArray = location.split("\\");
+    if(
+      locationArray.indexOf('app') < 0 ||
+      locationArray.indexOf('pages') < 0 ||
+      locationArray.indexOf('conts') < 0
+    ){
+      return common.error('not_found-app/pages/conts||directory');
+    }
+
+    let page = locationArray[locationArray.indexOf('pages') + 1];
+    let cont = locationArray[locationArray.indexOf('conts') + 1];
+
+    return {
+      page:page,
+      cont:cont,
+      panel:null
+    };
+
+  }
+
+  if(type == 'cont'){
+
+    let locationArray = location.split("\\");
+    if(
+      locationArray.indexOf('app') < 0 ||
+      locationArray.indexOf('pages') < 0
+    ){
+      return common.error('not_found-app/pages||directory');
+    }
+
+    let pageIndex = locationArray.indexOf('pages');
+    let page = locationArray[pageIndex + 1];
+
+    return {
+      page:page,
+      cont:null,
+      panel:null
+    };
+
+  }
+
+  if(type == 'page'){
+
+    let locationArray = location.split("\\");
+    if(locationArray.indexOf('app') < 0){
+      return common.error('not_found-app_directory');
+    }
+
+    return {
+      page:null,
+      cont:null,
+      panel:null
+    };
+
+  }
+
+  if(type == 'comp'){
+    return {
+      page:null,
+      cont:null,
+      panel:null
+    };
+  }
+
+  return common.error('invalid-comp_type');
 
 }

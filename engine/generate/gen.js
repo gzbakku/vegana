@@ -5,12 +5,13 @@ const fs = require('fs-extra');
 const check = require('./check');
 const copy = require('./copy');
 const customize = require('./customize');
+const lazy = require('./lazy');
 
 module.exports = {
   init:init
 };
 
-async function init(type,name){
+async function init(type,name,laziness){
 
   //check directory
 
@@ -20,11 +21,14 @@ async function init(type,name){
     return common.error('check_directory failed');
   }
 
-  let compLocation = doCheck;
+  let compLocation = doCheck['location'];
+  let pgName = doCheck['page'];
+  let cnName = doCheck['cont'];
+  let pnName = doCheck['panel'];
 
   //copy file
 
-  let doCopy = await copy.init(type,compLocation);
+  let doCopy = await copy.init(type,compLocation,name);
 
   if(doCopy == false){
     return common.error('deploy_file failed');
@@ -34,10 +38,18 @@ async function init(type,name){
 
   //customize
 
-  let doCustomize = await customize.init(name,fileLocation);
+  let doCustomize = await customize.init(fileLocation,name,pgName,cnName,pnName,type);
 
   if(doCustomize == false){
     return common.error('customize_file failed');
+  }
+
+  //lazy load
+
+  let doLazy = await lazy.init(laziness,type,name,pgName,cnName,pnName);
+
+  if(doLazy == false){
+    return common.error('load_lazy_address failed');
   }
 
   //return
