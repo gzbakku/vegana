@@ -32,12 +32,12 @@ function build(){
   engine.common.tell('building',log);
 
   //sample greetings
-  let greetings = engine.make.div(
-    contId + "-div-greetings",
-    contId,
-    'greetings',
-    'greetings this is the nnnn cont'
-  );
+  let greetings = engine.make.div({
+    id:"greetings",
+    parent:contId,
+    class:'greetings',
+    text:'greetings this is the nnnn cont'
+  });
 
   //import panels when required to build required objects faster
 

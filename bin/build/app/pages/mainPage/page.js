@@ -17,15 +17,41 @@ function build(){
 
   engine.common.tell('building',log);
 
-  //sample greetings
-  let greetings = engine.make.div(
-    pageId + "-div-greetings",
-    pageId,
-    'greetings',
-    'greetings this is the main page'
-  );
+  let imageCont = engine.make.div({
+    id:'imageCont',
+    parent:pageId,
+    class:'image-cont'
+  });
 
-  //import conts when required to build required objects faster
+    engine.make.image({
+      id:'logo',
+      parent:imageCont,
+      class:'logo-image',
+      type:'local',
+      location:'assets/images/logo.png'
+    });
+
+  //sample greetings
+  let greetings = engine.make.div({
+    id:"greetings",
+    parent:pageId,
+    class:'greetings',
+    text:'Welcome to Vegana JS'
+  });
+
+  let tagCont = engine.make.div({
+    id:'tagCont',
+    parent:pageId,
+    class:'tag-cont'
+  });
+
+    engine.make.image({
+      id:'logo',
+      parent:tagCont,
+      class:'tag-image',
+      type:'local',
+      location:'assets/images/logo-tag.png'
+    });
 
   return true; //always return after the build completes
 

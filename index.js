@@ -13,7 +13,7 @@ let location = work[1];
 let func = work[2];
 
 
-let bank = ['serve','build','generate','init','help'];
+let bank = ['serve','build','generate','init','help','check','founder'];
 
 if(bank.indexOf(func) >= 0){
 
@@ -36,9 +36,21 @@ if(bank.indexOf(func) >= 0){
   if(func == 'help'){
     log(chalk.white('vegana cli can do the following things :-'));
     log(chalk.greenBright('- init'));
+    log(chalk.greenBright('- check'));
+    log(chalk.greenBright('- founder'));
     log(chalk.greenBright('- serve'));
     log(chalk.greenBright('- build'));
     log(chalk.greenBright('- generate'));
+    return;
+  }
+
+  if(func == 'check'){
+    log(chalk.greenBright('Hey you got Vegana'));
+    return;
+  }
+
+  if(func == 'founder'){
+    log(chalk.greenBright('Akku - Tejasav Dutt, you can found me at gzbakku@gmail.com'));
     return;
   }
 
@@ -51,6 +63,8 @@ if(bank.indexOf(func) < 0){
   log(chalk.yellow('- serve'));
   log(chalk.yellow('- build'));
   log(chalk.yellow('- generate'));
+  log(chalk.yellow('- check'));
+  log(chalk.yellow('- founder'));
   return;
 }
 

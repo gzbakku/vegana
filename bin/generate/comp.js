@@ -15,6 +15,7 @@ const init = (pid) => {         //pid referes to the parentPageId, pass this var
 
   parentId = pid;               //set parent page ref
   compId = parentId + compRef;  //set comp id
+  engine.make.init.comp(compId,parentId,'comp');
   build();                      //start build you can also start fetch here.
 
 }
@@ -25,12 +26,12 @@ function build(){
   engine.common.tell('building',log);
 
   //sample greetings
-  let greetings = engine.make.div(
-    compId + "-div-greetings",
-    compId,
-    'greetings',
-    'greetings this is the nnnn comp'
-  );
+  let greetings = engine.make.div({
+    id:"greetings",
+    parent:compId,
+    class:'greetings',
+    text:'greetings this is the nnnn comp'
+  });
 
   return true; //always return after build it can be
 

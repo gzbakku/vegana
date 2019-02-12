@@ -223,7 +223,7 @@ async function compile(readLocation,writeLocation){
 
     let writePath = makeBaseDir(writeLocation);
     browserify({ debug: false })
-    //.plugin(tinyify, { flat: false })
+    .plugin(tinyify, { flat: false })
     .require(readLocation,{entry: true})
     .bundle()
     .on("error", (err)=>{

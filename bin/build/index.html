@@ -2,6 +2,16 @@
 <html lang="en" dir="ltr">
   <head>
 
+    <!--- livereload --->
+    <script type="text/javascript" src="js/socket.io.js"></script>
+    <script type="text/javascript">
+      let socket = io.connect('http://localhost:7879');
+      socket.on('reload',(data)=>{
+        location.reload();
+      });
+    </script>
+    <!--- livereload --->
+
     <!--- meta tags --->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
@@ -13,17 +23,9 @@
 
     <!--- css --->
     <link rel="stylesheet" href="css/master.css">
+	  <link rel="icon" href="./assets/favicon.ico" type="image/x-icon"/>
+	  <meta name="theme-color" content="#9E1818">
     <!--- css --->
-
-    <!--- livereload --->
-    <script type="text/javascript" src="js/socket.io.js"></script>
-    <script type="text/javascript">
-      let socket = io.connect('http://localhost:7879');
-      socket.on('reload',(data)=>{
-        location.reload();
-      });
-    </script>
-    <!--- livereload --->
 
   </head>
   <body>

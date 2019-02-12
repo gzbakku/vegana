@@ -217,34 +217,6 @@ async function doNpm(){
     }
   }
 
-  //install globaly browerify and watchify
-
-  common.tell('installing browserify for web builds');
-
-  command = 'npm i -g browserify';
-
-  const installGlobals = await cmd.run(command)
-  .then((stdout)=>{
-    return true;
-  })
-  .catch((err)=>{
-    //console.log(err);
-    return err;
-  },(stderr)=>{
-    common.error(stderr);
-    return false;
-  });
-
-  if(installGlobals == false){
-    return common.error('cannot_install browserify / watchify');
-  }
-
-  if(installGlobals !== true){
-    if(installGlobals.search('added') == 0){
-      return common.error('npm_install_failed vegana-engine');
-    }
-  }
-
   return true;
 
 }

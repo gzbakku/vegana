@@ -23,6 +23,13 @@ function getDirectoryType(path){
   if(path.match('sass')){
     return 'sass';
   }
+  if(path.match('comp')){
+    return 'comp';
+  }
+  if(path.match('app')){
+    return 'app';
+  }
+
 }
 
 function getParents(type,location){
@@ -174,9 +181,50 @@ function checkLaziness(type,parents){
 
 }
 
-async function init(){
+async function checkParentsLazyness(type,parents){
 
-  console.log('>>> starting watcher');
+  if(typeof(parents) !== 'object'){
+    return common.error('invalid-parents');
+  }
+
+  if(parents.panel !== null && type !== 'panel'){
+    let lazyness = checkLaziness('panel',parents);
+    if(lazyness == true){
+      let compileCheck = await compile.appModule('panel',parents);
+      if(compileCheck == true){
+        common.tell('lazy panel updated');
+      }
+    }
+    return true;
+  }
+
+  if(parents.cont !== null && type !== 'cont'){
+    let lazyness = checkLaziness('cont',parents);
+    if(lazyness == true){
+      let compileCheck = await compile.appModule('cont',parents);
+      if(compileCheck == true){
+        common.tell('lazy cont updated');
+      }
+    }
+    return true;
+  }
+
+  if(parents.page !== null && type !== 'page'){
+    let lazyness = checkLaziness('page',parents);
+    if(lazyness == true){
+      let compileCheck = await compile.appModule('page',parents);
+      if(compileCheck == true){
+        common.tell('lazy page updated');
+      }
+    }
+    return true;
+  }
+
+  return false;
+
+}
+
+async function init(){
 
   //test
   //let currentDirectory = process.cwd() + '\\akku\\';
@@ -221,17 +269,32 @@ async function init(){
 
   chokidar.watch(location_bundle)
   .on('change',async (path)=>{
+
     common.tell('app updated');
+    common.tell(path);
+
     let moduleType = getDirectoryType(path);
+
+    if(moduleType == 'app'){
+      let compileCheck = await compile.bundle();
+      socket.reload();
+      return true;
+    }
+
     let parents = getParents(moduleType,path);
+
     let laziness = checkLaziness(moduleType,parents);
+
     if(laziness == true){
       let compileCheck = await compile.appModule(moduleType,parents);
     } else {
       let compileCheck = await compile.bundle();
     }
-    common.tell('reloading vegana app');
+
+    let checkLazyParents = await checkParentsLazyness(moduleType,parents);
+
     socket.reload();
+
   });
 
   //watch master.css
@@ -249,13 +312,26 @@ async function init(){
     } else {
       let compileCheck = await sass.compile.master();
     }
+    //socket.reload();
   });
+
+  //css
 
   let location_css = currentDirectory + 'css\\';
 
   chokidar.watch(location_css)
   .on('change',async (path)=>{
     common.tell('css updated');
+    socket.reload();
+  });
+
+  //assets
+
+  let location_assets = currentDirectory + 'assets\\';
+
+  chokidar.watch(location_assets)
+  .on('change',async (path)=>{
+    common.tell('assets updated');
     socket.reload();
   });
 

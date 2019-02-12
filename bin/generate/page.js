@@ -18,12 +18,12 @@ function build(){
   engine.common.tell('building',log);
 
   //sample greetings
-  let greetings = engine.make.div(
-    pageId + "-div-greetings",
-    pageId,
-    'greetings',
-    'greetings this is the nnnn page'
-  );
+  let greetings = engine.make.div({
+    id:"greetings",
+    parent:pageId,
+    class:'greetings',
+    text:'greetings this is the nnnn page'
+  });
 
   //import conts when required to build required objects faster
 

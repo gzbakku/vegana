@@ -39,12 +39,12 @@ function build(){
   engine.common.tell('building',log);
 
   //sample greetings
-  let greetings = engine.make.div(
-    panelId + "-div-greetings",
-    panelId,
-    'greetings',
-    'greetings this is the nnnn panel'
-  );
+  let greetings = engine.make.div({
+    id:"greetings",
+    parent:panelId,
+    class:'greetings',
+    text:'greetings this is the nnnn panel'
+  });
 
   return true; //always return
 

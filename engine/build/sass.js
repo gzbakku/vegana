@@ -95,7 +95,7 @@ function render(read,write){
 
     }
 
-    sass.render({file:read},worker);
+    sass.render({file:read,outputStyle:'compressed'},worker);
 
   });
   //promise ends here
