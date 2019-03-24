@@ -11,16 +11,18 @@ module.exports = {
     let appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '\\generate\\';
 
     let fileNames = {
-      page:'page',
       comp:'comp',
+      globalComp:'globalComp',
+      page:'page',
       cont:'cont',
       panel:'panel',
       sass:'css'
     };
 
     let fileExt = {
-      page:'.js',
       comp:'.js',
+      globalComp:'.js',
+      page:'.js',
       cont:'.js',
       panel:'.js',
       sass:'.scss'

@@ -78,6 +78,15 @@ module.exports = {
       }
     }
 
+    //do globals
+    if(type == 'globalComp'){
+      if(!bool.globals){
+        bool['globals'] = [name + 'Comp'];
+      } else {
+        bool.globals.push(name + 'Comp');
+      }
+    }
+
     //do page
     if(type == 'page'){
       if(!bool.pages){

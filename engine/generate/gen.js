@@ -15,6 +15,8 @@ async function init(type,name,laziness){
 
   //check directory
 
+  if(laziness && type == 'comp'){type = 'globalComp';}
+
   let doCheck = await check.init(type,name);
 
   if(doCheck == false){

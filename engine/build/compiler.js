@@ -53,6 +53,19 @@ async function lazyLoader(){
 
     let promises = [];
 
+    if(adb.globals){
+      if(adb.globals.length){
+        if(adb.globals.length > 0){
+          let globals = adb.globals;
+          for(var i=0;i<globals.length;i++){
+            let hold = globals[i];
+            //console.log(page);
+            promises.push(compile(hold.read,hold.write));
+          }
+        }
+      }
+    }
+
     if(adb.pages){
       if(adb.pages.length){
         if(adb.pages.length > 0){
@@ -152,8 +165,8 @@ async function appModule(type,parents,name){
   //let baseWrite = './akku/js/pages/';
 
   //prod
-  let baseRead = currentDirectory + 'app\\pages\\';
-  let baseWrite = currentDirectory + 'js\\pages\\';
+  let baseRead = currentDirectory + 'app';
+  let baseWrite = currentDirectory + 'js';
 
   if(
     parents.hasOwnProperty('page') == false ||
@@ -163,41 +176,45 @@ async function appModule(type,parents,name){
     return common.error('invalid-comp_parents');
   }
 
-  if(type == 'sass'){
+  if(type == 'global'){
 
-    if(parents.page == null){
-      return common.error('not_found-comp_parent_page');
+    if(parents.global == null){
+      return common.error('not_found-global_comp_name');
     }
 
-    readLocation = baseRead + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + parents['page'] + '\\page.js';
+    readLocation = baseRead + '\\globals\\' + parents['global'] + '\\globalComp.js';
+    writeLocation = baseWrite + '\\globals\\' + parents['global'] + '\\globalComp.js';
+
   }
+
   if(type == 'page'){
 
     if(parents.page == null){
       return common.error('not_found-comp_parent_page');
     }
 
-    readLocation = baseRead + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + parents['page'] + '\\page.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\page.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\page.js';
   }
+
   if(type == 'cont'){
 
     if(parents.page == null || parents.cont == null){
       return common.error('not_found-comp_parent_page/cont');
     }
 
-    readLocation = baseRead + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
-    writeLocation = baseWrite + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
   }
+
   if(type == 'panel'){
 
     if(parents.page == null || parents.cont == null || parents.panel == null){
       return common.error('not_found-comp_parent_page/cont/panel');
     }
 
-    readLocation = baseRead + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
-    writeLocation = baseWrite + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
   }
 
   if(

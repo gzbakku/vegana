@@ -14,6 +14,7 @@ module.exports = {
       page:'pages\\',
       cont:'conts\\',
       comp:'comps\\',
+      globalComp:'globals\\',
       panel:'panels\\',
       sass:''
     };
@@ -22,6 +23,7 @@ module.exports = {
       page:'Page',
       cont:'Cont',
       comp:'Comp',
+      globalComp:'Comp',
       panel:'Panel',
       sass:''
     };
@@ -206,6 +208,29 @@ async function checkCompParents(type,location){
       cont:null,
       panel:null
     };
+  }
+
+  if(type == 'globalComp'){
+
+    let locationArray = location.split("\\");
+    if(
+      locationArray.indexOf('app') < 0 ||
+      locationArray.indexOf('pages') > 0 ||
+      locationArray.indexOf('conts') > 0 ||
+      locationArray.indexOf('panels') > 0
+    ){
+      return common.error('global comps can only be generated in app directory');
+    }
+
+    let page = locationArray[locationArray.indexOf('pages') + 1];
+    let cont = locationArray[locationArray.indexOf('conts') + 1];
+
+    return {
+      page:page,
+      cont:cont,
+      panel:null
+    };
+
   }
 
   return common.error('invalid-comp_type');

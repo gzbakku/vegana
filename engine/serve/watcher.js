@@ -11,6 +11,9 @@ function getDirectoryType(path){
 
   //common.tell('fetching module type');
 
+  if(path.match('globals')){
+    return 'global';
+  }
   if(path.match('panels')){
     return 'panel';
   }
@@ -29,12 +32,36 @@ function getDirectoryType(path){
   if(path.match('app')){
     return 'app';
   }
+  if(path.match('node_modules')){
+    return 'node_modules';
+  }
+  if(path.match('assets')){
+    return 'assets';
+  }
 
 }
 
 function getParents(type,location){
 
   //common.tell('getting module parent doms');
+
+  if(type == 'global'){
+
+    let locationArray = location.split("\\");
+    if(locationArray.indexOf('app') < 0){
+      return common.error('not_found-app/pages/conts||directory');
+    }
+
+    let comp = locationArray[locationArray.indexOf('globals') + 1];
+
+    return {
+      global:comp,
+      page:null,
+      cont:null,
+      panel:null
+    };
+
+  }
 
   if(type == 'panel'){
 
@@ -52,6 +79,7 @@ function getParents(type,location){
     let panel = locationArray[locationArray.indexOf('panels') + 1];
 
     return {
+      global:null,
       page:page,
       cont:cont,
       panel:panel
@@ -67,6 +95,7 @@ function getParents(type,location){
     let name = nameString.split('.')[0];
 
     return {
+      global:null,
       page:null,
       cont:null,
       panel:null,
@@ -90,6 +119,7 @@ function getParents(type,location){
     let cont = locationArray[locationArray.indexOf('conts') + 1];
 
     return {
+      global:null,
       page:page,
       cont:cont,
       panel:null
@@ -108,6 +138,7 @@ function getParents(type,location){
     let page = locationArray[pageIndex + 1];
 
     return {
+      global:null,
       page:page,
       cont:null,
       panel:null
@@ -120,6 +151,10 @@ function getParents(type,location){
 function checkLaziness(type,parents){
 
   //common.tell('checking laziness');
+
+  if(type == "global"){
+    return true;
+  }
 
   if(lazy == null){
     return common.error('not_loaded-lazy.json');
@@ -332,6 +367,39 @@ async function init(){
   chokidar.watch(location_assets)
   .on('change',async (path)=>{
     common.tell('assets updated');
+    socket.reload();
+  });
+
+  //node_modules
+
+  let location_node_modules = currentDirectory + 'node_modules\\';
+
+  chokidar.watch(location_node_modules)
+  .on('change',async (path)=>{
+    common.tell('node_modules updated');
+    let compileCheck = await compile.bundle();
+    socket.reload();
+  });
+
+  //vega
+
+  let location_vega = currentDirectory + 'vega\\';
+
+  chokidar.watch(location_vega)
+  .on('change',async (path)=>{
+    common.tell('node_modules updated');
+    let compileCheck = await compile.bundle();
+    socket.reload();
+  });
+
+  //compile
+
+  let location_compile_config = currentDirectory + 'compile.js';
+
+  chokidar.watch(location_compile_config)
+  .on('change',async (path)=>{
+    common.tell('compile_config updated');
+    let compileCheck = await compile.bundle();
     socket.reload();
   });
 

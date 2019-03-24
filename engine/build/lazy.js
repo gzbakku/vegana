@@ -8,8 +8,8 @@ const fs = require('fs-extra');
 
 //prod
 const currentDirectory = process.cwd() + '\\';
-const baseRead = currentDirectory + 'app\\pages\\';
-const baseWrite = currentDirectory + 'js\\pages\\';
+const baseRead = currentDirectory + 'app';
+const baseWrite = currentDirectory + 'js';
 
 
 module.exports = {
@@ -40,11 +40,24 @@ async function getAllModules(){
     pages:[],
     conts:[],
     panels:[],
-    sass:[]
+    sass:[],
+    globals:[]
   };
 
   let i,t,p,m,s,c;                        //for_loop operators
   let pages,page,conts,cont,panels,panel; //for_loop vars
+
+  if(bool.globals){
+    if(bool.globals.length){
+      if(bool.globals.length > 0){
+        globals = bool.globals;
+        for(i=0;i<globals.length;i++){
+          global = globals[i];
+          exp.globals.push(getModuleAddress('global',{global:global,page:null,cont:null,panel:null}));
+        }
+      }
+    }
+  }
 
   if(bool.pages){
     if(bool.pages.length){
@@ -52,7 +65,7 @@ async function getAllModules(){
         pages = bool.pages;
         for(i=0;i<pages.length;i++){
           page = pages[i];
-          exp.pages.push(getModuleAddress('page',{page:page,cont:null,panel:null}));
+          exp.pages.push(getModuleAddress('page',{global:global,page:page,cont:null,panel:null}));
         }
       }
     }
@@ -66,7 +79,7 @@ async function getAllModules(){
         conts = bool.conts[page];
         for(m=0;m<conts.length;m++){
           cont = conts[m];
-          exp.conts.push(getModuleAddress('cont',{page:page,cont:cont,panel:null}));
+          exp.conts.push(getModuleAddress('cont',{global:global,page:page,cont:cont,panel:null}));
         }
       }
     }
@@ -83,7 +96,7 @@ async function getAllModules(){
           panels = bool.panels[page][cont];
           for(t=0;t<panels.length;t++){
             panel = panels[t];
-            exp.panels.push(getModuleAddress('panel',{page:page,cont:cont,panel:panel}));
+            exp.panels.push(getModuleAddress('panel',{global:global,page:page,cont:cont,panel:panel}));
           }
         }
       }
@@ -96,11 +109,13 @@ async function getAllModules(){
         let sasses = bool.sass;
         for(i=0;i<sasses.length;i++){
           let sass = sasses[i];
-          exp.sass.push(getModuleAddress('sass',{page:page,cont:cont,panel:panel,name:sass}));
+          exp.sass.push(getModuleAddress('sass',{global:global,page:page,cont:cont,panel:panel,name:sass}));
         }
       }
     }
   }
+
+
 
   return exp;
 
@@ -113,7 +128,8 @@ function getModuleAddress(type,parents){
   if(
     parents.hasOwnProperty('page') == false ||
     parents.hasOwnProperty('cont') == false ||
-    parents.hasOwnProperty('panel') == false
+    parents.hasOwnProperty('panel') == false ||
+    parents.hasOwnProperty('global') == false
   ){
     return common.error('invalid-comp_parents');
   }
@@ -133,32 +149,45 @@ function getModuleAddress(type,parents){
     readLocation = baseLocation + 'sass\\' + parents.name + '.scss';
     writeLocation = baseLocation + 'css\\' + parents.name + '.css';
   }
+
+  if(type == 'global'){
+
+    if(parents.global == null){
+      return common.error('not_found-global_comp_name');
+    }
+
+    readLocation = baseRead + '\\globals\\' + parents['global'] + '\\globalComp.js';
+    writeLocation = baseWrite + '\\globals\\' + parents['global'] + '\\globalComp.js';
+  }
+
   if(type == 'page'){
 
     if(parents.page == null){
       return common.error('not_found-comp_parents_page');
     }
 
-    readLocation = baseRead + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + parents['page'] + '\\page.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\page.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\page.js';
   }
+
   if(type == 'cont'){
 
     if(parents.page == null || parents.cont == null){
       return common.error('not_found-comp_parents_page/cont');
     }
 
-    readLocation = baseRead + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
-    writeLocation = baseWrite + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
   }
+
   if(type == 'panel'){
 
     if(parents.page == null || parents.cont == null || parents.panel == null){
       return common.error('not_found-comp_parents_page/cont/panel');
     }
 
-    readLocation = baseRead + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
-    writeLocation = baseWrite + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
   }
 
   if(
