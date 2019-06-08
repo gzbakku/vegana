@@ -12,6 +12,24 @@ const init = () => {
   build();                               //start build
 }
 
+//these trackers will be triggered when this module is routed
+const trackers = {
+  title:'sample page title',
+  meta:[
+    {
+      name:'description',
+      content:'this is a sample page description'
+    },
+    {
+      name:'keywords',
+      content:'page,vegana'
+    }
+  ],
+  function_data:{},
+  //function will be triggered with the function data as input when the module is routed to.
+  function:(function_data)=>{}
+};
+
 //build page
 function build(){
 
@@ -38,7 +56,8 @@ let pageControllers = {
   type:type,
   name:pageName,
   contModules:{},
-  contList:{}
+  contList:{},
+  trackers:trackers
 };
 module.exports = pageControllers;
 window.pageModules[pageName] = pageControllers;

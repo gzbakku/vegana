@@ -18,11 +18,11 @@ let bank = ['serve','build','generate','init','help','check','founder'];
 if(bank.indexOf(func) >= 0){
 
   if(func == 'serve'){
-    return serve.init();
+    return serve.init(work[3]);
   }
 
   if(func == 'build'){
-    return build.init();
+    return build.init(work[3]);
   }
 
   if(func == 'generate'){

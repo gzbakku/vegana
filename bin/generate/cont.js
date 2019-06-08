@@ -26,6 +26,24 @@ const init = (pid) => {                                                //pid = p
 
 }
 
+//these trackers will be triggered when this module is routed
+const trackers = {
+  title:'sample cont title',
+  meta:[
+    {
+      name:'description',
+      content:'this is a sample cont description'
+    },
+    {
+      name:'keywords',
+      content:'cont,vegana'
+    }
+  ],
+  function_data:{},
+  //function will be triggered with the function data as input when the module is routed to.
+  function:(function_data)=>{}
+};
+
 //build the cont dom here
 function build(){
 
@@ -52,7 +70,8 @@ const contControllers = {
   type:type,
   contName:contName,
   panelModules:{},        //dont fill this object, imported panels are loaded automatically.
-  panelList:{}
+  panelList:{},
+  trackers:trackers
 };
 
 module.exports = contControllers;

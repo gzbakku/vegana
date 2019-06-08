@@ -10,7 +10,7 @@ const edit = require('./edit');
 const copy = require('./copy');
 const make = require('./make');
 
-async function init(){
+async function init(base){
 
   console.log('>>> build initiated');
 
@@ -51,7 +51,7 @@ async function init(){
 
   //edit index
 
-  let doEdit = await edit.init();
+  let doEdit = await edit.init(base);
   if(!doEdit){
     return common.error('failed-process_index_file');
   }

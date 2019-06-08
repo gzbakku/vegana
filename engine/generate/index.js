@@ -35,7 +35,7 @@ async function init(type,name,laziness){
     return common.error('invalid_name_type');
   }
 
-  if(name.length < 4){
+  if(name.length < 1){
     return common.error('component name cannot be shorter then 4 letters');
   }
 

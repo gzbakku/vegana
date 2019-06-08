@@ -20,6 +20,24 @@ const init = (pid) => {         //pid referes to the parentPageId, pass this var
 
 }
 
+//these trackers will be triggered when this module is routed
+const trackers = {
+  title:'sample comp title',
+  meta:[
+    {
+      name:'description',
+      content:'this is a sample comp description'
+    },
+    {
+      name:'keywords',
+      content:'comp,vegana'
+    }
+  ],
+  function_data:{},
+  //function will be triggered with the function data as input when the module is routed to.
+  function:(function_data)=>{}
+};
+
 //build the dom for comp here
 function build(){
 
@@ -37,4 +55,4 @@ function build(){
 
 }
 
-module.exports = {init:init,ref:compRef,type:type}
+module.exports = {init:init,ref:compRef,type:type,trackers:trackers}

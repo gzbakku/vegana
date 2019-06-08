@@ -4,7 +4,7 @@ const shell = require('shelljs');
 
 module.exports = {init:init};
 
-async function init(){
+async function init(base){
 
   console.log('>>> processing index');
 
@@ -17,19 +17,26 @@ async function init(){
     return data;
   })
   .catch((err)=>{
-      console.log(err);
-      return false;
+    console.log(err);
+    return false;
   });
 
   let lines = index.split('\n');
   lines.splice(4,9);
 
   let final;
-  for(var i=0;i<lines.length;i++){
+  for(var i in lines){
+    let line = lines[i];
+    if(base){
+      line = line.replace('http://localhost:5566/js/socket.io.js',base + '/js/socket.io.js');
+      line = line.replace('http://localhost:5566/css/master.css',base + '/css/master.css');
+      line = line.replace('http://localhost:5566/assets/favicon.ico',base + '/assets/favicon.ico');
+      line = line.replace('http://localhost:5566/js/bundle.js',base + '/js/bundle.js');
+    }
     if(!final){
-      final = lines[i].toString();
+      final = line.toString() + '\n';
     } else {
-      final = final + lines[i].toString();
+      final = final + '\n' + line.toString();
     }
   }
 

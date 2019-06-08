@@ -27,6 +27,24 @@ const init = (pid) => {
 
 }
 
+//these trackers will be triggered when this module is routed
+const trackers = {
+  title:'sample panel title',
+  meta:[
+    {
+      name:'description',
+      content:'this is a sample panel description'
+    },
+    {
+      name:'keywords',
+      content:'panel,vegana'
+    }
+  ],
+  function_data:{},
+  //function will be triggered with the function data as input when the module is routed to.
+  function:(function_data)=>{}
+};
+
 //fetch data before dom build here
 function fetch(){
   engine.common.tell('fetching',log);
@@ -54,7 +72,8 @@ const panelController = {
   init:init,
   ref:panelRef,
   type:type,
-  panelName:panelName
+  panelName:panelName,
+  trackers:trackers
 };
 engine.router.set.panelModule(pageName,contName,panelName,panelController);
 module.exports = panelController;
