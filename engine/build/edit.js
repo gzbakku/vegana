@@ -32,6 +32,12 @@ async function init(base){
       line = line.replace('http://localhost:5566/css/master.css',base + '/css/master.css');
       line = line.replace('http://localhost:5566/assets/favicon.ico',base + '/assets/favicon.ico');
       line = line.replace('http://localhost:5566/js/bundle.js',base + '/js/bundle.js');
+
+      line = line.replace('="/js/socket.io.js"','="'+base + '/js/socket.io.js"');
+      line = line.replace('="/css/master.css"','="'+base + '/css/master.css"');
+      line = line.replace('="/assets/favicon.ico"','="'+base + '/assets/favicon.ico"');
+      line = line.replace('="/js/bundle.js"','="'+base + '/js/bundle.js"');
+
     }
     if(!final){
       final = line.toString() + '\n';

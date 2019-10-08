@@ -25,7 +25,7 @@ module.exports=  {
         }
         if(stdout){
           //console.log(stdout);
-          resolve();
+          resolve(stdout);
         }
       });
 

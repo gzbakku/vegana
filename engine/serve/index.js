@@ -10,10 +10,14 @@ const socket = require('./socket');
 const watcher = require('./watcher');
 const sass = require('./sass');
 
-async function init(port){
+async function init(port,secure){
 
   if(!port){
     port = 5566;
+  }
+  if(port == 'secure'){
+    port = 5566;
+    secure = 'secure';
   }
 
   console.log('>>> serve initiated');
@@ -50,7 +54,7 @@ async function init(port){
 
   //start the server
 
-  let startServer = await server.init(port);
+  let startServer = await server.init(port,secure);
 
   if(startServer == false){
     return common.error('server failed');
@@ -73,6 +77,8 @@ async function init(port){
   }
 
   //open url
+
+  //return;
 
   let runThis = 'start ' + startServer;
 

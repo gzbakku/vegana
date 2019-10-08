@@ -30,7 +30,6 @@ async function init(){
   writeLocation = currentDirectory + 'js\\bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
-
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   }
@@ -143,7 +142,6 @@ async function bundle(){
   writeLocation = currentDirectory + 'js\\bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
-
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   }
@@ -231,10 +229,11 @@ async function appModule(type,parents,name){
   }
 
   let doCompile = await compile(readLocation,writeLocation);
-
   if(doCompile == false){
     return common.error('failed-lazy_module_compilation');
   }
+
+  //console.log({doCompile:doCompile});
 
   return true;
 
@@ -246,14 +245,13 @@ async function compile(readLocation,writeLocation){
 
     let writePath = makeBaseDir(writeLocation);
     browserify({ debug: false })
-    //.plugin(tinyify, { flat: false })
     .require(readLocation,{entry: true})
     .bundle()
     .on("error", (err)=>{
       let error = err.message;
       reject(error);
     })
-    .on("end", ()=>{
+    .on("end", (e,f)=>{
       resolve();
     })
     .pipe(fs.createWriteStream(writeLocation));
