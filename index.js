@@ -1,7 +1,9 @@
 const init = require('./engine/init/index');
 const build = require('./engine/build/index');
+const config = require('./engine/config/index');
 const serve = require('./engine/serve/index');
 const generate = require('./engine/generate/index');
+const run = require('./engine/run/index');
 const chalk = require('chalk');
 const log = console.log;
 
@@ -12,8 +14,10 @@ let work = process.argv;
 let location = work[1];
 let func = work[2];
 
+global.common = require('./common');
+global.cmd = require('./cmd');
 
-let bank = ['serve','build','generate','init','help','check','founder'];
+let bank = ['serve','build','generate','init','help','check','founder','config','run'];
 
 if(bank.indexOf(func) >= 0){
 
@@ -23,6 +27,14 @@ if(bank.indexOf(func) >= 0){
 
   if(func == 'build'){
     return build.init(work[3]);
+  }
+
+  if(func == 'run'){
+    return run.init(work[3]);
+  }
+
+  if(func == 'config'){
+    return config.init(work[3]);
   }
 
   if(func == 'generate'){

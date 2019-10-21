@@ -12,12 +12,18 @@ const sass = require('./sass');
 
 async function init(port,secure){
 
+  let run_electron = false;
   if(!port){
     port = 5566;
   }
   if(port == 'secure'){
     port = 5566;
     secure = 'secure';
+  }
+
+  if(port == 'electron'){
+    run_electron = true;
+    port = 5566;
   }
 
   console.log('>>> serve initiated');
@@ -80,19 +86,26 @@ async function init(port,secure){
 
   //return;
 
-  let runThis = 'start ' + startServer;
+  console.log('>>> opening url in browser');
 
-  let run = await cmd.run(runThis)
-  .then(()=>{
-    return true;
-  })
-  .catch((error)=>{
-    return common.error(error);
+  cmd.run('start ' + startServer)
+  .catch((e)=>{
+    common.error(e);
+    common.error('open_browser_url failed');
   });
 
-  if(run == false){
-    common.error('open_browser_url failed');
+  if(!run_electron){
+    return true;
   }
+
+  console.log('>>> starting electron');
+
+  cmd.run('electron electro.js')
+  .catch((error)=>{
+    common.error(error);
+    common.error('failed run electron script');
+    common.error('try $ electron electro.js in the command line');
+  });
 
 }
 

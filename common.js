@@ -10,6 +10,8 @@ module.exports = {
   tell : function(message){
     console.log(chalk.cyanBright('>>> ' + message));
     return true;
-  }
+  },
+
+  log:this.tell
 
 };
