@@ -21,7 +21,7 @@ async function getAllModules(){
 
   console.log('>>> fetching lazy modules');
 
-  let read = await fs.readFile(currentDirectory + '\\lazy.json','utf-8')
+  let read = await fs.readJson(currentDirectory + '\\lazy.json','utf-8')
   .then((data)=>{
     return data;
   })
@@ -34,7 +34,7 @@ async function getAllModules(){
     return common.error('read_failed-lazy.json');
   }
 
-  let bool = JSON.parse(read);
+  let bool = read;
 
   let exp = {
     pages:[],
@@ -114,8 +114,6 @@ async function getAllModules(){
       }
     }
   }
-
-
 
   return exp;
 

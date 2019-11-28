@@ -1,6 +1,6 @@
 {
   "name": "vegana",
-  "version": "0.0.71",
+  "version": "0.0.72",
   "description": "vegana is a container based js framework",
   "main": "index.js",
   "scripts": {
@@ -18,7 +18,7 @@
   "dependencies": {
     "browserify": "^16.2.3",
     "chalk": "^2.4.1",
-    "chokidar": "^2.0.4",
+    "chokidar": "^3.3.0",
     "cli-spinner": "^0.2.8",
     "cors": "^2.8.5",
     "cross-spawn": "^6.0.5",
