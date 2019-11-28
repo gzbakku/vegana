@@ -25,11 +25,11 @@
     "express": "^4.16.4",
     "fs-extra": "^7.0.0",
     "http": "0.0.0",
-    "node-sass": "^4.9.4",
+    "node-sass": "^4.13.0",
     "shelljs": "^0.8.2",
     "socket.io": "^2.1.1",
     "tinyify": "^2.4.3",
-    "uglifyify": "^5.0.1",
+    "uglifyify": "^5.0.2",
     "vegana-engine": "^1.0.0"
   },
   "bin": {
