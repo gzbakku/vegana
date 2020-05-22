@@ -92,7 +92,8 @@ async function build(projectName){
     'app',
     'js',
     'assets',
-    'sass'
+    'sass',
+    '.gitignore'
   ];
 
   let success = true;

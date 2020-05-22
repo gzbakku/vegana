@@ -2,6 +2,7 @@ const check = require('./check');
 const electron = require('./electron/index');
 const cordova = require('./cordova/index');
 const wasm = require('./wasm/index');
+const git = require('./git.js');
 
 async function init(platform){
 
@@ -17,7 +18,8 @@ async function init(platform){
   if(
     platform !== 'electron' &&
     platform !== 'cordova' &&
-    platform !== 'wasm'
+    platform !== 'wasm' &&
+    platform !== 'git'
   ){
     return common.error('please select a valid platform - electron/cordova');
   }
@@ -28,6 +30,10 @@ async function init(platform){
 
   if(platform == 'wasm'){
     return wasm.init();
+  }
+
+  if(platform == 'git'){
+    return git.init();
   }
 
   if(platform == 'cordova'){

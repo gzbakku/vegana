@@ -16,6 +16,7 @@ let func = work[2];
 
 global.common = require('./common');
 global.cmd = require('./cmd');
+global.io = require('./io');
 
 let bank = ['serve','build','generate','init','help','check','founder','config','run'];
 
