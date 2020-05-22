@@ -20,8 +20,8 @@ module.exports=  {
           reject(err);
         }
         if(stderr){
-          //console.log(stderr);
-          reject(stderr);
+          // console.log('stderr');
+          resolve(stderr);
         }
         if(stdout){
           //console.log(stdout);

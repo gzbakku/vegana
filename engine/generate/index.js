@@ -21,10 +21,10 @@ async function init(type,name,laziness){
     return common.error('invalid_comp_type');
   }
 
-  let typeBank = ['page','comp','cont','panel','sass'];
+  let typeBank = ['page','comp','cont','panel','sass','wasm'];
 
   if(typeBank.indexOf(type) < 0){
-    common.tell('valid components : page,comp,cont or panel');
+    common.tell('valid components : page, comp, cont, scss, panel and wasm');
     return common.error('invalid_component');
   }
 

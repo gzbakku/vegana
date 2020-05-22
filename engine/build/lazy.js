@@ -41,11 +41,22 @@ async function getAllModules(){
     conts:[],
     panels:[],
     sass:[],
-    globals:[]
+    globals:[],
+    wasm:[]
   };
 
   let i,t,p,m,s,c;                        //for_loop operators
   let pages,page,conts,cont,panels,panel; //for_loop vars
+
+  if(bool.wasm){
+    if(bool.wasm.length){
+      if(bool.wasm.length > 0){
+        for(let wasm of bool.wasm){
+          exp.wasm.push(getModuleAddress('wasm',{wasm:wasm,global:null,page:null,cont:null,panel:null}));
+        }
+      }
+    }
+  }
 
   if(bool.globals){
     if(bool.globals.length){
@@ -123,7 +134,7 @@ async function getAllModules(){
 
 function getModuleAddress(type,parents){
 
-  let readLocation = null,writeLocation = null;
+  let readLocation = null,writeLocation = null,app = null;
 
   if(
     parents.hasOwnProperty('page') == false ||
@@ -148,6 +159,17 @@ function getModuleAddress(type,parents){
 
     readLocation = baseLocation + 'sass\\' + parents.name + '.scss';
     writeLocation = baseLocation + 'css\\' + parents.name + '.css';
+  }
+
+  if(type == 'wasm'){
+
+    if(parents.wasm == null){
+      return common.error('not_found-global_comp_name');
+    }
+
+    readLocation = baseRead + '\\wasm\\' + parents['wasm'];
+    writeLocation = baseWrite + '\\wasm\\' + parents['wasm'];
+    app = parents['wasm'];
   }
 
   if(type == 'global'){
@@ -197,6 +219,6 @@ function getModuleAddress(type,parents){
     return common.error('invalid-comp_type');
   }
 
-  return {read:readLocation,write:writeLocation};
+  return {app:app,read:readLocation,write:writeLocation};
 
 }

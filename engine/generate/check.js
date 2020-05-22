@@ -16,6 +16,7 @@ module.exports = {
       comp:'comps\\',
       globalComp:'globals\\',
       panel:'panels\\',
+      wasm:'wasm\\',
       sass:''
     };
 
@@ -25,6 +26,7 @@ module.exports = {
       comp:'Comp',
       globalComp:'Comp',
       panel:'Panel',
+      wasm:'',
       sass:''
     };
 
@@ -47,7 +49,7 @@ module.exports = {
     let expo = checkParents;
 
     //check if the parent container directory exists
-    if(type !== 'sass'){
+    if(type !== 'sass' && type !== 'wasm'){
       if(!fs.existsSync(containerLocation)){
         let makecd = await makeContainerDirectory(containerLocation);
         if(makecd == false){
@@ -56,7 +58,7 @@ module.exports = {
       }
     }
 
-    if(type !== 'sass'){
+    if(type !== 'sass' && type !== 'wasm'){
       //check if the comp dirextory exist in the comp container
       if(fs.existsSync(compLocation)){
         return  common.error('component : ' + containerTag[type] + ' with name of : ' + name + ' already exists in the container directory');
@@ -79,6 +81,7 @@ module.exports = {
     }
 
     let bool = {
+      container:containerLocation,
       location:compLocation,
       page:expo['page'],
       cont:expo['cont'],
@@ -228,6 +231,24 @@ async function checkCompParents(type,location){
     return {
       page:page,
       cont:cont,
+      panel:null
+    };
+
+  }
+
+  if(type == 'wasm'){
+
+    let locationArray = location.split("\\");
+    if(
+      locationArray.indexOf('app') < 0 ||
+      locationArray.indexOf('wasm') < 0
+    ){
+      return common.error('wasm comps can only be generated in wasm directory nested inside of the app directory');
+    }
+
+    return {
+      page:null,
+      cont:null,
       panel:null
     };
 

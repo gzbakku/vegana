@@ -5,7 +5,7 @@ module.exports = {
 
   init:(platform)=>{
 
-    console.log('>>> initiating vegana run');
+    common.tell('initiating vegana run');
 
     if(platform !== 'electron' && platform !== 'cordova'){
       return common.error('please choose a valid platform - electron/cordova');

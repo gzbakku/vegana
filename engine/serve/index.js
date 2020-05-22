@@ -12,17 +12,21 @@ const sass = require('./sass');
 
 async function init(port,secure){
 
-  let run_electron = false;
+  let run_electron = false,run_cordova = false;
   if(!port){
     port = 5566;
   }
-  if(port == 'secure'){
+  if(port === 'secure'){
     port = 5566;
     secure = 'secure';
   }
 
-  if(port == 'electron'){
+  if(port === 'electron'){
     run_electron = true;
+    port = 5566;
+  }
+  if(port === 'cordova'){
+    run_cordova = true;
     port = 5566;
   }
 
@@ -68,7 +72,7 @@ async function init(port,secure){
 
   //start the socket
 
-  let startSocket = await socket.init();
+  let startSocket = await socket.init(run_cordova);
 
   if(startSocket == false){
     return common.error('socket failed');
@@ -77,7 +81,6 @@ async function init(port,secure){
   //start watcher
 
   let startWatcher = await watcher.init();
-
   if(startWatcher == false){
     return common.error('watcher failed');
   }
@@ -94,21 +97,55 @@ async function init(port,secure){
     common.error('open_browser_url failed');
   });
 
-  if(!run_electron){
-    return true;
+  if(run_electron){
+    console.log('>>> starting electron');
+    cmd.run('electron electro.js')
+    .catch((error)=>{
+      common.error(error);
+      common.error('failed run electron script');
+      common.error('try $ electron electro.js in the command line');
+    });
   }
 
-  console.log('>>> starting electron');
+  if(run_cordova){
+    console.log('>>> starting cordova');
+    start_cordova();
+  }
 
-  cmd.run('electron electro.js')
-  .catch((error)=>{
-    common.error(error);
-    common.error('failed run electron script');
-    common.error('try $ electron electro.js in the command line');
-  });
+  return true;
 
 }
 
 module.exports= {
   init:init
 };
+
+async function start_cordova(){
+  let base_path = process.cwd();
+  let core_path = base_path + '\\cordova';
+  process.chdir(core_path);
+  const run = await cmd.run('cordova run')
+  .then((data)=>{
+    console.log(data);
+  })
+  .catch((error)=>{
+    common.error(error);
+    common.error('failed run cordova script');
+    common.error('try `$ cordova run` in the cordova directory');
+  });
+  process.chdir(base_path);
+}
+
+async function start_cordova_old(){
+  let path = process.cwd() + "\\cordova\\run.js";
+  let script = 'node ' + path;
+  const run = await cmd.run(script)
+  .then((data)=>{
+    console.log(data);
+  })
+  .catch((error)=>{
+    common.error(error);
+    common.error('failed run cordova script');
+    common.error('try `$ cordova run` in the cordova directory');
+  });
+}

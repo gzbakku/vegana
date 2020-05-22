@@ -1,4 +1,4 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const lazy = require('./lazy');
 const sass = require('./sass');
 const browserify = require('browserify');
@@ -10,8 +10,7 @@ module.exports = {
   init:init,
   bundle:bundle,
   appModule:appModule,
-  lazyLoader:lazyLoader,
-  wasm:wasm
+  lazyLoader:lazyLoader
 };
 
 async function init(){
@@ -29,33 +28,12 @@ async function init(){
   writeLocation = currentDirectory + 'js\\bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
+
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   }
 
   return true;
-
-}
-
-async function wasm(parents){
-
-  common.tell("compiling wasm project");
-
-  const cwd = process.cwd();
-  let app_dir = cwd + '\\app\\wasm\\' + parents.wasm;
-  let out_dir = cwd + '\\js\\wasm\\' + parents.wasm;
-  let script = 'wasm-pack build ' + app_dir + ' --out-dir ' + out_dir;
-
-  const run = await cmd.run(script)
-  .then(()=>{
-    common.tell("wasm project compiled");
-    return true;
-  }).catch((e)=>{
-    console.log(e);
-    return common.error("failed-wasm-pack-build");
-  });
-
-  if(run){return true;} else {return false;}
 
 }
 
@@ -78,9 +56,9 @@ async function lazyLoader(){
         if(adb.globals.length > 0){
           let globals = adb.globals;
           for(var i=0;i<globals.length;i++){
-            let global = globals[i];
+            let hold = globals[i];
             //console.log(page);
-            promises.push(compile(global.read,global.write));
+            promises.push(compile(hold.read,hold.write));
           }
         }
       }
@@ -163,6 +141,7 @@ async function bundle(){
   writeLocation = currentDirectory + 'js\\bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
+
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   }
@@ -184,8 +163,8 @@ async function appModule(type,parents,name){
   //let baseWrite = './akku/js/pages/';
 
   //prod
-  let baseRead = currentDirectory + 'app\\';
-  let baseWrite = currentDirectory + 'js\\';
+  let baseRead = currentDirectory + 'app';
+  let baseWrite = currentDirectory + 'js';
 
   if(
     parents.hasOwnProperty('page') == false ||
@@ -195,51 +174,45 @@ async function appModule(type,parents,name){
     return common.error('invalid-comp_parents');
   }
 
-  if(type == 'sass'){
+  if(type == 'global'){
 
-    if(parents.page == null){
-      return common.error('not_found-comp_parent_page');
+    if(parents.global == null){
+      return common.error('not_found-global_comp_name');
     }
 
-    readLocation = baseRead + 'pages\\' + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\page.js';
+    readLocation = baseRead + '\\globals\\' + parents['global'] + '\\globalComp.js';
+    writeLocation = baseWrite + '\\globals\\' + parents['global'] + '\\globalComp.js';
+
   }
+
   if(type == 'page'){
 
     if(parents.page == null){
       return common.error('not_found-comp_parent_page');
     }
 
-    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\page.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\page.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\page.js';
   }
+
   if(type == 'cont'){
 
     if(parents.page == null || parents.cont == null){
       return common.error('not_found-comp_parent_page/cont');
     }
 
-    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
-    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
   }
+
   if(type == 'panel'){
 
     if(parents.page == null || parents.cont == null || parents.panel == null){
       return common.error('not_found-comp_parent_page/cont/panel');
     }
 
-    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
-    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
-  }
-
-  if(type == 'global'){
-
-    if(!parents.global){
-      return common.error('not_found-global_comp');
-    }
-
-    readLocation = baseRead + 'globals\\'  + parents['global'] + '\\globalComp.js';
-    writeLocation = baseWrite + 'globals\\'  + parents['global'] + '\\globalComp.js';
+    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
+    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
   }
 
   if(
@@ -250,11 +223,10 @@ async function appModule(type,parents,name){
   }
 
   let doCompile = await compile(readLocation,writeLocation);
+
   if(doCompile == false){
     return common.error('failed-lazy_module_compilation');
   }
-
-  //console.log({doCompile:doCompile});
 
   return true;
 
@@ -266,13 +238,14 @@ async function compile(readLocation,writeLocation){
 
     let writePath = makeBaseDir(writeLocation);
     browserify({ debug: false })
+    .plugin(tinyify, { flat: false })
     .require(readLocation,{entry: true})
     .bundle()
     .on("error", (err)=>{
       let error = err.message;
       reject(error);
     })
-    .on("end", (e,f)=>{
+    .on("end", ()=>{
       resolve();
     })
     .pipe(fs.createWriteStream(writeLocation));
@@ -331,5 +304,3 @@ async function compileOne(readLocation,writeLocation){
   return true;
 
 }
-
-async function build_base_app_dir(){}

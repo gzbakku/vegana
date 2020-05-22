@@ -1,6 +1,7 @@
 const check = require('./check');
 const electron = require('./electron/index');
 const cordova = require('./cordova/index');
+const wasm = require('./wasm/index');
 
 async function init(platform){
 
@@ -13,12 +14,20 @@ async function init(platform){
     return common.error('check failed');
   }
 
-  if(platform !== 'electron' && platform !== 'cordova'){
+  if(
+    platform !== 'electron' &&
+    platform !== 'cordova' &&
+    platform !== 'wasm'
+  ){
     return common.error('please select a valid platform - electron/cordova');
   }
 
   if(platform == 'electron'){
     return electron.init();
+  }
+
+  if(platform == 'wasm'){
+    return wasm.init();
   }
 
   if(platform == 'cordova'){

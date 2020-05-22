@@ -1,5 +1,4 @@
 const fs = require('fs-extra');
-const common = require('../../common');
 
 module.exports = {
 

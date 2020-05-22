@@ -24,45 +24,57 @@ async function init(base){
 
   //compile bundle here
 
-  let doCompile = await compile.init();
-  if(doCompile == false){
-    return common.error('failed-bundle_compilation');
+  if(true){
+    let doCompile = await compile.init();
+    if(doCompile == false){
+      return common.error('failed-bundle_compilation');
+    }
   }
 
   //compile lazy
 
-  let doLazyLoad = await compile.lazyLoader();
-  if(doLazyLoad == false){
-    return common.error('failed-lazy_module_compilations');
+  if(true){
+    let doLazyLoad = await compile.lazyLoader();
+    if(doLazyLoad == false){
+      return common.error('failed-lazy_module_compilations');
+    }
   }
 
   //compile css here
 
-  let doSassCompilation = await sass.init();
-  if(doSassCompilation == false){
-    return common.error('failed-master_sass_compilation');
+  if(true){
+    let doSassCompilation = await sass.init();
+    if(doSassCompilation == false){
+      return common.error('failed-master_sass_compilation');
+    }
   }
 
   //check cordova
 
-  const check_cordova_installation = await install_checker.init();
-  if(check_cordova_installation){
-    common.error('please remove all cordova artifacts if you want to redo the cordova config.');
-    return common.error('cordova-already_installed');
+  if(true){
+    const check_cordova_installation = await install_checker.init();
+    if(check_cordova_installation){
+      common.error('please remove all cordova artifacts if you want to redo the cordova config.');
+      return common.error('cordova-already_installed');
+    }
   }
 
   //install cordova
 
-  const install_cordova = await install_installer.init();
-  if(!install_cordova){
-    return common.error('failed-install_cordova');
+  if(true){
+    const install_cordova = await install_installer.init();
+    if(!install_cordova){
+      return common.error('failed-install_cordova');
+    }
   }
 
   //copy built files
 
-  let doCopy = await copy.init();
-  if(!doCopy){
-    return common.error('failed-process_built_files');
+  if(true){
+    let doCopy = await copy.init();
+    if(!doCopy){
+      return common.error('failed-process_built_files');
+    }
   }
 
 }

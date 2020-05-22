@@ -11,6 +11,12 @@ function getDirectoryType(path){
 
   //common.tell('fetching module type');
 
+  if(path.match('wasm')){
+    if(!path.match('src')){
+      return false;
+    }
+    return 'wasm';
+  }
   if(path.match('globals')){
     return 'global';
   }
@@ -44,6 +50,28 @@ function getDirectoryType(path){
 function getParents(type,location){
 
   //common.tell('getting module parent doms');
+
+  if(type === 'wasm'){
+
+    let locationArray = location.split("\\");
+    if(locationArray.indexOf('wasm') < 0){
+      return common.error('not_found-app/wasm=>directory');
+    }
+    if(!locationArray[locationArray.indexOf('wasm') + 1]){
+      return common.error('not_found-app/wasm/project=>directory');
+    }
+
+    let wasm = locationArray[locationArray.indexOf('wasm') + 1];
+
+    return {
+      wasm:wasm,
+      global:null,
+      page:null,
+      cont:null,
+      panel:null
+    };
+
+  }
 
   if(type == 'global'){
 
@@ -152,7 +180,7 @@ function checkLaziness(type,parents){
 
   //common.tell('checking laziness');
 
-  if(type == "global"){
+  if(type === "global" || type === "wasm"){
     return true;
   }
 
@@ -305,30 +333,37 @@ async function init(){
   chokidar.watch(location_bundle)
   .on('change',async (path)=>{
 
-    common.tell('app updated');
-    common.tell(path);
-
     let moduleType = getDirectoryType(path);
 
-    if(moduleType == 'app'){
-      let compileCheck = await compile.bundle();
+    if(moduleType){
+
+      common.tell('app updated');
+      common.tell(path);
+
+      if(moduleType === 'app'){
+        let compileCheck = await compile.bundle();
+        socket.reload();
+        return true;
+      }
+
+      let parents = getParents(moduleType,path);
+      let laziness = checkLaziness(moduleType,parents);
+
+      if(moduleType === "wasm"){
+        let compileCheck = await compile.wasm(parents);
+      } else {
+        if(laziness === true){
+          let compileCheck = await compile.appModule(moduleType,parents);
+        } else {
+          let compileCheck = await compile.bundle();
+        }
+      }
+
+      let checkLazyParents = await checkParentsLazyness(moduleType,parents);
+
       socket.reload();
-      return true;
+
     }
-
-    let parents = getParents(moduleType,path);
-
-    let laziness = checkLaziness(moduleType,parents);
-
-    if(laziness == true){
-      let compileCheck = await compile.appModule(moduleType,parents);
-    } else {
-      let compileCheck = await compile.bundle();
-    }
-
-    let checkLazyParents = await checkParentsLazyness(moduleType,parents);
-
-    socket.reload();
 
   });
 

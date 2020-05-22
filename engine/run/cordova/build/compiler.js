@@ -10,7 +10,8 @@ module.exports = {
   init:init,
   bundle:bundle,
   appModule:appModule,
-  lazyLoader:lazyLoader
+  lazyLoader:lazyLoader,
+  wasm:compile_wasm
 };
 
 async function init(){
@@ -113,6 +114,16 @@ async function lazyLoader(){
       }
     }
 
+    if(adb.wasm){
+      if(adb.wasm.length){
+        if(adb.wasm.length > 0){
+          for(let wasm of adb.wasm){
+            promises.push(compile_wasm(wasm));
+          }
+        }
+      }
+    }
+
     Promise.all(promises)
     .then((results)=>{
       resolve(true);
@@ -123,6 +134,25 @@ async function lazyLoader(){
     });
 
   });
+
+}
+
+async function compile_wasm(location){
+
+  common.tell("compiling wasm project : " + location.app);
+
+  let script = 'wasm-pack build ' + location.read + ' --out-dir ' + location.write;
+
+  const run = await cmd.run(script)
+  .then(()=>{
+    common.tell("wasm project compiled : " + location.app);
+    return true;
+  }).catch((e)=>{
+    console.log(e);
+    return common.error("failed-wasm-pack-build");
+  });
+
+  if(run){return true;} else {return false;}
 
 }
 

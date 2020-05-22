@@ -1,12 +1,11 @@
 const build = require('./build/index');
 const copy = require('./copy');
-const currentDirectory = process.cwd() + '\\';
 
 module.exports = {
 
   init: async ()=>{
 
-    console.log('>>> initiating run cordova');
+    common.tell('initiating run cordova');
 
     const build_it = await build.init();
     if(!build_it){
@@ -18,9 +17,23 @@ module.exports = {
       return common.error('failed-transfer_files');
     }
 
-    common.tell('$ cordova run <platform>');
-    common.tell('please run the given command in the cordova directory.');
+    // common.tell('$ cordova run <platform>');
+    // common.tell('please run the given command in the cordova directory.');
+
+    common.tell("executing cordova commands");
+
+    let do_run_cordova = await run_cordova();
+    if(!run_cordova){
+      return common.error('failed-run_cordova');
+    }
 
   }
 
 };
+
+async function run_cordova(){
+  let cordova_path = process.cwd() + '\\cordova';
+  process.chdir(cordova_path);
+  const run = await cmd.run("cordova run ");
+  console.log(run);
+}

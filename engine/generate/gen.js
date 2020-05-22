@@ -1,4 +1,5 @@
 const common = require('../../common');
+const wasm = require("./wasm");
 const fs = require('fs-extra');
 
 //local modulkes
@@ -18,7 +19,6 @@ async function init(type,name,laziness){
   if(laziness && type == 'comp'){type = 'globalComp';}
 
   let doCheck = await check.init(type,name);
-
   if(doCheck == false){
     return common.error('check_directory failed');
   }
@@ -28,10 +28,12 @@ async function init(type,name,laziness){
   let cnName = doCheck['cont'];
   let pnName = doCheck['panel'];
 
+  if(type === "wasm"){
+    return wasm(name,doCheck.container);
+  }
+
   //copy file
-
   let doCopy = await copy.init(type,compLocation,name);
-
   if(doCopy == false){
     return common.error('deploy_file failed');
   }
@@ -39,22 +41,16 @@ async function init(type,name,laziness){
   let fileLocation = doCopy;
 
   //customize
-
   let doCustomize = await customize.init(fileLocation,name,pgName,cnName,pnName,type);
-
   if(doCustomize == false){
     return common.error('customize_file failed');
   }
 
   //lazy load
-
   let doLazy = await lazy.init(laziness,type,name,pgName,cnName,pnName);
-
   if(doLazy == false){
     return common.error('load_lazy_address failed');
   }
-
-  //return
 
   return true;
 
