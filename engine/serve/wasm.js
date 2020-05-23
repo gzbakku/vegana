@@ -26,7 +26,7 @@ async function recompile(parents){
   await io.dir.ensure(cwd + "\\js\\wasm\\");
   await io.dir.ensure(cwd + "\\js\\wasm\\" + parents.wasm + "\\");
 
-  //*******************
+  //********************
   //copy wrapper
 
   let from = module_dir + "\\pkg\\index.js"
