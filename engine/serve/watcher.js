@@ -15,6 +15,9 @@ function getDirectoryType(path){
     if(!path.match('src')){
       return false;
     }
+    if(path.match('js')){
+      return false;
+    }
     return 'wasm';
   }
   if(path.match('globals')){

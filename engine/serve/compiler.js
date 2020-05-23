@@ -55,7 +55,24 @@ async function wasm(parents){
     return common.error("failed-wasm-pack-build");
   });
 
-  if(run){return true;} else {return false;}
+  if(!run){return false;}
+
+  //read file
+  let file_path = out_dir + "\\" + parents.wasm + "_bg.js"
+  let read = await io.read(file_path);
+  if(!read){
+    return common.error("failed-read-wasm_js_controller-compile_wasm_module");
+  }
+
+  let line = "import * as wasm from './" + parents.wasm + "_bg.wasm';";
+  read = read.replace(line,"");
+
+  let write = await io.write(file_path,read);
+  if(!write){
+    return common.error("failed-write-wasm_js_controller-compile_wasm_module");
+  }
+
+  return true;
 
 }
 

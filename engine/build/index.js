@@ -12,7 +12,7 @@ const make = require('./make');
 
 async function init(base){
 
-  console.log('>>> build initiated');
+  common.tell('build initiated');
 
   //check the files
 
@@ -62,6 +62,10 @@ async function init(base){
   if(!doCopy){
     return common.error('failed-process_built_files');
   }
+
+  common.success("build finished");
+
+  return true;
 
 }
 

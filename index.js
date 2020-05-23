@@ -17,6 +17,8 @@ let func = work[2];
 global.common = require('./common');
 global.cmd = require('./cmd');
 global.io = require('./io');
+global.build_api = build;
+global.copy_build_to_cordova = require('./copy_build_to_cordova');
 
 let bank = ['serve','build','generate','init','help','check','founder','config','run'];
 

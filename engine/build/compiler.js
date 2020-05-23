@@ -16,7 +16,7 @@ module.exports = {
 
 async function init(){
 
-  console.log('>>> compiling app');
+  common.tell('compiling app');
 
   //test
   //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
@@ -42,7 +42,7 @@ async function lazyLoader(){
 
   return new Promise(async (resolve,reject)=>{
 
-    console.log('>>> compiling lazy modules');
+    common.tell('compiling lazy modules');
 
     let adb = await lazy.getAllModules(); //adb = address book
 
@@ -58,7 +58,6 @@ async function lazyLoader(){
           let globals = adb.globals;
           for(var i=0;i<globals.length;i++){
             let hold = globals[i];
-            //console.log(page);
             promises.push(compile(hold.read,hold.write));
           }
         }
@@ -71,7 +70,6 @@ async function lazyLoader(){
           let pages = adb.pages;
           for(var i=0;i<pages.length;i++){
             let page = pages[i];
-            //console.log(page);
             promises.push(compile(page.read,page.write));
           }
         }
@@ -137,22 +135,41 @@ async function lazyLoader(){
 
 }
 
-async function compile_wasm(location){
+async function compile_wasm(locations){
 
-  common.tell("compiling wasm project : " + location.app);
+  common.tell("compiling wasm project : " + locations.app);
 
-  let script = 'wasm-pack build ' + location.read + ' --out-dir ' + location.write;
+  let app_dir = locations.read;
+  let out_dir = locations.write;
+  let script = 'wasm-pack build ' + locations.read + ' --out-dir ' + out_dir;
 
   const run = await cmd.run(script)
   .then(()=>{
-    common.tell("wasm project compiled : " + location.app);
+    common.tell("wasm project compiled : " + locations.app);
     return true;
   }).catch((e)=>{
     console.log(e);
     return common.error("failed-wasm-pack-build");
   });
 
-  if(run){return true;} else {return false;}
+  if(!run){return false;}
+
+  //read file
+  let file_path = out_dir + "\\" + locations.app + "_bg.js"
+  let read = await io.read(file_path);
+  if(!read){
+    return common.error("failed-read-wasm_js_controller-compile_wasm_module");
+  }
+
+  let line = "import * as wasm from './" + locations.app + "_bg.wasm';";
+  read = read.replace(line,"");
+
+  let write = await io.write(file_path,read);
+  if(!write){
+    return common.error("failed-write-wasm_js_controller-compile_wasm_module");
+  }
+
+  return true;
 
 }
 
@@ -295,7 +312,6 @@ async function makeBaseDir(path){
       location = location + '\\' + key;
     }
   }
-  //console.log(location);
   shell.mkdir('-p',location);
   return location;
 }
@@ -311,8 +327,6 @@ async function compileOne(readLocation,writeLocation){
     ]
   };
 
-  //console.log(toRun);
-
   let buildBundle = await cmd.runFile(runFile.command,runFile.argv)
   .then(()=>{
     return true;
@@ -324,8 +338,6 @@ async function compileOne(readLocation,writeLocation){
     console.log(stderr);
     return false;
   });
-
-  //console.log(buildBundle);
 
   if(buildBundle == false){
     return common.error('failed-broswerify_compiler');

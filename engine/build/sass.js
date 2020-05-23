@@ -8,7 +8,7 @@ module.exports = {
 
   init:function(){
 
-      console.log('>>> master sass compiler started');
+      common.tell('master sass compiler started');
 
       let currentDirectory = process.cwd() + '\\sass\\master.scss';
       let targetDirectory = process.cwd() + '\\css\\master.css';

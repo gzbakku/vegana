@@ -19,18 +19,18 @@ module.exports = {
 
 async function getAllModules(){
 
-  console.log('>>> fetching lazy modules');
+  common.tell('fetching lazy modules');
 
   let read = await fs.readFile(currentDirectory + '\\lazy.json','utf-8')
   .then((data)=>{
     return data;
   })
   .catch((err)=>{
-      console.log(err);
-      return false;
+    common.error(err);
+    return false;
   });
 
-  if(read == false){
+  if(read === false){
     return common.error('read_failed-lazy.json');
   }
 

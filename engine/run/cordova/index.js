@@ -1,4 +1,4 @@
-const build = require('./build/index');
+// const build = require('./build/index');
 const copy = require('./copy');
 
 module.exports = {
@@ -7,7 +7,7 @@ module.exports = {
 
     common.tell('initiating run cordova');
 
-    const build_it = await build.init();
+    const build_it = await build_api.init();
     if(!build_it){
       return common.error('failed-build_app');
     }

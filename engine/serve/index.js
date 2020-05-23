@@ -121,6 +121,30 @@ module.exports= {
 };
 
 async function start_cordova(){
+  common.tell("serving cordova");
+  const do_build_api = await build_api.init();
+  if(!do_build_api){
+    return common.error("failed-do_build_api")
+  }
+  const do_copy_build_to_cordova = await copy_build_to_cordova.init();
+  if(!do_copy_build_to_cordova){
+    return common.error("failed-do_copy_build_to_cordova")
+  }
+  let path = process.cwd() + "\\cordova\\run.js";
+  let script = 'node ' + path;
+  const run = await cmd.run(script)
+  .then((data)=>{
+    console.log(data);
+  })
+  .catch((error)=>{
+    common.error(error);
+    common.error('failed run cordova script');
+    common.error('try `$ cordova run` in the cordova directory');
+  });
+  common.success("press enter to deploy to cordova platform after you update the app");
+}
+
+async function start_cordova_new(){
   let base_path = process.cwd();
   let core_path = base_path + '\\cordova';
   process.chdir(core_path);

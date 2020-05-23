@@ -3,7 +3,7 @@ const common = require('../../common');
 
 async function init(){
 
-  console.log('>>> checking app files');
+  common.tell('checking app files');
 
   //prod
   let currentDirectory = process.cwd() + '\\';

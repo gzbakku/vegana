@@ -1,4 +1,3 @@
-const common = require('../../common');
 const fs = require('fs-extra');
 const shell = require('shelljs');
 
@@ -6,7 +5,7 @@ module.exports = {init:init};
 
 async function init(){
 
-  console.log('>>> making build folders');
+  common.tell('making build folders');
 
   let currentDirectory = process.cwd() + '\\';
 

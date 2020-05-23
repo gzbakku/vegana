@@ -6,7 +6,7 @@ module.exports = {init:init};
 
 async function init(base){
 
-  console.log('>>> processing index');
+  common.tell('processing index');
 
   let currentDirectory = process.cwd() + '\\';
   let fileLocation = currentDirectory + 'index.html';
