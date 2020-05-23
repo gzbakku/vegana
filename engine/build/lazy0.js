@@ -1,4 +1,4 @@
-// const fs = require('fs-extra');
+const fs = require('fs-extra');
 
 //test
 //const currentDirectory = process.cwd() + '//akku//';
@@ -20,14 +20,20 @@ async function getAllModules(){
 
   common.tell('fetching lazy modules');
 
-  let file_path = currentDirectory + '\\lazy.json';
+  let read = await fs.readFile(currentDirectory + '\\lazy.json','utf-8')
+  .then((data)=>{
+    return data;
+  })
+  .catch((err)=>{
+    common.error(err);
+    return false;
+  });
 
-  let read = await io.readJson(file_path);
   if(read === false){
     return common.error('read_failed-lazy.json');
   }
 
-  let bool = read;
+  let bool = JSON.parse(read);
 
   let exp = {
     pages:[],
@@ -118,8 +124,6 @@ async function getAllModules(){
       }
     }
   }
-
-
 
   return exp;
 

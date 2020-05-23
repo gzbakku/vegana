@@ -1,10 +1,8 @@
-const fs = require('fs-extra');
-
-module.exports = {init:init};
+module.exports = {init:init,copy_initiater:copy_initiater};
 
 async function init(){
 
-  common.tell('processing built files');
+  common.tell('processing built files for cordova');
 
   const currentDirectory = process.cwd() + '\\';
   const dirs = [
@@ -19,7 +17,7 @@ async function init(){
       let from = currentDirectory + 'build\\' + dir;
       let to = currentDirectory + 'cordova\\www\\' + dir;
       //console.log({from:from,to:to});
-      let work = await copy(from,to);
+      let work = await io.copy(from,to);
       if(!work){
         common.error('failed-copy_dir-' + files[i]);
         control = false;
@@ -52,25 +50,11 @@ async function copy_initiater(){
   const bin_path = appDirectory + 'cordova\\run.js'
   const cordova_path = currentDirectory + 'cordova\\run.js';
 
-  let do_copy = await copy(bin_path,cordova_path);
+  let do_copy = await io.copy(bin_path,cordova_path);
   if(!do_copy){
     return false;
   } else {
     return true;
   }
-
-}
-
-async function copy(from,to){
-
-  let copy = await fs.copy(from,to)
-  .then(()=>{
-    return true;
-  })
-  .catch((error)=>{
-    return common.error(error);
-  });
-
-  return copy;
 
 }

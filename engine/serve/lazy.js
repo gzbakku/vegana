@@ -1,5 +1,4 @@
-const common = require('../../common');
-const fs = require('fs-extra');
+// const fs = require('fs-extra');
 
 //test
 //const currentDirectory = process.cwd() + '//akku//';
@@ -19,18 +18,12 @@ module.exports = {
 
 async function getAllModules(){
 
-  console.log('>>> fetching lazy modules');
+  common.tell('fetching lazy modules');
 
-  let read = await fs.readJson(currentDirectory + '\\lazy.json','utf-8')
-  .then((data)=>{
-    return data;
-  })
-  .catch((err)=>{
-      console.log(err);
-      return false;
-  });
+  let file_path = currentDirectory + '\\lazy.json';
 
-  if(read == false){
+  let read = await io.readJson(file_path);
+  if(read === false){
     return common.error('read_failed-lazy.json');
   }
 
@@ -41,11 +34,22 @@ async function getAllModules(){
     conts:[],
     panels:[],
     sass:[],
-    globals:[]
+    globals:[],
+    wasm:[]
   };
 
   let i,t,p,m,s,c;                        //for_loop operators
   let pages,page,conts,cont,panels,panel; //for_loop vars
+
+  if(bool.wasm){
+    if(bool.wasm.length){
+      if(bool.wasm.length > 0){
+        for(let wasm of bool.wasm){
+          exp.wasm.push(getModuleAddress('wasm',{wasm:wasm,global:null,page:null,cont:null,panel:null}));
+        }
+      }
+    }
+  }
 
   if(bool.globals){
     if(bool.globals.length){
@@ -115,13 +119,15 @@ async function getAllModules(){
     }
   }
 
+
+
   return exp;
 
 }
 
 function getModuleAddress(type,parents){
 
-  let readLocation = null,writeLocation = null;
+  let readLocation = null,writeLocation = null,app = null;
 
   if(
     parents.hasOwnProperty('page') == false ||
@@ -147,15 +153,28 @@ function getModuleAddress(type,parents){
     readLocation = baseLocation + 'sass\\' + parents.name + '.scss';
     writeLocation = baseLocation + 'css\\' + parents.name + '.css';
   }
+
+  if(type == 'wasm'){
+
+    if(parents.wasm == null){
+      return common.error('not_found-global_comp_name');
+    }
+
+    readLocation = baseRead + '\\wasm\\' + parents['wasm'];
+    writeLocation = baseWrite + '\\wasm\\' + parents['wasm'];
+    app = parents['wasm'];
+  }
+
   if(type == 'global'){
 
     if(parents.global == null){
-      return common.error('not_found-comp_parents_page');
+      return common.error('not_found-global_comp_name');
     }
 
     readLocation = baseRead + '\\globals\\' + parents['global'] + '\\globalComp.js';
     writeLocation = baseWrite + '\\globals\\' + parents['global'] + '\\globalComp.js';
   }
+
   if(type == 'page'){
 
     if(parents.page == null){
@@ -165,6 +184,7 @@ function getModuleAddress(type,parents){
     readLocation = baseRead + '\\pages\\' + parents['page'] + '\\page.js';
     writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\page.js';
   }
+
   if(type == 'cont'){
 
     if(parents.page == null || parents.cont == null){
@@ -174,6 +194,7 @@ function getModuleAddress(type,parents){
     readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
     writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
   }
+
   if(type == 'panel'){
 
     if(parents.page == null || parents.cont == null || parents.panel == null){
@@ -191,6 +212,6 @@ function getModuleAddress(type,parents){
     return common.error('invalid-comp_type');
   }
 
-  return {read:readLocation,write:writeLocation};
+  return {app:app,read:readLocation,write:writeLocation};
 
 }

@@ -16,10 +16,10 @@ module.exports = {
       return scriptAddressRef.substring(0,scriptMidPoint);
     },
     ensure:async (location)=>{
-      if(io.dir.exists(location)){
-        return true;
-      }
-      return fs.mkdir(location)
+      // if(await io.exists(location)){
+      //   return true;
+      // }
+      return fs.ensureDir(location)
       .then(()=>{
         return true;
       })
@@ -46,7 +46,7 @@ module.exports = {
       return true;
     })
     .catch((error)=>{
-      common.error(err);
+      common.error(error);
       return common.error("failed-copy-io");
     });
   },
@@ -63,7 +63,7 @@ module.exports = {
   },
 
   readJson:async (location)=>{
-    let run = await fs.readFile(lazyPath,'utf-8')
+    let run = await fs.readFile(location,'utf-8')
     .then((data)=>{
       return data;
     })
@@ -86,6 +86,17 @@ module.exports = {
     .catch((err)=>{
       common.error(err);
       return common.error("failed-write-io");
+    });
+  },
+
+  delete:(location)=>{
+    return fs.remove(location)
+    .then(()=>{
+      return true;
+    })
+    .catch((e)=>{
+      common.error(e);
+      return false;
     });
   }
 

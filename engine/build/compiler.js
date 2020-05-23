@@ -141,7 +141,7 @@ async function compile_wasm(locations){
 
   let app_dir = locations.read;
   let out_dir = locations.write;
-  let script = 'wasm-pack build ' + locations.read + ' --out-dir ' + out_dir;
+  let script = 'wasm-pack build ' + locations.read  + ' --target no-modules --out-name index';
 
   const run = await cmd.run(script)
   .then(()=>{
@@ -154,19 +154,38 @@ async function compile_wasm(locations){
 
   if(!run){return false;}
 
-  //read file
-  let file_path = out_dir + "\\" + locations.app + "_bg.js"
-  let read = await io.read(file_path);
+  let cwd = io.dir.cwd();
+  await io.dir.ensure(cwd + "\\js\\");
+  await io.dir.ensure(cwd + "\\js\\wasm\\");
+  await io.dir.ensure(cwd + "\\js\\wasm\\" + locations.app + "\\");
+
+  //*******************
+  //copy wrapper
+
+  let from = app_dir + "\\pkg\\index.js"
+  let to = out_dir + "\\wrapper.js";
+
+  let read = await io.read(from);
   if(!read){
-    return common.error("failed-read-wasm_js_controller-compile_wasm_module");
+    return common.error("failed-read_wasm_wrapper-build");;
+  }
+  let custom_was_controller = locations.app + '_wasm_controller'
+  while(read.indexOf("wasm_bindgen") >= 0){
+    read = read.replace("wasm_bindgen",custom_was_controller);
+  }
+  let write = await io.write(to,read);
+  if(!write){
+    return common.error("failed-write_wasm_wrapper-build");;
   }
 
-  let line = "import * as wasm from './" + locations.app + "_bg.wasm';";
-  read = read.replace(line,"");
+  //*******************
+  //copy wasm
 
-  let write = await io.write(file_path,read);
-  if(!write){
-    return common.error("failed-write-wasm_js_controller-compile_wasm_module");
+  from = app_dir + "\\pkg\\index_bg.wasm";
+  to = out_dir + "\\index.wasm";
+  let do_copy_wasm = await io.copy(from,to);
+  if(!do_copy_wasm){
+    return common.error("failed-do_copy_wasm-build");
   }
 
   return true;

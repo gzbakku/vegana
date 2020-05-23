@@ -5,13 +5,14 @@ const browserify = require('browserify');
 const uglifyify = require('uglifyify');
 const shell = require('shelljs');
 const tinyify = require('tinyify');
+const wasm = require('./wasm');
 
 module.exports = {
   init:init,
   bundle:bundle,
   appModule:appModule,
   lazyLoader:lazyLoader,
-  wasm:wasm
+  wasm:wasm.recompile
 };
 
 async function init(){
@@ -31,45 +32,6 @@ async function init(){
   let doCompile = await compile(readLocation,writeLocation);
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
-  }
-
-  return true;
-
-}
-
-async function wasm(parents){
-
-  common.tell("compiling wasm project");
-
-  const cwd = process.cwd();
-  let app_dir = cwd + '\\app\\wasm\\' + parents.wasm;
-  let out_dir = cwd + '\\js\\wasm\\' + parents.wasm;
-  let script = 'wasm-pack build ' + app_dir + ' --out-dir ' + out_dir;
-
-  const run = await cmd.run(script)
-  .then(()=>{
-    common.tell("wasm project compiled");
-    return true;
-  }).catch((e)=>{
-    console.log(e);
-    return common.error("failed-wasm-pack-build");
-  });
-
-  if(!run){return false;}
-
-  //read file
-  let file_path = out_dir + "\\" + parents.wasm + "_bg.js"
-  let read = await io.read(file_path);
-  if(!read){
-    return common.error("failed-read-wasm_js_controller-compile_wasm_module");
-  }
-
-  let line = "import * as wasm from './" + parents.wasm + "_bg.wasm';";
-  read = read.replace(line,"");
-
-  let write = await io.write(file_path,read);
-  if(!write){
-    return common.error("failed-write-wasm_js_controller-compile_wasm_module");
   }
 
   return true;
@@ -147,6 +109,16 @@ async function lazyLoader(){
           for(var i=0;i<scsses.length;i++){
             let scss = scsses[i];
             promises.push(sass.render(scss.read,scss.write));
+          }
+        }
+      }
+    }
+
+    if(adb.wasm){
+      if(adb.wasm.length){
+        if(adb.wasm.length > 0){
+          for(let mod of adb.wasm){
+            promises.push(wasm.lazy(mod));
           }
         }
       }

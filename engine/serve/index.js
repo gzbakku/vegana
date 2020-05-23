@@ -35,13 +35,11 @@ async function init(port,secure){
   //compile here
 
   let doCompile = await compile.init();
-
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   }
 
   let doLazyLoad = await compile.lazyLoader();
-
   if(doLazyLoad == false){
     return common.error('failed-lazy_module_compilations');
   }
@@ -49,7 +47,6 @@ async function init(port,secure){
   //compile css here
 
   let doSassCompilation = await sass.init();
-
   if(doSassCompilation == false){
     return common.error('failed-master_sass_compilation');
   }
@@ -57,7 +54,6 @@ async function init(port,secure){
   //check the files
 
   let doCheck = await check.init();
-
   if(doCheck == false){
     return common.error('check failed');
   }
@@ -65,7 +61,6 @@ async function init(port,secure){
   //start the server
 
   let startServer = await server.init(port,secure);
-
   if(startServer == false){
     return common.error('server failed');
   }
@@ -73,7 +68,6 @@ async function init(port,secure){
   //start the socket
 
   let startSocket = await socket.init(run_cordova);
-
   if(startSocket == false){
     return common.error('socket failed');
   }
@@ -91,11 +85,13 @@ async function init(port,secure){
 
   console.log('>>> opening url in browser');
 
-  cmd.run('start ' + startServer)
-  .catch((e)=>{
-    common.error(e);
-    common.error('open_browser_url failed');
-  });
+  if(true){
+    cmd.run('start ' + startServer)
+    .catch((e)=>{
+      common.error(e);
+      common.error('open_browser_url failed');
+    });
+  }
 
   if(run_electron){
     console.log('>>> starting electron');

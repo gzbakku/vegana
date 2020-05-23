@@ -50,7 +50,7 @@ async function init(type,name,laziness){
   let work = await gen.init(type,name,isLazy);
 
   if(work == true){
-    return common.tell('generate successfull');
+    return common.success('generated successfully');
   } else {
     return common.error('generate failed');
   }

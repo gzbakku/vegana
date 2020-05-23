@@ -1,3 +1,4 @@
+const common = require('../../common');
 const fs = require('fs-extra');
 
 //test
@@ -18,9 +19,9 @@ module.exports = {
 
 async function getAllModules(){
 
-  common.tell('fetching lazy modules');
+  console.log('>>> fetching lazy modules');
 
-  let read = await fs.readFile(currentDirectory + '\\lazy.json','utf-8')
+  let read = await fs.readJson(currentDirectory + '\\lazy.json','utf-8')
   .then((data)=>{
     return data;
   })
@@ -33,7 +34,7 @@ async function getAllModules(){
     return common.error('read_failed-lazy.json');
   }
 
-  let bool = JSON.parse(read);
+  let bool = read;
 
   let exp = {
     pages:[],
@@ -114,15 +115,13 @@ async function getAllModules(){
     }
   }
 
-
-
   return exp;
 
 }
 
 function getModuleAddress(type,parents){
 
-  let readLocation = null,writeLocation = null;
+  let readLocation = null,writeLocation = null,app = null;
 
   if(
     parents.hasOwnProperty('page') == false ||
@@ -149,16 +148,26 @@ function getModuleAddress(type,parents){
     writeLocation = baseLocation + 'css\\' + parents.name + '.css';
   }
 
+  if(type == 'wasm'){
+
+    if(parents.wasm == null){
+      return common.error('not_found-global_comp_name');
+    }
+
+    readLocation = baseRead + '\\wasm\\' + parents['wasm'];
+    writeLocation = baseWrite + '\\wasm\\' + parents['wasm'];
+    app = parents['wasm'];
+  }
+
   if(type == 'global'){
 
     if(parents.global == null){
-      return common.error('not_found-global_comp_name');
+      return common.error('not_found-comp_parents_page');
     }
 
     readLocation = baseRead + '\\globals\\' + parents['global'] + '\\globalComp.js';
     writeLocation = baseWrite + '\\globals\\' + parents['global'] + '\\globalComp.js';
   }
-
   if(type == 'page'){
 
     if(parents.page == null){
@@ -168,7 +177,6 @@ function getModuleAddress(type,parents){
     readLocation = baseRead + '\\pages\\' + parents['page'] + '\\page.js';
     writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\page.js';
   }
-
   if(type == 'cont'){
 
     if(parents.page == null || parents.cont == null){
@@ -178,7 +186,6 @@ function getModuleAddress(type,parents){
     readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
     writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
   }
-
   if(type == 'panel'){
 
     if(parents.page == null || parents.cont == null || parents.panel == null){
