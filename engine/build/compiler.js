@@ -170,9 +170,10 @@ async function compile_wasm(locations){
     return common.error("failed-read_wasm_wrapper-build");;
   }
   let custom_was_controller = locations.app + '_wasm_controller'
-  while(read.indexOf("wasm_bindgen") >= 0){
-    read = read.replace("wasm_bindgen",custom_was_controller);
-  }
+
+  read = read.replace("wasm_bindgen = Object.assign(init, __exports);",custom_was_controller +" = Object.assign(init, __exports);");
+  read = read.replace("let wasm_bindgen;","let " + custom_was_controller + ";");
+
   let write = await io.write(to,read);
   if(!write){
     return common.error("failed-write_wasm_wrapper-build");;
