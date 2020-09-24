@@ -79,9 +79,17 @@ function render(read,write){
 
     let worker = function(error,result){
 
+      // console.log(result);
+
       if(error){
         console.log(error);
         reject(error);
+        return;
+      }
+
+      if(!result){
+        reject("failed-compile");
+        return;
       }
 
       fs.writeFile(write,result.css)

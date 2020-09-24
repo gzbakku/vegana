@@ -56,6 +56,8 @@ if(bank.indexOf(func) >= 0){
     log(chalk.greenBright('- serve'));
     log(chalk.greenBright('- build'));
     log(chalk.greenBright('- generate'));
+    log(chalk.greenBright('- config'));
+    log(chalk.greenBright('- run'));
     return;
   }
 

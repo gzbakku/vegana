@@ -6,7 +6,7 @@ module.exports = async (name,container)=>{
 
   let script = "wasm-pack new " + name;
 
-  if(false){
+  if(true){
     const make = await cmd.run(script)
     .then(()=>{
       return true;
@@ -24,14 +24,14 @@ module.exports = async (name,container)=>{
 
   common.tell("wasm project created");
 
-  if(false){
+  if(true){
     const make_lazy_entry = await lazify(name);
     if(!make_lazy_entry){
       return common.error("failed-insert_wasm_lazy_entry");
     }
   }
 
-  if(false){
+  if(true){
     const do_remove_git = await remove_git(name);
     if(!do_remove_git){
       return common.error("failed-do_remove_git");
