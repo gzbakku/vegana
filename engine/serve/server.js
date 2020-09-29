@@ -3,7 +3,6 @@ const app = express();
 const https = require('https');
 const extra = require('fs-extra');
 const fs = require('fs');
-const cmd = require('../../cmd');
 const cors = require('cors');
 
 app.use(cors());

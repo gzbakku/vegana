@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 
 module.exports = {
 
-  exists:(location)=>{
+  exists:async (location)=>{
     return fs.exists(location);
   },
 

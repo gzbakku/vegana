@@ -1,8 +1,3 @@
-//module
-const common = require('../../common');
-const cmd = require('../../cmd');
-
-//workers
 const check = require('./check');
 const compile = require('./compiler');
 const server = require('./server');

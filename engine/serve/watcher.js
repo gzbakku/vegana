@@ -11,6 +11,13 @@ function getDirectoryType(path){
 
   //common.tell('fetching module type');
 
+  if(path.match('ui')){
+    if(path.match('.scss')){
+      return "scss";
+    } else {
+      return 'ui';
+    }
+  }
   if(path.match('wasm')){
     if(!path.match('src')){
       return false;
@@ -71,7 +78,8 @@ function getParents(type,location){
       global:null,
       page:null,
       cont:null,
-      panel:null
+      panel:null,
+      ui:null,
     };
 
   }
@@ -89,7 +97,8 @@ function getParents(type,location){
       global:comp,
       page:null,
       cont:null,
-      panel:null
+      panel:null,
+      ui:null,
     };
 
   }
@@ -113,11 +122,11 @@ function getParents(type,location){
       global:null,
       page:page,
       cont:cont,
-      panel:panel
+      panel:panel,
+      ui:null,
     };
 
   }
-
 
   if(type == 'sass'){
 
@@ -130,7 +139,21 @@ function getParents(type,location){
       page:null,
       cont:null,
       panel:null,
+      ui:null,
       sass:name
+    };
+
+  }
+
+  if(type === "ui"){
+
+    return {
+      global:null,
+      page:null,
+      cont:null,
+      panel:null,
+      sass:null,
+      ui:true
     };
 
   }
@@ -343,7 +366,15 @@ async function init(){
       common.tell('app updated');
       common.tell(path);
 
-      if(moduleType === 'app'){
+      if(moduleType === "scss"){
+        let compileCheck = await sass.compile.master();
+        if(compileCheck){
+          socket.reload();
+        }
+        return true;
+      }
+
+      if(moduleType === 'app' || moduleType === "ui"){
         let compileCheck = await compile.bundle();
         socket.reload();
         return true;

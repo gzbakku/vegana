@@ -1,6 +1,4 @@
 const fs = require('fs-extra');
-const common = require('../../common');
-const cmd = require('../../cmd');
 const Spinner = require('cli-spinner').Spinner;
 
 module.exports= {
