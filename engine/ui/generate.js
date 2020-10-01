@@ -7,7 +7,7 @@ module.exports = {
 
     let uiLibpool = await uiRunner.getUiLibs()
     .then((libs)=>{return libs;}).catch(()=>{return false;});
-    if(!uiLibpool){
+    if(!uiLibpool){console.log(uiLibpool);
       return common.error("failed-get-ui-libs");
     }
     const ui_dir = await uiRunner.getUiDir();

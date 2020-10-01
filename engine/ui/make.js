@@ -10,11 +10,13 @@ module.exports = {
     }
 
     const this_name = name + "Ui";
-
-    const ui_pool = await uiRunner.getUiLibs().then((f)=>{return f;}).catch(()=>{return false;});
+    const ui_pool = await uiRunner.getUiLibs().then((f)=>{return f;}).catch((e)=>{console.log(e);return false;});
     const ui_dir = await uiRunner.getUiDir().then((f)=>{return f;}).catch(()=>{return false;});
-    if(ui_pool === false || ui_dir === false){
-      return common.error("failed-get-UiLibs/UiDir");
+    if(ui_pool === false){
+      return common.error("failed-get-UiLibs");
+    }
+    if(ui_dir === false){
+      return common.error("failed-get-UiDir");
     }
 
     common.tell("app dir found");

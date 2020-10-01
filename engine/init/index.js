@@ -7,6 +7,10 @@ module.exports= {
 
 async function init(projectName,location){
 
+  if(!projectName){
+    projectName = await input.text("please give a project name");
+  }
+
   common.tell('making new project');
 
   var spinner = new Spinner('%s : ');

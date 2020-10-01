@@ -5,7 +5,18 @@ const socket = require('./socket');
 const watcher = require('./watcher');
 const sass = require('./sass');
 
-async function init(port,secure){
+async function init(port,secure,outside){
+
+  if(outside || port === "help" || port === "-h" || port === "--help"){
+    port = await input.select("please select a platform",['web','cordova','electron']);
+    if(port === "web"){
+      if(await input.confirm("do you want https enabled dev server")){
+        port = 'secure';
+      } else {
+        port = null;
+      }
+    }
+  }
 
   let run_electron = false,run_cordova = false;
   if(!port){

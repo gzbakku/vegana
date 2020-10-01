@@ -6,6 +6,10 @@ const git = require('./git.js');
 
 async function init(platform){
 
+  if(!platform){
+    platform = await input.select("please select a module",['electron','cordova','wasm','git']);
+  }
+
   common.tell('config initiated');
 
   //check the files

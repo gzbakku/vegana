@@ -1,4 +1,3 @@
-const common = require('../../common');
 const gen = require('./gen');
 
 async function init(type,name,laziness){
