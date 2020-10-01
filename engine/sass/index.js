@@ -10,7 +10,7 @@ module.exports = {
       func = await input.select("please select a sass function",['collect','distribute']);
     }
 
-    if(func === "collect"){collect.init();}
+    if(func === "collect"){return collect.init();}
 
     common.error("sorry the api you are calling is not available");
 
