@@ -3,6 +3,20 @@ const gen = require('./gen');
 
 async function init(type,name,laziness){
 
+  let no_type = false,no_name = false;
+  if(!type){
+    no_type = true;
+    type = await input.select("please select a module type",['page','cont','panel','comp','sass','wasm']);
+  }
+  if(!name){
+    no_name = true;
+    name = await input.text("please provide a valid name for this module");
+  }
+  if(no_type || no_name){
+    is_lazy = await input.select("is this module lazy?",['no','yes']);
+    if(is_lazy === "yes"){laziness = "--lazy"}
+  }
+
   if(type == null || type == undefined){
     common.tell('what do you want us to generate page,comp,cont or panel please tell us.');
     common.tell('example : vegana generate page main');
@@ -41,13 +55,13 @@ async function init(type,name,laziness){
 
   let isLazy = false;
 
-  if(process.argv[5]){
-    if(process.argv[5] == '--lazy'){
+  if(laziness){
+    if(laziness === '--lazy'){
       isLazy = true;
     }
   }
 
-  let work = await gen.init(type,name,isLazy);
+  let work = await gen.init(type,name,isLazy,no_type || no_name);
 
   if(work == true){
     return common.success('generated successfully');

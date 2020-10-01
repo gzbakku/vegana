@@ -2,6 +2,8 @@ const fs = require('fs-extra');
 
 module.exports = async (name,container)=>{
 
+  process.chdir(container);
+
   common.tell("creating a new cargo project");
 
   let script = "wasm-pack new " + name;
@@ -32,14 +34,14 @@ module.exports = async (name,container)=>{
   }
 
   if(true){
-    const do_remove_git = await remove_git(name);
+    const do_remove_git = await remove_git(name,container);
     if(!do_remove_git){
       return common.error("failed-do_remove_git");
     }
   }
 
   if(true){
-    const do_copy_wrapper = await copy_wrapper(name);
+    const do_copy_wrapper = await copy_wrapper(name,container);
     if(!do_copy_wrapper){
       return common.error("failed-do_copy_wrapper");
     }
@@ -53,9 +55,9 @@ module.exports = async (name,container)=>{
 
 }
 
-async function remove_git(name){
+async function remove_git(name,container){
 
-  let cwd = process.cwd();
+  let cwd = container;
   let path = cwd + "\\" + name + "\\";
   let git_dir_path = path + ".git";
   let git_file_path =  path + ".gitignore";
@@ -143,9 +145,9 @@ async function lazify(name){
 
 }
 
-async function copy_wrapper(name){
-  const from = io.dir.app() + '\\wasm\\wrapper.js'
-  const to = io.dir.cwd() + '\\' + name + "\\wrapper.js"
+async function copy_wrapper(name,container){
+  const from = io.dir.app() + '/wasm/wrapper.js'
+  const to = container + '/' + name + "/wrapper.js"
   let do_copy = await io.copy(from,to);
   if(!do_copy){
     return common.error("failed-copy_wrapper");

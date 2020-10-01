@@ -2,7 +2,7 @@ const fs = require('fs-extra');
 
 module.exports = {
 
-  init : async function(laziness,type,name,pgName,cnName,pnName){
+  init : async function(laziness,type,name,pgName,cnName,pnName,base_dir){
 
     common.tell('generating lazy address for compiler');
 
@@ -10,43 +10,35 @@ module.exports = {
       return true;
     }
 
-    let currentDirectory = process.cwd() + '\\';
     let lazyPath = '';
 
-    if(type !== 'sass'){
-
-      if(!currentDirectory.match('app')){
-        return common.error('invalid-project_directory');
+    if(!base_dir){
+      let currentDirectory = process.cwd() + '\\';
+      if(type !== 'sass'){
+        if(!currentDirectory.match('app')){
+          return common.error('invalid-project_directory');
+        }
+        let locationArray = currentDirectory.split('\\');
+        let appIndex = locationArray.indexOf('app');
+        for(var i=0;i<appIndex;i++){
+          let pathComp = locationArray[i];
+          lazyPath = lazyPath + pathComp + '\\';
+        }
+        lazyPath = lazyPath + 'lazy.json';
+      } else {
+        if(!currentDirectory.match('sass')){
+          return common.error('invalid-project_directory');
+        }
+        let locationArray = currentDirectory.split('\\');
+        let appIndex = locationArray.indexOf('sass') - 1;
+        for(var i=0;i<=appIndex;i++){
+          let pathComp = locationArray[i];
+          lazyPath = lazyPath + pathComp + '\\';
+        }
+        lazyPath = lazyPath + 'lazy.json';
       }
-
-      let locationArray = currentDirectory.split('\\');
-
-      let appIndex = locationArray.indexOf('app');
-
-      for(var i=0;i<appIndex;i++){
-        let pathComp = locationArray[i];
-        lazyPath = lazyPath + pathComp + '\\';
-      }
-
-      lazyPath = lazyPath + 'lazy.json';
-
     } else {
-
-      if(!currentDirectory.match('sass')){
-        return common.error('invalid-project_directory');
-      }
-
-      let locationArray = currentDirectory.split('\\');
-
-      let appIndex = locationArray.indexOf('sass') - 1;
-
-      for(var i=0;i<=appIndex;i++){
-        let pathComp = locationArray[i];
-        lazyPath = lazyPath + pathComp + '\\';
-      }
-
-      lazyPath = lazyPath + 'lazy.json';
-
+      lazyPath = base_dir + "lazy.json"
     }
 
     let read = await fs.readFile(lazyPath,'utf-8')

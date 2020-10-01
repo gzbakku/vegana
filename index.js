@@ -44,7 +44,7 @@ if(bank.indexOf(func) >= 0){
   }
 
   if(func == 'generate'){
-    return generate.init(work[3],work[4]);
+    return generate.init(work[3],work[4],work[5]);
   }
 
   if(func == 'init'){
