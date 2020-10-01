@@ -7,7 +7,7 @@ module.exports = {
 
     let uiLibpool = await uiRunner.getUiLibs()
     .then((libs)=>{return libs;}).catch(()=>{return false;});
-    if(!uiLibpool){console.log(uiLibpool);
+    if(!uiLibpool){
       return common.error("failed-get-ui-libs");
     }
     const ui_dir = await uiRunner.getUiDir();
@@ -33,7 +33,13 @@ module.exports = {
       libNotFound = false;
     }
     if(!uiLib || libNotFound){
-      uiLib = await input.select("please select a ui lib",uiLibpool);
+      if(uiLibpool.length === 0){
+        return common.error("please add a ui lib first");
+      } else if(uiLibpool.length === 1){
+        uiLib = uiLibpool[0];
+      } else {
+        uiLib = await input.select("please select a ui lib",uiLibpool);
+      }
     }
     if(compName.indexOf('Comp') < 0){
       compName += "Comp";
