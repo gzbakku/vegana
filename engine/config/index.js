@@ -29,7 +29,7 @@ async function init(platform){
   }
 
   if(platform == 'electron'){
-    return electron.init();
+    return common.tell("please use the updated config api in the electron section ie $ vegana electron config");
   }
 
   if(platform == 'wasm'){
