@@ -51,7 +51,7 @@ module.exports=  {
           reject(err);
         }
         if(stderr){
-          console.log('stderr');
+          console.log(stderr);
           resolve(stderr);
         }
         if(stdout){

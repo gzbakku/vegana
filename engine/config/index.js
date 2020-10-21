@@ -1,5 +1,4 @@
 const check = require('./check');
-const electron = require('./electron/index');
 const cordova = require('./cordova/index');
 const wasm = require('./wasm/index');
 const git = require('./git.js');
@@ -25,22 +24,20 @@ async function init(platform){
     platform !== 'wasm' &&
     platform !== 'git'
   ){
-    return common.error('please select a valid platform - electron/cordova');
+    common.error('please select a valid platform - electron/cordova/git/wasm');
+    platform = await input.select("please select a module",['electron','cordova','wasm','git']);
   }
 
-  if(platform == 'electron'){
-    return common.tell("please use the updated config api in the electron section ie $ vegana electron config");
-  }
-
-  if(platform == 'wasm'){
+  if(platform === 'electron'){
+    return common.tell("please use the updated config api in the electron section => $$ \"vegana electron config\" $$");
+  } else
+  if(platform === 'wasm'){
     return wasm.init();
-  }
-
-  if(platform == 'git'){
+  } else
+  if(platform === 'git'){
     return git.init();
-  }
-
-  if(platform == 'cordova'){
+  } else
+  if(platform === 'cordova'){
     return cordova.init();
   }
 
