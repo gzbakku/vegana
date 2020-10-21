@@ -4,7 +4,7 @@ module.exports = {
 
     common.tell('installing electron via npm');
 
-    const script = 'npm i -D electron@latest hadron-ipc';
+    const script = 'npm i -D electron@latest hadron-ipc electron-builder';
     const run = await cmd.run(script)
     .then(()=>{
       return true;

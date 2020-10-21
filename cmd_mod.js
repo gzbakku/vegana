@@ -1,10 +1,41 @@
 const baseWorker = require('child_process');
 const exec = baseWorker.exec;
 const spawn = baseWorker.spawn;
-const common = require('./common');
 const cross = require('cross-spawn');
+const stream = require('stream');
+
+async function log_message(builder){
+  for await (const message of builder.stdout){
+    console.log(message.toString('utf-8'));
+  }
+}
+
+async function spawnChild(cmd,args){
+  const builder = spawn(cmd,args,{stdio: [process.stdin, process.stdout, process.stderr]});
+  let closing,closed;
+  function close(){
+    if(closed){return true;}
+    if(closing){return null;} else {closing = true;}
+    return new Promise((resolve,reject)=>{
+      builder.kill('SIGINT');
+      builder.on('exit',(e)=>{
+        closed = true;
+        resolve(true);
+      });
+    });
+  }
+  return {
+    process:builder,
+    close:close,
+    closeStatus:()=>{
+      return closed;
+    }
+  };
+}
 
 module.exports=  {
+
+  child:spawnChild,
 
   run : function(cmd){
 
@@ -14,20 +45,23 @@ module.exports=  {
         reject('invalid_cmd');
       }
 
-      exec(cmd,(err, stdout, stderr)=>{
+      const runner = exec(cmd,(err, stdout, stderr)=>{
         if(err){
-          //console.log(err);
+          console.log(err);
           reject(err);
         }
         if(stderr){
-          // console.log('stderr');
+          console.log('stderr');
           resolve(stderr);
         }
         if(stdout){
-          //console.log(stdout);
+          console.log(stdout);
           resolve(stdout);
         }
       });
+
+      // runner.stdout.on('data', (data)=>{console.log(data);});
+      runner.stdout.pipe(process.stdout);
 
     });
 

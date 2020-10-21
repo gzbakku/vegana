@@ -2,16 +2,16 @@ const server = require('http').createServer();
 const io = require('socket.io')(server);
 const common = require('../../common');
 let run_cordova = false;
+let run_electron = false;
 
 let stdin;
 
 module.exports = {
 
-  init : function(do_run_cordova){
+  init : function(do_run_cordova,do_run_electron){
 
-    if(do_run_cordova){
-      run_cordova = true;
-    }
+    if(do_run_cordova){run_cordova = true;}
+    if(do_run_electron){run_electron = true;}
 
     console.log('>>> starting socket');
 
@@ -30,13 +30,17 @@ module.exports = {
 
   },
 
-  reload : function(){
+  reload : ()=>{
     io.emit('reload','now');
-    if(run_cordova && !stdin){
-      // start_cordova();
+    if((run_cordova || run_electron) && !stdin){
       stdin = process.openStdin();
-      stdin.on('data',(chunk)=>{
-        start_cordova();
+      stdin.on('data',async (chunk)=>{
+        if(run_cordova){start_cordova();}
+        if(run_electron){
+          if(typeof(global.start_electron) === "function"){
+            await start_electron();
+          }
+        }
       });
     }
     return true;
@@ -44,7 +48,7 @@ module.exports = {
 
 };
 
-async function start_cordova(){
+async function start_cordova_hold(){
 
   common.tell("building cordova");
 

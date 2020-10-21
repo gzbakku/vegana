@@ -1,33 +1,27 @@
-const fs = require('fs-extra');
-const scriptAddressRef = process.argv[1];
-const scriptMidPoint = scriptAddressRef.lastIndexOf('\\');
-const appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '\\electron\\';
-const currentDirectory = process.cwd() + '\\';
-
 module.exports = {init:init};
 
 async function init(){
 
   common.tell('processing built files');
 
-  let currentDirectory = process.cwd() + '\\';
+  let currentDirectory = io.dir.cwd();
+  let appDirectory = io.dir.app() + "/electron";
 
   let files = [
     'electric.html',
-    'electro.js'
+    'electro.js',
+    'electron.js'
   ];
 
   let control = true;
 
   for(let file of files){
-    let from = appDirectory + file;
-    let to = currentDirectory + file;
-    //console.log({from:from,to:to});
-    let work = await copy(from,to);
-    if(!work){
-      common.error('failed-copy_electron_file-' + file);
-      control = false;
-      break;
+    let from = appDirectory + "/" + file;
+    let to = currentDirectory + "/" + file;
+    if(!await io.exists(to)){
+      if(!await io.copy(from,to)){
+        control = false;break;
+      };
     }
   }
 

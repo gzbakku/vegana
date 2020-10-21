@@ -6,9 +6,11 @@ async function init(base){
   common.tell('configuring electron');
 
   //install electron
-  const do_install = await install.init();
-  if(!do_install){
-    common.error('failed-install_electron');
+  if(true){
+    const do_install = await install.init();
+    if(!do_install){
+      common.error('failed-install_electron');
+    }
   }
 
   //copy base files
@@ -16,6 +18,8 @@ async function init(base){
   if(!do_copy){
     return common.error('failed-copy_electron_files');
   }
+
+  common.success("electron configured");
 
 }
 

@@ -19,10 +19,8 @@ function createWindow(){
   win.webContents.openDevTools();
 }
 
-ipc.respondTo('reload', (sender) => {
-  win.close();
-  //app.quit();
-  createWindow();
+ipc.respondTo('test', (sender) => {
+  console.log("hello");
 });
 
 app.on('ready', createWindow);
