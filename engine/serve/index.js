@@ -107,12 +107,14 @@ async function init(port,secure,outside){
     //   common.error('failed run electron script');
     //   common.error('try $ electron electro.js in the command line');
     // });
-    const path = io.dir.cwd() + '/electron.js';
+    const path = io.dir.cwd() + '/electronRun.js';
     let runElectron = await cmd.child("node",[path]);
     global.start_electron = async ()=>{
       runElectron.close();
       runElectron = await cmd.child("node",[path]);
     }
+    socket.reload();
+    common.success("press enter to restart electron app");
   }
 
   if(run_cordova){

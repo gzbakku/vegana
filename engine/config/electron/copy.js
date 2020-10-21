@@ -10,7 +10,7 @@ async function init(){
   let files = [
     'electric.html',
     'electro.js',
-    'electron.js'
+    'electronRun.js'
   ];
 
   let control = true;
