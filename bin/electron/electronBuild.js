@@ -12,14 +12,12 @@ async function build(){
       "productName":"vegana maker",
       "copyright":"tejasav dutt",
       "directories":{
-        "output":"dist"
+        "output":"dist/electron"
       },
       "win":{
-        "icon":"assets/vegana_maker_logo_310.ico",
         "target":"nsis"
       },
       "linux":{
-        "icon":"assets/vegana_maker_logo_310.ico",
         "target":"AppImage"
       }
     }
