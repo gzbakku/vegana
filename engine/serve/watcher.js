@@ -11,6 +11,9 @@ function getDirectoryType(path){
 
   //common.tell('fetching module type');
 
+  if(path.match(".scss")){
+    return "scss";
+  }
   if(path.match('ui')){
     if(path.match('.scss')){
       return "scss";
