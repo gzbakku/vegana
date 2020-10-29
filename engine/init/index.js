@@ -1,5 +1,9 @@
 const Spinner = require('cli-spinner').Spinner;
-const fs = require('fs-extra');
+// const fs = require('fs-extra');
+
+const copy = require("./copy");
+const edit = require("./edit");
+const npm = require("./npm");
 
 module.exports= {
   init:init
@@ -20,212 +24,52 @@ async function init(projectName,location){
   //???????????????????????????
   //security checks
 
-  if(projectName == null || projectName == undefined){
+  if(!projectName || typeof(projectName) !== "string" || projectName.length === 0){
+    spinner.stop();
     return common.error('no project_name found');
-  }
-
-  if(typeof(projectName) !== 'string'){
-    return common.error('invalid projectName_type');
-  }
-
-  if(projectName.length < 3){
-    return common.error('project name should be atleast 4 letters long.');
-  }
-
-  if(location == null || location == undefined){
-    return common.error('no current_folder_location found');
   }
 
   common.tell('project Name : ' + projectName);
 
-  //???????????????????????????????
-  //make project
-
-  //do npm
-
-  let checkNpm = await doNpm();
-
-  if(checkNpm == false){
-    return common.error('configure npm failed');
-  }
-
-  //build project files
-
-  let buildProject = await build(projectName);
-
-  if(buildProject == false){
-    return common.error('project build failed');
-  } else {
+  //make the dir
+  const projectDir = io.dir.cwd() + "/" + projectName;
+  if(await io.exists(projectDir) && false){
     spinner.stop();
-    common.tell('@@@ project created successfully');
+    return common.error("Directory with this project name already exists at location => " + projectDir);
+  } else {
+    await io.dir.ensure(projectDir);
   }
 
-}
-
-async function build(projectName){
-
-  common.tell('building project');
-
-  //???????????????????????????
-  //get addresses
-
-  let scriptAddressRef = process.argv[1];
-  while(scriptAddressRef.indexOf("\\") >=0){
-    scriptAddressRef = scriptAddressRef.replace("\\","/");
-  }
-  let scriptMidPoint = scriptAddressRef.lastIndexOf('/');
-
-  //prod
-  let currentDirectory = io.dir.cwd() + '/';
-  let appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '/build/';
-
-  while(currentDirectory.indexOf("\\") >=0){
-    currentDirectory = currentDirectory.replace("\\","/");
-  }
-
-  let splint = currentDirectory.split("/");
-
-  if(splint[splint.length - 2] !== projectName){
-    currentDirectory += projectName + "/";
-  }
-
-  //???????????????????????????
-  //copy files
-
-  let files = [
-    'index.html',
-    'compile.js',
-    'lazy.json',
-    'css',
-    'app',
-    'js',
-    'assets',
-    'sass',
-    '.gitignore'
-  ];
-
-  let success = true;
-  let failed = [];
-
-  for(var i=0;i<files.length;i++){
-
-    let fileLocation = appDirectory + files[i];
-    let fileDestination = currentDirectory + files[i];
-
-    if(true){
-      let copy = await io.copy(fileLocation,fileDestination)
-      .then(()=>{
-        return true;
-      })
-      .catch((error)=>{
-        return false;
-      });
-      if(copy == false){
-        success = false;
-        failed.push(files[i]);
-      }
-    }
-
-  }
-
-  if(success == false){
-    common.tell(failed);
-    common.error('something went wrong while building project');
-    return common.error('please remove all the contents from the folder and try again');
-  }
-
-  //???????????????????????????
-  //edit index.html for projectName
-
-  //index.html destination
-  fileDestination = currentDirectory + 'index.html';
-
-  //read index here
-  let index = await fs.readFile(fileDestination,'utf-8')
-  .then((data)=>{
-    //console.log(typeof(data));
-    return data;
-  })
-  .catch((err)=>{
-      console.log(err);
-      return false;
-  });
-
-  //check read index here
-  if(index == false){
-    return common.error('read_failed index.html');
-  }
-
-  //replace the title of index with project name here
-  let final = index.replace('xxxx',projectName);
-
-  //write the changes to the index.html
-  let write = await fs.writeFile(fileDestination,final,'utf-8')
-  .then(()=>{
-    return true;
-  })
-  .catch((err)=>{
-    console.log(err);
-    return false;
-  });
-
-  //console.log(write);
-
-  //check the write
-  if(write == false){
-    return common.error('write_failed index.html');
-  }
-
-  return true;
-
-}
-
-async function doNpm(){
-
-  let command = 'npm init -y';
-
-  const npmInit = await cmd.run(command)
-  .then((stdout)=>{
-    return true;
-  })
-  .catch((err)=>{
-    return common.error(err);
-  },(stderr)=>{
-    return common.error(stderr);
-  });
-
-  if(npmInit == false){
-    return common.error('npm_init failed');
-  }
-
-  //install vegana-engine
-
-  common.tell('installing vegana-engine npm module');
-
-  command = 'npm i vegana-engine';
-
-  const installVeganaEngine = await cmd.run(command)
-  .then((stdout)=>{
-    return true;
-  })
-  .catch((err)=>{
-    //console.log(err);
-    return err;
-  },(stderr)=>{
-    common.error(stderr);
-    return false;
-  });
-
-  if(installVeganaEngine == false){
-    return common.error('cannot_install vegana-engine');
-  }
-
-  if(installVeganaEngine !== true){
-    if(installVeganaEngine.search('WARN') == 0){
-      return common.error('npm_install_failed vegana-engine');
+  if(true){
+    const do_copy = await copy.init(projectDir);
+    if(!do_copy){
+      spinner.stop();
+      return common.error("failed-generate-project-files");
     }
   }
 
+  if(true){
+    const do_edit = await edit.init(projectDir,projectName);
+    if(!do_edit){
+      spinner.stop();
+      return common.error("failed-customize_index_file");
+    }
+  }
+
+  if(true){
+    const do_npm = await npm.init(projectDir);
+    if(!do_npm){
+      spinner.stop();
+      common.error("failed-config-npm");
+      common.error("failed-install-vegana_engine");
+      common.tell("please run 'npm init'");
+      return common.tell("and then run 'npm i vegana-engine' to install the core engine or delete the folder and try again.");
+    }
+  }
+
+  common.success("project generated successfully");
+
+  spinner.stop();
   return true;
 
 }
