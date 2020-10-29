@@ -1,6 +1,6 @@
-const fs = require('fs-extra');
+// const fs = require('fs-extra');
 const sass = require('node-sass');
-const common = require('../../common');
+// const common = require('../../common');
 
 module.exports = {
 
@@ -10,8 +10,8 @@ module.exports = {
 
       common.tell('master sass compiler started');
 
-      let currentDirectory = process.cwd() + '\\sass\\master.scss';
-      let targetDirectory = process.cwd() + '\\css\\master.css';
+      let currentDirectory = io.dir.cwd() + '/sass/master.scss';
+      let targetDirectory = io.dir.cwd() + '/css/master.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)
@@ -30,8 +30,8 @@ module.exports = {
 
       common.tell('compiling master.scss');
 
-      let currentDirectory = process.cwd() + '\\sass\\master.scss';
-      let targetDirectory = process.cwd() + '\\css\\master.css';
+      let currentDirectory = io.dir.cwd() + '/sass/master.scss';
+      let targetDirectory = io.dir.cwd() + '/css/master.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)
@@ -49,8 +49,8 @@ module.exports = {
 
       common.tell('compiling lazy-sass');
 
-      let currentDirectory = process.cwd() + '\\sass\\' + name + '.scss';
-      let targetDirectory = process.cwd() + '\\css\\' + name + '.css';
+      let currentDirectory = io.dir.cwd() + '/sass/' + name + '.scss';
+      let targetDirectory = io.dir.cwd() + '/css/' + name + '.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)
@@ -68,7 +68,7 @@ module.exports = {
 
 function render(read,write){
 
-  return new Promise((resolve,reject)=>{
+  return new Promise(async (resolve,reject)=>{
 
     let error;
 
@@ -77,22 +77,13 @@ function render(read,write){
       reject(error);
     }
 
-    let worker = function(error,result){
-
+    let worker = async function(error,result){
       if(error){
         console.log(error);
         reject(error);
       }
-
-      fs.writeFile(write,result.css)
-      .then(()=>{
-        resolve();
-      })
-      .catch((err)=>{
-        error = err;
-        reject(error);
-      });
-
+      const run = await io.write(write,result.css);
+      if(run){resolve();} else {reject("failed-write_file");}
     }
 
     sass.render({file:read,outputStyle:'compressed'},worker);

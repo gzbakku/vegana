@@ -1,15 +1,13 @@
-const fs = require('fs-extra');
-
 module.exports = async ()=>{
 
-  let wasmDir = process.cwd() + '\\app\\wasm\\';
+  let wasmDir = io.dir.cwd() + '/app/wasm/';
 
-  if(fs.existsSync(wasmDir)){
+  if(await io.exists(wasmDir)){
     common.tell("wasm directory already exists");
     return true;
   }
 
-  let create = await fs.mkdir(wasmDir)
+  let create = await io.dir.ensure(wasmDir)
   .then(()=>{
     common.tell("wasm directory created");
     return true;

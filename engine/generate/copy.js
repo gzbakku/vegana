@@ -1,14 +1,8 @@
-const common = require('../../common');
-const fs = require('fs-extra');
-
 module.exports = {
 
   init : async function(type,compLocation,name){
 
-    //get app directory
-    let scriptAddressRef = process.argv[1];
-    let scriptMidPoint = scriptAddressRef.lastIndexOf('\\');
-    let appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '\\generate\\';
+    let appDirectory = io.dir.app() + "/generate/";
 
     let fileNames = {
       comp:'comp',
@@ -36,7 +30,7 @@ module.exports = {
       fileDestination = compLocation + fileNames[type]  + fileExt[type];
     }
 
-    let copy = await fs.copy(fileLocation,fileDestination)
+    let copy = await io.copy(fileLocation,fileDestination)
     .then(()=>{
       return true;
     })

@@ -1,8 +1,16 @@
+// const fs = require('fs-extra');
+// const common = require('../../common');
+
 async function init(){
 
-  console.log('>>> checking app files');
+  common.tell('checking app files');
 
-  let currentDirectory = process.cwd() + '/';
+  //prod
+  let currentDirectory = io.dir.cwd() + '\\';
+
+  //test
+  //let currentDirectory = process.cwd() + '\\akku\\';
+
   let files = [
     'index.html',
     'compile.js',
@@ -16,18 +24,20 @@ async function init(){
   ];
 
   let success = true;
+  let failed = [];
+
   for(var i=0;i<files.length;i++){
     let location = currentDirectory + files[i];
     let check = await io.exists(location);
-    if(!check){
-      common.error("failed-file_not_found => " + location);
+    if(check == false){
       success = false;
-      break;
+      failed.push(files[i]);
     }
   }
 
   if(success == false){
-    return common.error('check app folder for the abset file location provided above');
+    common.error(failed);
+    return common.error('check app files failed for the files given above');
   }
 
   return true;

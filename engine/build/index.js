@@ -1,89 +1,41 @@
-const check = require('./check');
-const compile = require('./compiler');
-const sass = require('./sass');
-const edit = require('./edit');
-const copy = require('./copy');
-const make = require('./make');
+const web = require('./web/index');
+const cordova = require('./cordova/index');
 
-async function init(base,is_outside){
+async function init(platform,base){
 
-  let help_message = 'base directory is the location where you store the vegana project files for example if the index is available at https://vegana.js/website1 please provide https://vegana.js/website1 as the base directory.';
-
-  if(base === "help" || base === "--help" || base === "-h"){
-    return common.info(help_message);
+  if(!platform){
+    platform = await input.select("please select a module",['electron','cordova','web']);
   }
 
-  if(is_outside && !base){
-    if(await input.confirm("do you need help with base directory")){
-      return common.info(help_message);
-    }
-    if(await input.confirm("do you want to set custom base directory")){
-      base = await input.text("please give a base directory where the vegana app will be avaibale");
-    }
-  }
-
-  common.tell('build initiated');
-
-  if(base){
-    if(base[base.length - 1] === "/"){
-      base = base.slice(0,-1);
-    }
-  } else {
-    base = '';
-  }
+  common.tell('config initiated');
 
   //check the files
 
-  let doCheck = await check.init();
+  let doCheck = await check_vegana_directory.init();
   if(doCheck == false){
     return common.error('check failed');
   }
 
-  //compile bundle here
-
-  let doCompile = await compile.init();
-  if(doCompile == false){
-    return common.error('failed-bundle_compilation');
+  if(
+    platform !== 'electron' &&
+    platform !== 'cordova' &&
+    platform !== 'web'
+  ){
+    common.error('please select a valid platform - electron/cordova/git/wasm');
+    platform = await input.select("please select a module",['electron','cordova','wasm','git']);
   }
 
-  //compile lazy
-
-  let doLazyLoad = await compile.lazyLoader();
-  if(doLazyLoad == false){
-    return common.error('failed-lazy_module_compilations');
+  if(platform === 'electron'){
+    common.tell("please use the updated build api in the electron section => $$ \"vegana electron build\" $$");
+    return build_electron();
   }
-
-  //compile css here
-
-  let doSassCompilation = await sass.init();
-  if(doSassCompilation == false){
-    return common.error('failed-master_sass_compilation');
+  if(platform === 'cordova'){
+    return cordova.init();
   }
-
-  //make folders
-
-  let doMake = await make.init();
-  if(!doMake){
-    return common.error('failed-make_build_folders');
+  if(platform === 'web'){
+    common.tell("base directory can also be provided in package.json as vegana_web_base_url key");
+    return web.init(base);
   }
-
-  //edit index
-
-  let doEdit = await edit.init(base);
-  if(!doEdit){
-    return common.error('failed-process_index_file');
-  }
-
-  //copy built files
-
-  let doCopy = await copy.init();
-  if(!doCopy){
-    return common.error('failed-process_built_files');
-  }
-
-  common.success("build finished");
-
-  return true;
 
 }
 

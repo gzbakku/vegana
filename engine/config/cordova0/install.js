@@ -2,8 +2,8 @@ module.exports = {
 
   init:async ()=>{
 
-    let currentDirectory = io.dir.cwd() + "/";
-    let appDirectory = io.dir.app() + '/cordova/';
+    let currentDirectory = io.dir.cwd() + "\\";
+    let appDirectory = io.dir.app() + '\\cordova\\';
 
     //read package
     const package_path = currentDirectory + 'package.json';
@@ -20,7 +20,7 @@ module.exports = {
     }
 
     //delete www project
-    const www_path = currentDirectory + 'cordova/www';
+    const www_path = currentDirectory + 'cordova\\www';
     const remove_www = await io.delete(www_path);
     if(!remove_www){
       return common.error('failed-remove_www_folder');
@@ -34,7 +34,7 @@ module.exports = {
 
     //copy the super html file
     const super_html_path = appDirectory + 'index.html';
-    const new_html_path = currentDirectory + 'cordova/www/index.html';
+    const new_html_path = currentDirectory + 'cordova\\www\\index.html';
 
     const copy = await io.copy(super_html_path,new_html_path);
     if(!copy){

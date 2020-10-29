@@ -51,17 +51,6 @@ module.exports = {
     });
   },
 
-  read:(location)=>{
-    return fs.readFile(location,'utf-8')
-    .then((data)=>{
-      return data;
-    })
-    .catch((err)=>{
-      common.error(err);
-      return common.error("failed-read_file-io");
-    });
-  },
-
   readJson:async (location)=>{
     let run = await fs.readFile(location,'utf-8')
     .then((data)=>{
@@ -76,6 +65,17 @@ module.exports = {
     } else {
       return false;
     }
+  },
+
+  read:(location)=>{
+    return fs.readFile(location,'utf-8')
+    .then((data)=>{
+      return data;
+    })
+    .catch((err)=>{
+      common.error(err);
+      return common.error("failed-read_file-io");
+    });
   },
 
   write:(location,data)=>{

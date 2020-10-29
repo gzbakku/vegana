@@ -1,8 +1,4 @@
-const common = require('../../common');
 const wasm = require("./wasm");
-const fs = require('fs-extra');
-
-//local modulkes
 const check = require('./check');
 const copy = require('./copy');
 const customize = require('./customize');
@@ -18,7 +14,7 @@ async function init(type,name,laziness,outside){
   //check directory
 
   if(type === "wasm"){
-    return wasm(name,fsys.get_base_dir() + "/app/wasm");
+    return wasm(name,await fsys.get_base_dir() + "app/wasm");
   }
 
   if(laziness && type == 'comp'){type = 'globalComp';}

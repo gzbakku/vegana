@@ -1,6 +1,6 @@
-const common = require('../../common');
-const fs = require('fs-extra');
-const shell = require('shelljs');
+// const common = require('../../common');
+// const fs = require('fs-extra');
+// const shell = require('shelljs');
 
 module.exports = {init:init};
 
@@ -8,18 +8,14 @@ async function init(base){
 
   common.tell('processing index');
 
-  let currentDirectory = process.cwd() + '\\';
+  let currentDirectory = io.dir.cwd() + '/';
   let fileLocation = currentDirectory + 'index.html';
 
   //read index
-  let index = await fs.readFile(fileLocation,'utf-8')
-  .then((data)=>{
-    return data;
-  })
-  .catch((err)=>{
-    console.log(err);
-    return false;
-  });
+  let index = await io.read(fileLocation);
+  if(!index){
+    return common.error("failed-read_base_html_file => {}"+fileLocation);
+  }
 
   let lines = index.split('\n');
   lines.splice(4,9);
@@ -47,17 +43,8 @@ async function init(base){
 
   // console.log(final);
 
-  let writeLocation = currentDirectory + '\\build\\' + 'index.html'
-
-  let write = await fs.writeFile(writeLocation,final,'utf-8')
-  .then(()=>{
-    return true;
-  })
-  .catch((err)=>{
-    console.log(err);
-    return false;
-  });
-
+  let writeLocation = currentDirectory + '/build/web/' + 'index.html'
+  let write = await io.write(writeLocation,final);
   if(!write){
     return false;
   } else {

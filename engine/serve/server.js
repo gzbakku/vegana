@@ -7,11 +7,8 @@ const cors = require('cors');
 
 app.use(cors());
 
-//test
-//let projectLocation = process.cwd() + '\\akku\\';
-
 //prod
-let projectLocation = process.cwd() + '\\';
+let projectLocation = process.cwd() + '/';
 
 app.use(express.static(projectLocation));
 
@@ -36,7 +33,7 @@ async function secure(port){
   console.log('>>> starting secure server');
 
   //get dir
-  const currentDirectory = process.cwd() + '\\';
+  const currentDirectory = process.cwd() + '/';
 
   //ensure
   const ssl_dir_path = currentDirectory + 'ssl_sertificates';
@@ -56,7 +53,7 @@ async function secure(port){
   console.log('>>> ssl directory ensured');
 
   //check cert
-  const certificate_path = ssl_dir_path + '//server.cert';
+  const certificate_path = ssl_dir_path + '/server.cert';
   const check_ssl_certificate = await extra.pathExists(certificate_path)
   .then(()=>{
     return true;
@@ -69,7 +66,7 @@ async function secure(port){
   console.log('>>> ssl certificate ensured');
 
   //check ssl key
-  const ssl_key_path = ssl_dir_path + '//server.key';
+  const ssl_key_path = ssl_dir_path + '/server.key';
   const check_ssl_key = await extra.pathExists(ssl_key_path)
   .then(()=>{
     return true;

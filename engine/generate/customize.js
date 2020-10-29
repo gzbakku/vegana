@@ -1,6 +1,3 @@
-const common = require('../../common');
-const fs = require('fs-extra');
-
 module.exports = {
 
   init : async function(fileLocation,name,pgName,cnName,pnName,type){
@@ -13,15 +10,7 @@ module.exports = {
       return true;
     }
 
-    let index = await fs.readFile(fileLocation,'utf-8')
-    .then((data)=>{
-      return data;
-    })
-    .catch((err)=>{
-        console.log(err);
-        return false;
-    });
-
+    let index = await io.read(fileLocation);
     if(index == false){
       return common.error('read_failed');
     }
@@ -44,15 +33,7 @@ module.exports = {
       editTag = editTag.replace('pnName',name + 'Panel');
     }
 
-    let write = await fs.writeFile(fileLocation,editTag,'utf-8')
-    .then(()=>{
-      return true;
-    })
-    .catch((err)=>{
-      console.log(err);
-      return false;
-    });
-
+    let write = await io.write(fileLocation,editTag);
     if(write == false){
       return common.error('write_failed');
     }

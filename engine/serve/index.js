@@ -38,12 +38,21 @@ async function init(port,secure,outside){
 
   console.log('>>> serve initiated');
 
+  //check the files
+
+  let doCheck = await check.init();
+  if(doCheck == false){
+    return common.error('check failed');
+  }
+
   //compile here
 
   let doCompile = await compile.init();
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   }
+
+  //compile lazy moduules here
 
   let doLazyLoad = await compile.lazyLoader();
   if(doLazyLoad == false){
@@ -55,13 +64,6 @@ async function init(port,secure,outside){
   let doSassCompilation = await sass.init();
   if(doSassCompilation == false){
     return common.error('failed-master_sass_compilation');
-  }
-
-  //check the files
-
-  let doCheck = await check.init();
-  if(doCheck == false){
-    return common.error('check failed');
   }
 
   //start the server

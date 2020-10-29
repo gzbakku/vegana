@@ -13,9 +13,11 @@ const log = console.log;
 global.common = require('./common');
 global.cmd = require('./cmd_mod');
 global.io = require('./io');
-global.build_api = build;
+global.build_api = require("./engine/build/web/index");
+global.build_electron = require("./engine/electron/build/index");
 global.copy_build_to_cordova = require('./copy_build_to_cordova');
 global.input = require('input');
+global.check_vegana_directory = require("./check_vegana_directory");
 
 starter();
 
@@ -41,7 +43,7 @@ function run_cli(func,work,is_outside){
   if(func == 'serve'){
     return serve.init(work[3],work[4],is_outside);
   } else if(func == 'build'){
-    return build.init(work[3],is_outside);
+    return build.init(work[3],work[4]);
   } else if(func == 'run'){
     return run.init(work[3]);
   } else if(func == 'config'){

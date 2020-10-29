@@ -1,5 +1,5 @@
-const fs = require('fs-extra');
 const Spinner = require('cli-spinner').Spinner;
+const fs = require('fs-extra');
 
 module.exports= {
   init:init
@@ -70,18 +70,24 @@ async function build(projectName){
   //get addresses
 
   let scriptAddressRef = process.argv[1];
-  let scriptMidPoint = scriptAddressRef.lastIndexOf('\\');
+  while(scriptAddressRef.indexOf("\\") >=0){
+    scriptAddressRef = scriptAddressRef.replace("\\","/");
+  }
+  let scriptMidPoint = scriptAddressRef.lastIndexOf('/');
 
   //prod
-  let currentDirectory = process.cwd() + '\\';
-  let appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '\\build\\';
+  let currentDirectory = io.dir.cwd() + '/';
+  let appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '/build/';
 
-  //test
-  //let currentDirectory = process.cwd() + '\\akku\\';
-  //let appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '\\bin\\build\\';
+  while(currentDirectory.indexOf("\\") >=0){
+    currentDirectory = currentDirectory.replace("\\","/");
+  }
 
-  //console.log(currentDirectory);
-  //console.log(appDirectory);
+  let splint = currentDirectory.split("/");
+
+  if(splint[splint.length - 2] !== projectName){
+    currentDirectory += projectName + "/";
+  }
 
   //???????????????????????????
   //copy files
@@ -106,17 +112,18 @@ async function build(projectName){
     let fileLocation = appDirectory + files[i];
     let fileDestination = currentDirectory + files[i];
 
-    let copy = await fs.copy(fileLocation,fileDestination)
-    .then(()=>{
-      return true;
-    })
-    .catch((error)=>{
-      return false;
-    });
-
-    if(copy == false){
-      success = false;
-      failed.push(files[i]);
+    if(true){
+      let copy = await io.copy(fileLocation,fileDestination)
+      .then(()=>{
+        return true;
+      })
+      .catch((error)=>{
+        return false;
+      });
+      if(copy == false){
+        success = false;
+        failed.push(files[i]);
+      }
     }
 
   }

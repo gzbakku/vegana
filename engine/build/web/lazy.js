@@ -6,7 +6,7 @@
 //const baseWrite = './akku/js/pages/';
 
 //prod
-const currentDirectory = process.cwd() + '\\';
+const currentDirectory = process.cwd() + '/';
 const baseRead = currentDirectory + 'app';
 const baseWrite = currentDirectory + 'js';
 
@@ -20,7 +20,7 @@ async function getAllModules(){
 
   common.tell('fetching lazy modules');
 
-  let file_path = currentDirectory + '\\lazy.json';
+  let file_path = currentDirectory + '/lazy.json';
 
   let read = await io.readJson(file_path);
   if(read === false){
@@ -140,7 +140,7 @@ function getModuleAddress(type,parents){
 
   if(type == 'sass'){
 
-    let baseLocation = process.cwd() + '\\';
+    let baseLocation = process.cwd() + '/';
 
     if(!parents.name){
       return common.error('not_found-comp_parent_name');
@@ -150,8 +150,8 @@ function getModuleAddress(type,parents){
       return common.error('not_found-comp_parent_name');
     }
 
-    readLocation = baseLocation + 'sass\\' + parents.name + '.scss';
-    writeLocation = baseLocation + 'css\\' + parents.name + '.css';
+    readLocation = baseLocation + 'sass/' + parents.name + '.scss';
+    writeLocation = baseLocation + 'css/' + parents.name + '.css';
   }
 
   if(type == 'wasm'){
@@ -160,8 +160,8 @@ function getModuleAddress(type,parents){
       return common.error('not_found-global_comp_name');
     }
 
-    readLocation = baseRead + '\\wasm\\' + parents['wasm'];
-    writeLocation = baseWrite + '\\wasm\\' + parents['wasm'];
+    readLocation = baseRead + '/wasm/' + parents['wasm'];
+    writeLocation = baseWrite + '/wasm/' + parents['wasm'];
     app = parents['wasm'];
   }
 
@@ -171,8 +171,8 @@ function getModuleAddress(type,parents){
       return common.error('not_found-global_comp_name');
     }
 
-    readLocation = baseRead + '\\globals\\' + parents['global'] + '\\globalComp.js';
-    writeLocation = baseWrite + '\\globals\\' + parents['global'] + '\\globalComp.js';
+    readLocation = baseRead + '/globals/' + parents['global'] + '/globalComp.js';
+    writeLocation = baseWrite + '/globals/' + parents['global'] + '/globalComp.js';
   }
 
   if(type == 'page'){
@@ -181,8 +181,8 @@ function getModuleAddress(type,parents){
       return common.error('not_found-comp_parents_page');
     }
 
-    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\page.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/page.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/page.js';
   }
 
   if(type == 'cont'){
@@ -191,8 +191,8 @@ function getModuleAddress(type,parents){
       return common.error('not_found-comp_parents_page/cont');
     }
 
-    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
-    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
   }
 
   if(type == 'panel'){
@@ -201,8 +201,8 @@ function getModuleAddress(type,parents){
       return common.error('not_found-comp_parents_page/cont/panel');
     }
 
-    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
-    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
   }
 
   if(

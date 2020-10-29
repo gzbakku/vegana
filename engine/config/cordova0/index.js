@@ -17,7 +17,7 @@ async function init(base){
   //check cordova
 
   if(true){
-    const cordova_dir_path = io.dir.cwd() + '/cordova';
+    const cordova_dir_path = io.dir.cwd() + '\\cordova';
     if(await io.exists(cordova_dir_path)){
       await copy.copy_initiater();
       common.error('please remove all cordova artifacts if you want to redo the cordova config.');

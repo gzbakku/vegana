@@ -1,4 +1,4 @@
-const fs = require('fs-extra');
+// const fs = require('fs-extra');
 
 module.exports = {
 
@@ -13,27 +13,31 @@ module.exports = {
     let lazyPath = '';
 
     if(!base_dir){
-      let currentDirectory = process.cwd() + '\\';
+      let currentDirectory = io.dir.cwd() + '/';
+      while(currentDirectory.indexOf("\\") >= 0){
+        currentDirectory = currentDirectory.replace("\\","/");
+      }
+
       if(type !== 'sass'){
         if(!currentDirectory.match('app')){
           return common.error('invalid-project_directory');
         }
-        let locationArray = currentDirectory.split('\\');
+        let locationArray = currentDirectory.split('/');
         let appIndex = locationArray.indexOf('app');
         for(var i=0;i<appIndex;i++){
           let pathComp = locationArray[i];
-          lazyPath = lazyPath + pathComp + '\\';
+          lazyPath = lazyPath + pathComp + '/';
         }
         lazyPath = lazyPath + 'lazy.json';
       } else {
         if(!currentDirectory.match('sass')){
           return common.error('invalid-project_directory');
         }
-        let locationArray = currentDirectory.split('\\');
+        let locationArray = currentDirectory.split('/');
         let appIndex = locationArray.indexOf('sass') - 1;
         for(var i=0;i<=appIndex;i++){
           let pathComp = locationArray[i];
-          lazyPath = lazyPath + pathComp + '\\';
+          lazyPath = lazyPath + pathComp + '/';
         }
         lazyPath = lazyPath + 'lazy.json';
       }
@@ -41,15 +45,7 @@ module.exports = {
       lazyPath = base_dir + "lazy.json"
     }
 
-    let read = await fs.readFile(lazyPath,'utf-8')
-    .then((data)=>{
-      return data;
-    })
-    .catch((err)=>{
-        console.log(err);
-        return false;
-    });
-
+    let read = await io.read(lazyPath);
     if(read == false){
       return common.error('read lazy.json failed');
     }
@@ -115,15 +111,7 @@ module.exports = {
       }
     }
 
-    let write = await fs.writeFile(lazyPath,JSON.stringify(bool,null,2),'utf-8')
-    .then(()=>{
-      return true;
-    })
-    .catch((err)=>{
-      console.log(err);
-      return false;
-    });
-
+    let write = await io.write(lazyPath,JSON.stringify(bool,null,2));
     if(write == false){
       return common.error('write updated lazy.json failed');
     }

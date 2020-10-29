@@ -21,12 +21,12 @@ async function init(){
   //test
   //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
 
-  let currentDirectory = process.cwd() + '\\';
+  let currentDirectory = io.dir.cwd() + '/';
 
   //prod
   let
   readLocation = currentDirectory + 'compile.js',
-  writeLocation = currentDirectory + 'js\\bundle.js';
+  writeLocation = currentDirectory + 'js/bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
 
@@ -155,15 +155,15 @@ async function compile_wasm(locations){
   if(!run){return false;}
 
   let cwd = io.dir.cwd();
-  await io.dir.ensure(cwd + "\\js\\");
-  await io.dir.ensure(cwd + "\\js\\wasm\\");
-  await io.dir.ensure(cwd + "\\js\\wasm\\" + locations.app + "\\");
+  await io.dir.ensure(cwd + "/js/");
+  await io.dir.ensure(cwd + "/js/wasm/");
+  await io.dir.ensure(cwd + "/js/wasm/" + locations.app + "/");
 
   //*******************
   //copy wrapper
 
-  let from = app_dir + "\\pkg\\index.js"
-  let to = out_dir + "\\wrapper.js";
+  let from = app_dir + "/pkg/index.js"
+  let to = out_dir + "/wrapper.js";
 
   let read = await io.read(from);
   if(!read){
@@ -182,8 +182,8 @@ async function compile_wasm(locations){
   //*******************
   //copy wasm
 
-  from = app_dir + "\\pkg\\index_bg.wasm";
-  to = out_dir + "\\index.wasm";
+  from = app_dir + "/pkg/index_bg.wasm";
+  to = out_dir + "/index.wasm";
   let do_copy_wasm = await io.copy(from,to);
   if(!do_copy_wasm){
     return common.error("failed-do_copy_wasm-build");
@@ -197,7 +197,7 @@ async function bundle(){
 
   common.tell('compiling app');
 
-  let currentDirectory = process.cwd() + '\\';
+  let currentDirectory = process.cwd() + '/';
 
   //test
   //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
@@ -205,7 +205,7 @@ async function bundle(){
   //prod
   let
   readLocation = currentDirectory + 'compile.js',
-  writeLocation = currentDirectory + 'js\\bundle.js';
+  writeLocation = currentDirectory + 'js/bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
 
@@ -223,7 +223,7 @@ async function appModule(type,parents,name){
 
   let readLocation = null,writeLocation = null;
 
-  let currentDirectory = process.cwd() + "\\";
+  let currentDirectory = process.cwd() + "/";
 
   //test
   //let baseRead = './akku/app/pages/';
@@ -247,8 +247,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-global_comp_name');
     }
 
-    readLocation = baseRead + '\\globals\\' + parents['global'] + '\\globalComp.js';
-    writeLocation = baseWrite + '\\globals\\' + parents['global'] + '\\globalComp.js';
+    readLocation = baseRead + '/globals/' + parents['global'] + '/globalComp.js';
+    writeLocation = baseWrite + '/globals/' + parents['global'] + '/globalComp.js';
 
   }
 
@@ -258,8 +258,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-comp_parent_page');
     }
 
-    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\page.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/page.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/page.js';
   }
 
   if(type == 'cont'){
@@ -268,8 +268,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-comp_parent_page/cont');
     }
 
-    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
-    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
   }
 
   if(type == 'panel'){
@@ -278,8 +278,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-comp_parent_page/cont/panel');
     }
 
-    readLocation = baseRead + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
-    writeLocation = baseWrite + '\\pages\\' + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
   }
 
   if(
@@ -322,14 +322,19 @@ async function compile(readLocation,writeLocation){
 }
 
 async function makeBaseDir(path){
-  let array = path.split('\\');
+  if(path){
+    while(path.indexOf("\\") >= 0){
+      path = path.replace("\\","/");
+    }
+  }
+  let array = path.split('/');
   let location = null;
   for(var i=0;i<array.length - 1;i++){
     let key = array[i];
     if(location == null){
       location = key;
     } else {
-      location = location + '\\' + key;
+      location = location + '/' + key;
     }
   }
   shell.mkdir('-p',location);

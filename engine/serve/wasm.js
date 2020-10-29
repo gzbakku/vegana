@@ -8,7 +8,7 @@ async function recompile(parents){
   common.tell("recompiling wasm module : " + parents.wasm);
 
   const cwd = process.cwd();
-  let module_dir = cwd + '\\app\\wasm\\' + parents.wasm;
+  let module_dir = cwd + '/app/wasm/' + parents.wasm;
   let script = 'wasm-pack build ' + module_dir + ' --target no-modules --out-name index';
 
   const run = await cmd.run(script)
@@ -22,21 +22,21 @@ async function recompile(parents){
 
   if(!run){return false;}
 
-  await io.dir.ensure(cwd + "\\js\\");
-  await io.dir.ensure(cwd + "\\js\\wasm\\");
-  await io.dir.ensure(cwd + "\\js\\wasm\\" + parents.wasm + "\\");
+  await io.dir.ensure(cwd + "/js/");
+  await io.dir.ensure(cwd + "/js/wasm/");
+  await io.dir.ensure(cwd + "/js/wasm/" + parents.wasm + "/");
 
   //********************
   //copy wrapper
 
-  let from = module_dir + "\\pkg\\index.js"
-  let to = cwd + "\\js\\wasm\\" + parents.wasm + "\\wrapper.js";
+  let from = module_dir + "/pkg/index.js"
+  let to = cwd + "/js/wasm/" + parents.wasm + "/wrapper.js";
 
   let read = await io.read(from);
   if(!read){
     return common.error("failed-read_wasm_wrapper-build");;
   }
-  
+
   let custom_was_controller = parents.wasm + '_wasm_controller';
   read = read.replace("wasm_bindgen = Object.assign(init, __exports);",custom_was_controller +" = Object.assign(init, __exports);");
   read = read.replace("let wasm_bindgen;","let " + custom_was_controller + ";");
@@ -49,8 +49,8 @@ async function recompile(parents){
   //*******************
   //copy wasm
 
-  from = module_dir + "\\pkg\\index_bg.wasm";
-  to = cwd + "\\js\\wasm\\" + parents.wasm + "\\index.wasm";
+  from = module_dir + "/pkg/index_bg.wasm";
+  to = cwd + "/js/wasm/" + parents.wasm + "/index.wasm";
   let do_copy_wasm = await io.copy(from,to);
   if(!do_copy_wasm){
     return common.error("failed-do_copy_wasm-build");
@@ -71,8 +71,8 @@ async function wasm_old(parents){
   common.tell("compiling wasm project");
 
   const cwd = process.cwd();
-  let app_dir = cwd + '\\app\\wasm\\' + parents.wasm;
-  let out_dir = cwd + '\\js\\wasm\\' + parents.wasm;
+  let app_dir = cwd + '/app/wasm/' + parents.wasm;
+  let out_dir = cwd + '/js/wasm/' + parents.wasm;
   let script = 'wasm-pack build ' + app_dir + ' --out-dir ' + out_dir + ' --target web';
 
   const run = await cmd.run(script)
@@ -87,7 +87,7 @@ async function wasm_old(parents){
   if(!run){return false;}
 
   //read file
-  let file_path = out_dir + "\\" + parents.wasm + "_bg.js"
+  let file_path = out_dir + "/" + parents.wasm + "_bg.js"
   let read = await io.read(file_path);
   if(!read){
     return common.error("failed-read-wasm_js_controller-compile_wasm_module");

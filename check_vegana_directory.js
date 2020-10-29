@@ -1,12 +1,12 @@
-const fs = require('fs-extra');
-const common = require('../../common');
+// const fs = require('fs-extra');
+// const common = require('../../common');
 
 async function init(){
 
   common.tell('checking app files');
 
   //prod
-  let currentDirectory = process.cwd() + '\\';
+  let currentDirectory = io.dir.cwd() + '\\';
 
   //test
   //let currentDirectory = process.cwd() + '\\akku\\';
@@ -16,35 +16,23 @@ async function init(){
     'compile.js',
     'lazy.json',
     'css',
-    'css\\master.css',
     'sass',
-    'sass\\master.scss',
+    'sass/master.scss',
     'js',
-    'js\\bundle.js',
     'app',
-    'app\\index.js'
+    'app/index.js'
   ];
 
   let success = true;
   let failed = [];
 
   for(var i=0;i<files.length;i++){
-
     let location = currentDirectory + files[i];
-
-    let check = await fs.access(location,fs.constants.F_OK)
-    .then(()=>{
-      return true;
-    })
-    .catch((err)=>{
-      return common.error(err);
-    });
-
+    let check = await io.exists(location);
     if(check == false){
       success = false;
       failed.push(files[i]);
     }
-
   }
 
   if(success == false){

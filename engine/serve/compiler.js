@@ -271,14 +271,23 @@ async function compile(readLocation,writeLocation){
 }
 
 async function makeBaseDir(path){
-  let array = path.split('\\');
+
+  let splitter = '\\';
+  if(path.indexOf("/") >= 0){
+    while(path.indexOf("\\") >= 0){
+      path = path.replace("\\","/");
+    }
+    splitter = '/';
+  }
+
+  let array = path.split(splitter);
   let location = null;
   for(var i=0;i<array.length - 1;i++){
     let key = array[i];
     if(location == null){
       location = key;
     } else {
-      location = location + '\\' + key;
+      location = location + '/' + key;
     }
   }
   //console.log(location);

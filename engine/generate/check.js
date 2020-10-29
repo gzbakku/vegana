@@ -7,16 +7,15 @@ module.exports = {
 
     common.tell('checking container directory');
 
-    //let currentDirectory = process.cwd() + '\\akku\\';  //test address
-    let currentDirectory = process.cwd() + '\\';
+    let currentDirectory = process.cwd() + '/';
 
     let containerBank = {
-      page:'pages\\',
-      cont:'conts\\',
-      comp:'comps\\',
-      globalComp:'globals\\',
-      panel:'panels\\',
-      wasm:'wasm\\',
+      page:'pages/',
+      cont:'conts/',
+      comp:'comps/',
+      globalComp:'globals/',
+      panel:'panels/',
+      wasm:'wasm/',
       sass:''
     };
 
@@ -36,7 +35,7 @@ module.exports = {
     if(type == 'sass'){
       compLocation = currentDirectory;
     } else {
-      compLocation = containerLocation + name + containerTag[type] + '\\';
+      compLocation = containerLocation + name + containerTag[type] + '/';
     }
 
     //check comp parents
@@ -132,9 +131,18 @@ async function makeCompDirectory(compLocation){
 
 async function checkCompParents(type,location){
 
+  let splitter = '\\';
+  if(location.indexOf("/") >= 0){
+    while(location.indexOf("\\") >= 0){
+      location = location.replace("\\","/");
+    }
+    splitter = '/';
+  }
+
+  let locationArray = location.split(splitter);
+
   if(type == 'sass'){
 
-    let locationArray = location.split("\\");
     if(locationArray.indexOf('sass') < 0){
       return common.error('not_found-sass_directory');
     }
@@ -149,7 +157,6 @@ async function checkCompParents(type,location){
 
   if(type == 'panel'){
 
-    let locationArray = location.split("\\");
     if(
       locationArray.indexOf('app') < 0 ||
       locationArray.indexOf('pages') < 0 ||
@@ -171,7 +178,6 @@ async function checkCompParents(type,location){
 
   if(type == 'cont'){
 
-    let locationArray = location.split("\\");
     if(
       locationArray.indexOf('app') < 0 ||
       locationArray.indexOf('pages') < 0
@@ -192,7 +198,6 @@ async function checkCompParents(type,location){
 
   if(type == 'page'){
 
-    let locationArray = location.split("\\");
     if(locationArray.indexOf('app') < 0){
       return common.error('not_found-app_directory');
     }
@@ -215,7 +220,6 @@ async function checkCompParents(type,location){
 
   if(type == 'globalComp'){
 
-    let locationArray = location.split("\\");
     if(
       locationArray.indexOf('app') < 0 ||
       locationArray.indexOf('pages') > 0 ||
@@ -238,7 +242,7 @@ async function checkCompParents(type,location){
 
   if(type == 'wasm'){
 
-    let locationArray = location.split("\\");
+    let locationArray = location.split(splitter);
     if(
       locationArray.indexOf('app') < 0 ||
       locationArray.indexOf('wasm') < 0

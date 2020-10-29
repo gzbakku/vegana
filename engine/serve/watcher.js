@@ -11,6 +11,9 @@ function getDirectoryType(path){
 
   //common.tell('fetching module type');
 
+  if(path.match('sass')){
+    return 'sass';
+  }
   if(path.match(".scss")){
     return "scss";
   }
@@ -42,9 +45,6 @@ function getDirectoryType(path){
   if(path.match('pages')){
     return 'page';
   }
-  if(path.match('sass')){
-    return 'sass';
-  }
   if(path.match('comp')){
     return 'comp';
   }
@@ -62,11 +62,16 @@ function getDirectoryType(path){
 
 function getParents(type,location){
 
+  let splitter = '\\';
+  if(location.indexOf("/") >= 0){
+    splitter = '/';
+  }
+
   //common.tell('getting module parent doms');
 
   if(type === 'wasm'){
 
-    let locationArray = location.split("\\");
+    let locationArray = location.split(splitter);
     if(locationArray.indexOf('wasm') < 0){
       return common.error('not_found-app/wasm=>directory');
     }
@@ -89,7 +94,7 @@ function getParents(type,location){
 
   if(type == 'global'){
 
-    let locationArray = location.split("\\");
+    let locationArray = location.split(splitter);
     if(locationArray.indexOf('app') < 0){
       return common.error('not_found-app/pages/conts||directory');
     }
@@ -108,7 +113,7 @@ function getParents(type,location){
 
   if(type == 'panel'){
 
-    let locationArray = location.split("\\");
+    let locationArray = location.split(splitter);
     if(
       locationArray.indexOf('app') < 0 ||
       locationArray.indexOf('pages') < 0 ||
@@ -133,7 +138,7 @@ function getParents(type,location){
 
   if(type == 'sass'){
 
-    let locationArray = location.split("\\");
+    let locationArray = location.split(splitter);
     let nameString = locationArray[locationArray.indexOf('sass') + 1];
     let name = nameString.split('.')[0];
 
@@ -163,7 +168,7 @@ function getParents(type,location){
 
   if(type == 'cont'){
 
-    let locationArray = location.split("\\");
+    let locationArray = location.split(splitter);
     if(
       locationArray.indexOf('app') < 0 ||
       locationArray.indexOf('pages') < 0
@@ -186,7 +191,7 @@ function getParents(type,location){
 
   if(type == 'page'){
 
-    let locationArray = location.split("\\");
+    let locationArray = location.split(splitter);
     if(locationArray.indexOf('app') < 0){
       return common.error('not_found-app_directory');
     }
@@ -322,7 +327,7 @@ async function init(){
   //let currentDirectory = process.cwd() + '\\akku\\';
 
   //prod
-  let currentDirectory = process.cwd() + '\\';
+  let currentDirectory = process.cwd() + '/';
 
   console.log('>>> fetching lazy.json');
 
@@ -357,7 +362,7 @@ async function init(){
 
   //watch bundle.js
 
-  let location_bundle = currentDirectory + 'app\\';
+  let location_bundle = currentDirectory + 'app/';
 
   chokidar.watch(location_bundle)
   .on('change',async (path)=>{
@@ -406,7 +411,7 @@ async function init(){
 
   //watch master.css
 
-  let location_sass = currentDirectory + 'sass\\';
+  let location_sass = currentDirectory + 'sass/';
 
   chokidar.watch(location_sass)
   .on('change',async (path)=>{
@@ -424,7 +429,7 @@ async function init(){
 
   //css
 
-  let location_css = currentDirectory + 'css\\';
+  let location_css = currentDirectory + 'css/';
 
   chokidar.watch(location_css)
   .on('change',async (path)=>{
@@ -434,7 +439,7 @@ async function init(){
 
   //assets
 
-  let location_assets = currentDirectory + 'assets\\';
+  let location_assets = currentDirectory + 'assets/';
 
   chokidar.watch(location_assets)
   .on('change',async (path)=>{
@@ -444,7 +449,7 @@ async function init(){
 
   //node_modules
 
-  let location_node_modules = currentDirectory + 'node_modules\\';
+  let location_node_modules = currentDirectory + 'node_modules/';
 
   chokidar.watch(location_node_modules)
   .on('change',async (path)=>{
@@ -455,7 +460,7 @@ async function init(){
 
   //vega
 
-  let location_vega = currentDirectory + 'vega\\';
+  let location_vega = currentDirectory + 'vega/';
 
   chokidar.watch(location_vega)
   .on('change',async (path)=>{

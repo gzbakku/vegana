@@ -4,7 +4,7 @@ async function init(){
 
   common.tell('processing built files for cordova');
 
-  const currentDirectory = io.dir.cwd() + '/';
+  const currentDirectory = process.cwd() + '\\';
   const dirs = [
     'js',
     'css',
@@ -14,8 +14,8 @@ async function init(){
   if(true){
     let control = true;
     for(let dir of dirs){
-      let from = currentDirectory + 'build/' + dir;
-      let to = currentDirectory + 'cordova/www/' + dir;
+      let from = currentDirectory + 'build\\' + dir;
+      let to = currentDirectory + 'cordova\\www\\' + dir;
       //console.log({from:from,to:to});
       let work = await io.copy(from,to);
       if(!work){
@@ -42,11 +42,13 @@ async function init(){
 
 async function copy_initiater(){
 
-  let appDirectory = io.dir.app() + "/";
-  let currentDirectory = io.dir.cwd() + "/";
+  const scriptAddressRef = process.argv[1];
+  const scriptMidPoint = scriptAddressRef.lastIndexOf('\\');
+  const appDirectory = scriptAddressRef.substring(0,scriptMidPoint)  + '\\';
+  const currentDirectory = process.cwd() + '\\';
 
-  const bin_path = appDirectory + 'cordova/run.js'
-  const cordova_path = currentDirectory + 'cordova/run.js';
+  const bin_path = appDirectory + 'cordova\\run.js'
+  const cordova_path = currentDirectory + 'cordova\\run.js';
 
   let do_copy = await io.copy(bin_path,cordova_path);
   if(!do_copy){

@@ -2,6 +2,8 @@ const fs = require('fs-extra');
 
 module.exports = async (name,container)=>{
 
+  console.log(container);
+
   process.chdir(container);
 
   common.tell("creating a new cargo project");

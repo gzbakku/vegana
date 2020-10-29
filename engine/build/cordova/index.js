@@ -2,7 +2,7 @@ module.exports = {
 
   init: async ()=>{
 
-    common.tell('initiating run cordova');
+    common.tell('initiating cordova build');
 
     const build_it = await build_api.init();
     if(!build_it){
@@ -28,6 +28,6 @@ module.exports = {
 async function run_cordova(){
   let cordova_path = process.cwd() + '/cordova';
   process.chdir(cordova_path);
-  const run = await cmd.run("cordova run ");
+  const run = await cmd.run("cordova build ");
   console.log(run);
 }

@@ -10,8 +10,8 @@ module.exports = {
 
       console.log('>>> master sass compiler started');
 
-      let currentDirectory = process.cwd() + '\\sass\\master.scss';
-      let targetDirectory = process.cwd() + '\\css\\master.css';
+      let currentDirectory = process.cwd() + '/sass/master.scss';
+      let targetDirectory = process.cwd() + '/css/master.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)
@@ -30,8 +30,8 @@ module.exports = {
 
       common.tell('compiling master.scss');
 
-      let currentDirectory = process.cwd() + '\\sass\\master.scss';
-      let targetDirectory = process.cwd() + '\\css\\master.css';
+      let currentDirectory = process.cwd() + '/sass/master.scss';
+      let targetDirectory = process.cwd() + '/css/master.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)
@@ -49,8 +49,8 @@ module.exports = {
 
       common.tell('compiling lazy-sass');
 
-      let currentDirectory = process.cwd() + '\\sass\\' + name + '.scss';
-      let targetDirectory = process.cwd() + '\\css\\' + name + '.css';
+      let currentDirectory = process.cwd() + '/sass/' + name + '.scss';
+      let targetDirectory = process.cwd() + '/css/' + name + '.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)

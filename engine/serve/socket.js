@@ -61,7 +61,7 @@ async function start_cordova_hold(){
     return common.error("failed-do_copy_build_to_cordova")
   }
 
-  let path = process.cwd() + "\\cordova\\run.js";
+  let path = process.cwd() + "/cordova/run.js";
   let script = 'node ' + path;
   const run = await cmd.run(script)
   .then((data)=>{
