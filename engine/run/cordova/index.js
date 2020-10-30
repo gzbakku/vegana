@@ -4,7 +4,7 @@ module.exports = {
 
     common.tell('initiating run cordova');
 
-    const build_it = await build_api.init();
+    const build_it = await build_api.init('',true);
     if(!build_it){
       return common.error('failed-build_app');
     }

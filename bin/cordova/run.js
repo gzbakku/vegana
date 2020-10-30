@@ -26,7 +26,7 @@ function execute(cmd){
       reject('invalid_cmd');
     }
 
-    exec(cmd,(err, stdout, stderr)=>{
+    const runner = exec(cmd,(err, stdout, stderr)=>{
       if(err){
         //console.log(err);
         reject(err);
@@ -40,6 +40,8 @@ function execute(cmd){
         resolve(stdout);
       }
     });
+
+    runner.stdout.pipe(process.stdout);
 
   });
 

@@ -15,6 +15,7 @@ global.cmd = require('./cmd_mod');
 global.io = require('./io');
 global.build_api = require("./engine/build/web/index");
 global.build_electron = require("./engine/electron/build/index");
+global.config_electron = require("./engine/electron/config/index");
 global.copy_build_to_cordova = require('./copy_build_to_cordova');
 global.input = require('input');
 global.check_vegana_directory = require("./check_vegana_directory");

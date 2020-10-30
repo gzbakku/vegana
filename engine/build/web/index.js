@@ -6,18 +6,20 @@ const copy = require('./copy');
 const make = require('./make');
 const get_base = require('./get_base');
 
-async function init(base){
+async function init(base,no_base){
 
   let help_message = 'base directory is the location where you store the vegana project files for example if the index is available at https://vegana.js/website1 please provide https://vegana.js/website1 as the base directory.';
 
-  if(!base){
-    base = await get_base.init();
-  }
-  if(!base){
-    if(await input.confirm("do you need help with base directory")){
-      return common.info(help_message);
+  if(!no_base){
+    if(!base){
+      base = await get_base.init();
     }
-    base = await input.text("please give a base directory where the vegana app will be available");
+    if(!base){
+      if(await input.confirm("do you need help with base directory")){
+        return common.info(help_message);
+      }
+      base = await input.text("please give a base directory where the vegana app will be available");
+    }
   }
 
   common.tell('build initiated');

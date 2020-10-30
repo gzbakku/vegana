@@ -33,7 +33,7 @@ async function init(projectName,location){
 
   //make the dir
   const projectDir = io.dir.cwd() + "/" + projectName;
-  if(await io.exists(projectDir) && false){
+  if(await io.exists(projectDir) && true){
     spinner.stop();
     return common.error("Directory with this project name already exists at location => " + projectDir);
   } else {

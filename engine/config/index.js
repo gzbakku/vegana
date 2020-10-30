@@ -1,4 +1,3 @@
-const check = require('./check');
 const cordova = require('./cordova/index');
 const wasm = require('./wasm/index');
 const git = require('./git.js');
@@ -13,7 +12,7 @@ async function init(platform){
 
   //check the files
 
-  let doCheck = await check.init();
+  let doCheck = await check_vegana_directory.init();
   if(doCheck == false){
     return common.error('check failed');
   }
@@ -29,7 +28,8 @@ async function init(platform){
   }
 
   if(platform === 'electron'){
-    return common.tell("please use the updated config api in the electron section => $$ \"vegana electron config\" $$");
+    common.info("please use the updated config api in the electron section => $$ \"vegana electron config\" $$");
+    return config_electron.init();
   } else
   if(platform === 'wasm'){
     return wasm.init();

@@ -137,7 +137,7 @@ global.start_cordova = start_cordova;
 //enter button reload happens in socket
 async function start_cordova(){
   common.tell("serving cordova");
-  const do_build_api = await build_api.init();
+  const do_build_api = await build_api.init('',true);
   if(!do_build_api){
     return common.error("failed-do_build_api")
   }
@@ -149,7 +149,7 @@ async function start_cordova(){
   let script = 'node ' + path;
   const run = await cmd.run(script)
   .then((data)=>{
-    console.log(data);
+    // console.log(data);
   })
   .catch((error)=>{
     common.error(error);

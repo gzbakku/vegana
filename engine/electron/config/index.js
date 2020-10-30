@@ -21,8 +21,6 @@ async function init(base){
     }
   }
 
-  console.log();
-
   common.tell("you can now start developing the app by serveing the electron app in dev mode by command ");
   common.tell("$ vegana serve electron");
   common.tell("you have to press enter if you want to reset the electron app");

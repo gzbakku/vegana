@@ -15,7 +15,6 @@ module.exports = {
       'js',
       'assets',
       'sass',
-      '.gitignore'
     ];
 
     let success = true;
@@ -31,6 +30,13 @@ module.exports = {
     if(!success){
       common.error('something went wrong while building project');
       return common.error('please remove all the contents from the folder and try again');
+    }
+
+    if(true){
+      let gitignore_base_location = io.dir.app() + "/" + "_gitignore";
+      let gitignore_dest_location = projectDir + "/" + ".gitignore";
+      let copy_gitignore = await io.copy(gitignore_base_location,gitignore_dest_location);
+      if(!copy_gitignore){return common.error("failed-config-gitignore");}
     }
 
     return true;

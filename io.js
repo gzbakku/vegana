@@ -12,8 +12,15 @@ module.exports = {
     },
     app:()=>{
       let scriptAddressRef = process.argv[1];
-      let scriptMidPoint = scriptAddressRef.lastIndexOf('\\');
-      return scriptAddressRef.substring(0,scriptMidPoint);
+      if(scriptAddressRef.length === 0){return '';}
+      while(scriptAddressRef.indexOf("\\") >= 0){
+        scriptAddressRef = scriptAddressRef.replace('\\','/');
+      }
+      let scriptMidPoint = scriptAddressRef.lastIndexOf("/");
+      let clean = scriptAddressRef.substring(0,scriptMidPoint);
+      let hold = clean.split("/");
+      if(hold[hold.length - 1] !== "bin"){clean += "/bin";}
+      return clean;
     },
     ensure:async (location)=>{
       // if(await io.exists(location)){
