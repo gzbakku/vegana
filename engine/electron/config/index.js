@@ -1,4 +1,5 @@
 const copy = require('./copy');
+const edit = require('./edit');
 const install = require('./install');
 
 async function init(base){
@@ -18,6 +19,13 @@ async function init(base){
     const do_copy = await copy.init();
     if(!do_copy){
       return common.error('failed-copy_electron_files');
+    }
+  }
+
+  if(true){
+    const do_edit = await edit.init();
+    if(!do_edit){
+      common.error('failed-do_edit');
     }
   }
 
