@@ -22,12 +22,12 @@ async function init(){
   //test
   //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
 
-  let currentDirectory = io.dir.cwd();
+  let currentDirectory = process.cwd() + '\\';
 
   //prod
   let
-  readLocation = currentDirectory + '/compile.js',
-  writeLocation = currentDirectory + '/js/bundle.js';
+  readLocation = currentDirectory + 'compile.js',
+  writeLocation = currentDirectory + 'js\\bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
   if(doCompile == false){
@@ -141,7 +141,7 @@ async function bundle(){
 
   common.tell('compiling app');
 
-  let currentDirectory = io.dir.cwd() + '/';
+  let currentDirectory = process.cwd() + '\\';
 
   //test
   //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
@@ -149,7 +149,7 @@ async function bundle(){
   //prod
   let
   readLocation = currentDirectory + 'compile.js',
-  writeLocation = currentDirectory + 'js/bundle.js';
+  writeLocation = currentDirectory + 'js\\bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
   if(doCompile == false){
@@ -166,15 +166,15 @@ async function appModule(type,parents,name){
 
   let readLocation = null,writeLocation = null;
 
-  let currentDirectory = io.dir.cwd() + "/";
+  let currentDirectory = process.cwd() + "\\";
 
   //test
   //let baseRead = './akku/app/pages/';
   //let baseWrite = './akku/js/pages/';
 
   //prod
-  let baseRead = currentDirectory + 'app/';
-  let baseWrite = currentDirectory + 'js/';
+  let baseRead = currentDirectory + 'app\\';
+  let baseWrite = currentDirectory + 'js\\';
 
   if(
     parents.hasOwnProperty('page') == false ||
@@ -190,8 +190,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-comp_parent_page');
     }
 
-    readLocation = baseRead + 'pages/' + parents['page'] + '/page.js';
-    writeLocation = baseWrite + 'pages/'  + parents['page'] + '/page.js';
+    readLocation = baseRead + 'pages\\' + parents['page'] + '\\page.js';
+    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\page.js';
   }
   if(type == 'page'){
 
@@ -199,8 +199,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-comp_parent_page');
     }
 
-    readLocation = baseRead + 'pages/'  + parents['page'] + '/page.js';
-    writeLocation = baseWrite + 'pages/'  + parents['page'] + '/page.js';
+    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\page.js';
+    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\page.js';
   }
   if(type == 'cont'){
 
@@ -208,8 +208,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-comp_parent_page/cont');
     }
 
-    readLocation = baseRead + 'pages/'  + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
-    writeLocation = baseWrite + 'pages/'  + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
+    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
   }
   if(type == 'panel'){
 
@@ -217,8 +217,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-comp_parent_page/cont/panel');
     }
 
-    readLocation = baseRead + 'pages/'  + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
-    writeLocation = baseWrite + 'pages/'  + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
+    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
+    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
   }
 
   if(type == 'global'){
@@ -227,8 +227,8 @@ async function appModule(type,parents,name){
       return common.error('not_found-global_comp');
     }
 
-    readLocation = baseRead + 'globals/'  + parents['global'] + '/globalComp.js';
-    writeLocation = baseWrite + 'globals/'  + parents['global'] + '/globalComp.js';
+    readLocation = baseRead + 'globals\\'  + parents['global'] + '\\globalComp.js';
+    writeLocation = baseWrite + 'globals\\'  + parents['global'] + '\\globalComp.js';
   }
 
   if(
@@ -272,11 +272,15 @@ async function compile(readLocation,writeLocation){
 
 async function makeBaseDir(path){
 
-  while(path.indexOf("\\") >= 0){
-    path = path.replace("\\","/");
+  let splitter = '\\';
+  if(path.indexOf("/") >= 0){
+    while(path.indexOf("\\") >= 0){
+      path = path.replace("\\","/");
+    }
+    splitter = '/';
   }
 
-  let array = path.split("/");
+  let array = path.split(splitter);
   let location = null;
   for(var i=0;i<array.length - 1;i++){
     let key = array[i];
