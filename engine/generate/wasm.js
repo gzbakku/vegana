@@ -1,8 +1,12 @@
-const fs = require('fs-extra');
-
 module.exports = async (name,container)=>{
 
-  console.log(container);
+  if(!await io.exists(container)){
+    await io.dir.ensure(container);
+  }
+
+  if(await io.exists(container + "/" + name)){
+    return common.error("folder with same name already exists in wasm folder please choose a diffrent name or delete that folder.");
+  }
 
   process.chdir(container);
 
@@ -58,97 +62,38 @@ module.exports = async (name,container)=>{
 }
 
 async function remove_git(name,container){
-
-  let cwd = container;
-  let path = cwd + "\\" + name + "\\";
+  let path = container + "/" + name + "/";
   let git_dir_path = path + ".git";
   let git_file_path =  path + ".gitignore";
-
-  const remove_dir = await fs.remove(git_dir_path)
-  .then(()=>{
-    return true;
-  })
-  .catch((err)=>{
-    common.error(err);
-    return common.error("failed-remove_dir-remove_git");
-  });
-
-  if(!remove_dir){
-    return false;
+  if(await io.exists(git_dir_path)){
+    if(!await io.delete(git_dir_path)){
+      return common.error("failed-remove_dir-remove_git");
+    }
   }
-
-  const remove_file = await fs.remove(git_file_path)
-  .then(()=>{
-    return true;
-  })
-  .catch((err)=>{
-    common.error(err);
-    return common.error("failed-remove_file-remove_git");
-  });
-
-  if(!remove_file){
-    return false;
+  if(await io.exists(git_file_path)){
+    if(!await io.delete(git_file_path)){
+      return common.error("failed-remove_file-remove_git");
+    }
   }
-
   return true;
-
 }
 
 async function lazify(name){
-
-  let currentDirectory = process.cwd() + '\\';
-  let lazyPath = '';
-
-  if(!currentDirectory.match('app')){
-    return common.error('invalid-project_directory');
+  let readJson = await io.lazy.read();
+  if(!readJson.wasm){
+    readJson.wasm = [];
   }
-
-  let locationArray = currentDirectory.split('\\');
-
-  let appIndex = locationArray.indexOf('app');
-
-  for(var i=0;i<appIndex;i++){
-    let pathComp = locationArray[i];
-    lazyPath = lazyPath + pathComp + '\\';
-  }
-
-  lazyPath = lazyPath + 'lazy.json';
-
-  let read = await fs.readFile(lazyPath,'utf-8')
-  .then((data)=>{
-    return data;
-  })
-  .catch((err)=>{
-      console.log(err);
-      return false;
-  });
-
-  let bool = JSON.parse(read);
-  if(!bool.wasm){
-    bool.wasm = [name];
-  } else {
-    bool.wasm.push(name);
-  }
-
-  let write = await fs.writeFile(lazyPath,JSON.stringify(bool,null,2),'utf-8')
-  .then(()=>{
-    return true;
-  })
-  .catch((err)=>{
-    console.log(err);
+  if(readJson.wasm.indexOf(name) < 0){
+    readJson.wasm.push(name);
+  } else {return true;}
+  if(!await io.lazy.write(readJson)){
     return false;
-  });
-
-  if(write == false){
-    return common.error('write updated lazy.json failed');
-  }
-
-  return true;
-
+  } else {return true;}
 }
 
 async function copy_wrapper(name,container){
-  const from = io.dir.app() + '/wasm/wrapper.js'
+  let from = await io.dir.app();
+  from += '/wasm/wrapper.js';
   const to = container + '/' + name + "/wrapper.js"
   let do_copy = await io.copy(from,to);
   if(!do_copy){

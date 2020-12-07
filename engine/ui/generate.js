@@ -50,7 +50,7 @@ module.exports = {
 
     const lib_dir = ui_dir + "/" + uiLib;
     const comp_dir = lib_dir + "/" + compName;
-    const bin_dir = io.dir.app();
+    const bin_dir = await io.dir.app();
 
     if(await io.exists(comp_dir)){
       return common.error("comp with this name already exists in the ui lib.");

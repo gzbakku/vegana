@@ -4,7 +4,7 @@ module.exports = {
 
     common.tell('initiating cordova build');
 
-    const build_it = await build_api.init();
+    const build_it = await build_api.init('',true);
     if(!build_it){
       return common.error('failed-build_app');
     }
@@ -26,7 +26,7 @@ module.exports = {
 };
 
 async function run_cordova(){
-  let cordova_path = process.cwd() + '/cordova';
+  let cordova_path = io.dir.cwd() + '/cordova';
   process.chdir(cordova_path);
   const run = await cmd.run("cordova build ");
   console.log(run);

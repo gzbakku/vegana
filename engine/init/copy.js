@@ -18,9 +18,11 @@ module.exports = {
     ];
 
     let success = true;
-    let appDirectory = io.dir.app() + "/build/";
+    let appDirectory = await io.dir.app();
+    // return false;
+
     for(var file of files){
-      let fileLocation = appDirectory + file;
+      let fileLocation = appDirectory + "/build/" + file;
       let fileDestination = projectDir + "/" + file;
       if(true){
         let copy = await io.copy(fileLocation,fileDestination);
@@ -33,8 +35,8 @@ module.exports = {
     }
 
     if(true){
-      let gitignore_base_location = io.dir.app() + "/" + "_gitignore";
-      let gitignore_dest_location = projectDir + "/" + ".gitignore";
+      let gitignore_base_location = appDirectory + "/_gitignore";
+      let gitignore_dest_location = projectDir + "/.gitignore";
       let copy_gitignore = await io.copy(gitignore_base_location,gitignore_dest_location);
       if(!copy_gitignore){return common.error("failed-config-gitignore");}
     }

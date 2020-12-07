@@ -6,55 +6,12 @@ module.exports = {
 
     common.tell('generating lazy address for compiler');
 
-    if(laziness == false || !laziness){
-      return true;
-    }
+    if(laziness == false || !laziness){return true;}
 
-    let lazyPath = '';
-
-    if(!base_dir){
-      let currentDirectory = io.dir.cwd() + '/';
-      while(currentDirectory.indexOf("\\") >= 0){
-        currentDirectory = currentDirectory.replace("\\","/");
-      }
-
-      if(type !== 'sass'){
-        if(!currentDirectory.match('app')){
-          return common.error('invalid-project_directory');
-        }
-        let locationArray = currentDirectory.split('/');
-        let appIndex = locationArray.indexOf('app');
-        for(var i=0;i<appIndex;i++){
-          let pathComp = locationArray[i];
-          lazyPath = lazyPath + pathComp + '/';
-        }
-        lazyPath = lazyPath + 'lazy.json';
-      } else {
-        if(!currentDirectory.match('sass')){
-          return common.error('invalid-project_directory');
-        }
-        let locationArray = currentDirectory.split('/');
-        let appIndex = locationArray.indexOf('sass') - 1;
-        for(var i=0;i<=appIndex;i++){
-          let pathComp = locationArray[i];
-          lazyPath = lazyPath + pathComp + '/';
-        }
-        lazyPath = lazyPath + 'lazy.json';
-      }
-    } else {
-      lazyPath = base_dir + "lazy.json"
-    }
-
-    let read = await io.read(lazyPath);
-    if(read == false){
+    let bool = await io.lazy.read();
+    if(!bool){
       return common.error('read lazy.json failed');
     }
-
-    if(!JSON.parse(read)){
-      return common.error('invalid/corrupt-lazy.json');
-    }
-
-    let bool = JSON.parse(read);
 
     //do sass
     if(type == 'sass'){
@@ -111,12 +68,9 @@ module.exports = {
       }
     }
 
-    let write = await io.write(lazyPath,JSON.stringify(bool,null,2));
-    if(write == false){
-      return common.error('write updated lazy.json failed');
-    }
-
-    return true;
+    if(!io.lazy.write(bool)){
+      return common.error("failed-update_lazy_list-add_module_to_lazy_list");
+    } else {return true;}
 
   }
 

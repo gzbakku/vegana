@@ -11,7 +11,7 @@ async function init(type,name,laziness){
     no_name = true;
     name = await input.text("please provide a valid name for this module");
   }
-  if(no_type || no_name){
+  if((no_type || no_name) && type !== "wasm"){
     is_lazy = await input.select("is this module lazy?",['no','yes']);
     if(is_lazy === "yes"){laziness = "--lazy"}
   }

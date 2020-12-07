@@ -4,7 +4,8 @@ module.exports = {init:init};
 
 async function init(){
 
-  const from = io.dir.app() + "/_gitignore";
+  let from = await io.dir.app();
+  from += "/_gitignore";
   const to = io.dir.cwd() + "/.gitignore";
 
   const do_copy = await io.copy(from,to);

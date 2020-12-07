@@ -5,7 +5,8 @@ async function init(){
   common.tell('processing built files');
 
   let currentDirectory = io.dir.cwd();
-  let appDirectory = io.dir.app() + "/electron";
+  let appDirectory = await io.dir.app();
+  appDirectory += "/electron";
 
   let files = [
     'electric.html',
@@ -30,14 +31,14 @@ async function init(){
 
 }
 
-async function copy(from,to){
-
-  return fs.copy(from,to)
-  .then(()=>{
-    return true;
-  })
-  .catch((error)=>{
-    return common.error(error);
-  });
-
-}
+// async function copy(from,to){
+//
+//   return fs.copy(from,to)
+//   .then(()=>{
+//     return true;
+//   })
+//   .catch((error)=>{
+//     return common.error(error);
+//   });
+//
+// }

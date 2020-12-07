@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const get_npm_root = require("get_npm_root");
 
 module.exports = {
 
@@ -10,7 +11,12 @@ module.exports = {
     cwd:()=>{
       return process.cwd();
     },
-    app:()=>{
+    app:async ()=>{
+      let base = await get_npm_root();
+      base += "/vegana/bin"
+      return base;
+    },
+    app_old:()=>{
       let scriptAddressRef = process.argv[1];
       if(scriptAddressRef.length === 0){return '';}
       while(scriptAddressRef.indexOf("\\") >= 0){
@@ -105,6 +111,41 @@ module.exports = {
       common.error(e);
       return false;
     });
+  },
+
+  lazy:{
+
+    read:async ()=>{
+      return io.readJson(await getLazyFilePath());
+    },
+
+    write:async (data)=>{
+      if(typeof(data) === "object"){data = JSON.stringify(data,null,2);}
+      return io.write(await getLazyFilePath(),data);
+    }
+
   }
 
 };
+
+async function getLazyFilePath(){
+
+  let currentDirectory = process.cwd(),lazyPath = '';
+  while(currentDirectory.indexOf("\\") >= 0){
+    currentDirectory = currentDirectory.replace("\\","/");
+  }
+  if(!currentDirectory.match('app')){
+    if(await io.exists(currentDirectory + "/lazy.json")){
+      return currentDirectory + "/lazy.json";
+    }
+    return common.error('invalid-project_directory');
+  }
+  let locationArray = currentDirectory.split('/');
+  let appIndex = locationArray.indexOf('app');
+  for(var i=0;i<appIndex;i++){
+    let pathComp = locationArray[i];
+    lazyPath = lazyPath + pathComp + '/';
+  }
+  lazyPath = lazyPath + 'lazy.json';
+  return lazyPath;
+}

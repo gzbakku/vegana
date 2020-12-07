@@ -6,7 +6,7 @@ async function init(){
   common.tell('checking app files');
 
   //prod
-  let currentDirectory = io.dir.cwd() + '\\';
+  let currentDirectory = io.dir.cwd() + '/';
 
   //test
   //let currentDirectory = process.cwd() + '\\akku\\';

@@ -2,7 +2,8 @@ module.exports = {
 
   init : async function(type,compLocation,name){
 
-    let appDirectory = io.dir.app() + "/generate/";
+    let appDirectory = await io.dir.app();
+    appDirectory += "/generate/";
 
     let fileNames = {
       comp:'comp',

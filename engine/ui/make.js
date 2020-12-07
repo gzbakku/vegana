@@ -37,7 +37,7 @@ module.exports = {
     common.tell("lib dir ensured");
 
     //copy the ui index file
-    const bin = io.dir.app();
+    const bin = await io.dir.app();
     const uiIndexPath = bin + "/generate/uiIndex.js"
     const nextIndexPath = this_ui_dir + "/index.js";
 

@@ -3,7 +3,8 @@ module.exports = {
   init:async ()=>{
 
     let currentDirectory = io.dir.cwd() + "/";
-    let appDirectory = io.dir.app() + '/cordova/';
+    let appDirectory = await io.dir.app();
+    appDirectory += '/cordova/';
 
     //read package
     const package_path = currentDirectory + 'package.json';
