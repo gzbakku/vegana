@@ -7,6 +7,8 @@ const run = require('./engine/run/index');
 const sass = require('./engine/sass/index');
 const ui = require('./engine/ui/index');
 const electron = require('./engine/electron/index');
+const static = require('./engine/static/index');
+const collect = require('./engine/collect/index');
 const chalk = require('chalk');
 const log = console.log;
 
@@ -19,6 +21,10 @@ global.config_electron = require("./engine/electron/config/index");
 global.copy_build_to_cordova = require('./copy_build_to_cordova');
 global.input = require('input');
 global.check_vegana_directory = require("./check_vegana_directory");
+global.sass_collect = ()=>{
+  return sass.init("collect");
+}
+global.common_collect = collect.commonComp;
 
 starter();
 
@@ -26,7 +32,10 @@ async function starter(){
 
   let work = process.argv;
   let func = work[2];
-  let bank = ['serve','build','generate','init','help','check','founder','config','run','sass','ui','electron'];
+  let bank = [
+    'collect','static','serve','build','generate','init','help',
+    'check','founder','config','run','sass','ui','electron'
+  ];
 
   if(bank.indexOf(func) < 0){
     func = await input.select("please select a valid function",bank);
@@ -43,6 +52,8 @@ function run_cli(func,work,is_outside){
 
   if(func == 'serve'){
     return serve.init(work[3],work[4],is_outside);
+  } else if(func === "collect"){
+    return collect.init(work[3]);
   } else if(func == 'build'){
     return build.init(work[3],work[4]);
   } else if(func == 'run'){
@@ -57,6 +68,8 @@ function run_cli(func,work,is_outside){
     return sass.init(work[3],location);
   } else if(func == 'ui'){
     return ui.init(work[3],work[4],work[5]);
+  } else if(func === "static"){
+    return static.init(work[3],work[4],work[5]);
   } else if(func === "electron"){
     return electron.init(work[3],work[4],work[5]);
   } else if(func == 'help'){

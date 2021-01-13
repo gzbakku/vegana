@@ -52,15 +52,17 @@ async function init(type,name,laziness){
     return common.error('component name cannot be shorter then 4 letters');
   }
 
-  let isLazy = false;
+  let isLazy = false,isGlobal = false;
 
   if(laziness){
     if(laziness === '--lazy'){
       isLazy = true;
+    } else if(laziness === "--global"){
+      isGlobal = true;
     }
   }
 
-  let work = await gen.init(type,name,isLazy,no_type || no_name);
+  let work = await gen.init(type,name,isLazy,no_type || no_name,isGlobal);
 
   if(work == true){
     return common.success('generated successfully');

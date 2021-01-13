@@ -1,10 +1,9 @@
 const fs = require('fs-extra');
 const socket = require('./socket');
+const common = require('../../common');
 const compile = require('./compiler');
 const chokidar = require('chokidar');
 const sass = require('./sass');
-const workers = require("./watcher_workers");
-const common = require('../../common');
 
 let lazy = null;
 
@@ -324,114 +323,114 @@ async function checkParentsLazyness(type,parents){
 
 async function init(){
 
-  let currentDirectory = await io.dir.cwd();
-  currentDirectory += "/"
+  //test
+  //let currentDirectory = process.cwd() + '\\akku\\';
 
-  common.tell('>>> fetching lazy.json');
-  lazy = await io.lazy.read();
-  if(!lazy){
-    return common.error("failed-read_lazy_book");
-  }
+  //prod
+  let currentDirectory = process.cwd() + '/';
 
-  // watch lazy.json
-  let location_lazy_json = currentDirectory + 'lazy.json';
-  chokidar.watch(location_lazy_json)
-  .on('change',async (_)=>{
-    let read = await io.lazy.read();
-    if(read){
-      common.tell("lazy.json updated");
-      lazy = read;
-      socket.reload();
-    }
+  console.log('>>> fetching lazy.json');
+
+  //getting lazy object
+  let read = await fs.readFile(currentDirectory + "lazy.json",'utf-8')
+  .then((data)=>{
+    return data;
+  })
+  .catch((err)=>{
+      console.log(err);
+      return false;
   });
 
+  if(read == false){
+    return common.error('not_found-lazy.json');
+  }
+
+  if(!JSON.stringify(read)){
+    return common.error('invalid-lazy.json');
+  }
+
+  lazy = JSON.parse(read);
+
   //watch index.html
+
   let location_index = currentDirectory + 'index.html';
+
   fs.watchFile(location_index,(curr)=>{
     common.tell('file updated => index.html');
     socket.reload();
   });
 
   //watch bundle.js
+
   let location_bundle = currentDirectory + 'app/';
+
   chokidar.watch(location_bundle)
   .on('change',async (path)=>{
 
-    path = io.clean_path(path);
+    let moduleType = getDirectoryType(path);
 
-    let location = workers.get_location(path);
-    let file_type = workers.get_file_type(path);
-    let parents = workers.get_parents(path);
-    let module_type = workers.get_module_type(path);
-    let lazy_parent = workers.get_lazy_parent(module_type,parents,lazy);
-    let parent = lazy_parent.name?lazy_parent.name:lazy_parent.type;
-    let name = parents[module_type]?parents[module_type]:module_type;
+    if(moduleType){
 
-    if(file_type){
-      common.tell('compiling : ' + file_type + " => " + name + " => " + parent);
-      common.tell("path : " + path);
-    }
+      common.tell('app updated');
+      common.tell(path);
 
-    async function compile_sass_bundle(){
-      if(await sass.compile.master()){socket.reload();}
-    }
-    async function compile_js_bundle(){
-      if(await compile.bundle()){socket.reload();}
-    }
-
-    if(file_type === "js"){
-      if(location === "ui" || lazy_parent.type === "app"){
-        return await compile_js_bundle();
-      } else {
-        if(await compile.appModule(lazy_parent.type,parents)){
+      if(moduleType === "scss"){
+        let compileCheck = await sass.compile.master();
+        if(compileCheck){
           socket.reload();
         }
+        return true;
       }
-    } else if(file_type === "sass"){
-      let sass_type = workers.get_sass_type(path);
-      if(sass_type === "tree"){
-        return await compile_sass_bundle();
-      } else if(sass_type === "included"){
-        if(location === "ui" || lazy_parent.type === "app"){
-          return await compile_sass_bundle();
+
+      if(moduleType === 'app' || moduleType === "ui"){
+        let compileCheck = await compile.bundle();
+        socket.reload();
+        return true;
+      }
+
+      let parents = getParents(moduleType,path);
+      let laziness = checkLaziness(moduleType,parents);
+
+      if(moduleType === "wasm"){
+        let compileCheck = await compile.wasm(parents);
+      } else {
+        if(laziness === true){
+          let compileCheck = await compile.appModule(moduleType,parents);
         } else {
-          return await workers.compile_lazy_sass(lazy_parent,parents,path);
+          let compileCheck = await compile.bundle();
         }
-      } else if(sass_type === "lazy"){
-        return await workers.compile_lazy_sass(lazy_parent,parents,path);
       }
-    } else if(file_type === "wasm"){
-      await compile.wasm(parents);
+
+      let checkLazyParents = await checkParentsLazyness(moduleType,parents);
+
+      socket.reload();
+
     }
 
   });
 
   //watch master.css
+
   let location_sass = currentDirectory + 'sass/';
+
   chokidar.watch(location_sass)
   .on('change',async (path)=>{
-    path = io.clean_path(path);
-    if(path.indexOf("/sass/sassPack/") >= 0){return;}
     common.tell('sass edited');
-    if(await sass.compile.master()){socket.reload();}
-  });
-
-  //watch sassPack
-  let location_sass_pack = currentDirectory + "sass/sassPack/"
-  if(!await io.exists(location_sass_pack)){
-    if(!await io.dir.ensure(location_sass_pack)){return common.error("failed-make-location_sass_pack");}
-  }
-  chokidar.watch(location_sass_pack)
-  .on('change',async (path)=>{
-    common.tell('sass pack updated');
-    path = io.clean_path(path);
-    if(await workers.extract_sass_pack(path)){
-      socket.reload();
+    let moduleType = getDirectoryType(path);
+    let parents = getParents(moduleType,path);
+    let laziness = checkLaziness(moduleType,parents);
+    if(laziness == true){
+      let compileCheck = await sass.compile.lazyModule(parents.sass);
+    } else {
+      let compileCheck = await sass.compile.master();
     }
+    //socket.reload();
   });
 
   //css
+
   let location_css = currentDirectory + 'css/';
+
   chokidar.watch(location_css)
   .on('change',async (path)=>{
     common.tell('css updated');
@@ -439,7 +438,9 @@ async function init(){
   });
 
   //assets
+
   let location_assets = currentDirectory + 'assets/';
+
   chokidar.watch(location_assets)
   .on('change',async (path)=>{
     common.tell('assets updated');
@@ -447,7 +448,9 @@ async function init(){
   });
 
   //node_modules
+
   let location_node_modules = currentDirectory + 'node_modules/';
+
   chokidar.watch(location_node_modules)
   .on('change',async (path)=>{
     common.tell('node_modules updated');
@@ -456,7 +459,9 @@ async function init(){
   });
 
   //vega
+
   let location_vega = currentDirectory + 'vega/';
+
   chokidar.watch(location_vega)
   .on('change',async (path)=>{
     common.tell('node_modules updated');
@@ -465,7 +470,9 @@ async function init(){
   });
 
   //compile
+
   let location_compile_config = currentDirectory + 'compile.js';
+
   chokidar.watch(location_compile_config)
   .on('change',async (path)=>{
     common.tell('compile_config updated');

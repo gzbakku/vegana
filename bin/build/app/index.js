@@ -1,18 +1,23 @@
 
 //import all the pages here which you want to be in the app and use engine.get.pageModule api to get the page
 const mainPage = require('./pages/mainPage/page');
+const startPage = mainPage; //declare the first page module here
 
-//declare the first page module here
-const startPage = mainPage;
+/*
+set the base url to the native vegana cdn,or if hosting on non native platform please
+set the baseurl to where the files for the project are held.
 
-/*set the base url to the native vegana cdn,
-or if hosting on non native platform please
-set the baseurl to where the files for the project are held*/
-const baseHref = null;
+like if index.html is available at "https://example.com/app1/index.html"
+then base url is "https://example.com/app1"
+*/
+engine.router.set.baseHref("");
+
+
+// load all the fonts here you can await on font addition if you want
+engine.sketch.fonts.add("text","nova-round","assets/fonts/NovaRound-Regular.ttf");  //sample font
 
 //------------------------------------------------------------------------------
-//dont fuck with anything below
-engine.router.set.baseHref(baseHref);
+//init the page, pass anything you want to the page here
 if(engine.router.active.page == null){
-  startPage.init();
+  startPage.init(); //the startpage module is initiated here
 }

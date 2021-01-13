@@ -1,5 +1,6 @@
-const fs = require('fs-extra');
+// const fs = require('fs-extra');
 const sass = require('node-sass');
+// const common = require('../../common');
 
 module.exports = {
 
@@ -7,10 +8,10 @@ module.exports = {
 
   init:function(){
 
-      console.log('>>> master sass compiler started');
+      common.tell('master sass compiler started');
 
-      let currentDirectory = process.cwd() + '/sass/master.scss';
-      let targetDirectory = process.cwd() + '/css/master.css';
+      let currentDirectory = io.dir.cwd() + '/sass/master.scss';
+      let targetDirectory = io.dir.cwd() + '/css/master.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)
@@ -29,8 +30,8 @@ module.exports = {
 
       common.tell('compiling master.scss');
 
-      let currentDirectory = process.cwd() + '/sass/master.scss';
-      let targetDirectory = process.cwd() + '/css/master.css';
+      let currentDirectory = io.dir.cwd() + '/sass/master.scss';
+      let targetDirectory = io.dir.cwd() + '/css/master.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)
@@ -48,8 +49,8 @@ module.exports = {
 
       common.tell('compiling lazy-sass');
 
-      let currentDirectory = process.cwd() + '/sass/' + name + '.scss';
-      let targetDirectory = process.cwd() + '/css/' + name + '.css';
+      let currentDirectory = io.dir.cwd() + '/sass/' + name + '.scss';
+      let targetDirectory = io.dir.cwd() + '/css/' + name + '.css';
 
       //render master css
       return render(currentDirectory,targetDirectory)
@@ -69,15 +70,6 @@ function render(read,write){
 
   return new Promise(async (resolve,reject)=>{
 
-    if(!await io.exists(read)){
-      reject("file_not_found");
-    }
-    if(!await io.exists(write)){
-      if(!await io.dir.ensure(get_base_dir(write))){
-        reject("failed-make_write_directory");
-      }
-    }
-
     let error;
 
     if(read == null || write == null){
@@ -85,45 +77,19 @@ function render(read,write){
       reject(error);
     }
 
-    let worker = function(error,result){
-
-      // console.log(result);
-
+    let worker = async function(error,result){
       if(error){
         console.log(error);
         reject(error);
-        return;
       }
-
-      if(!result){
-        reject("failed-compile");
-        return;
-      }
-
-      fs.writeFile(write,result.css)
-      .then(()=>{
-        resolve();
-      })
-      .catch((err)=>{
-        error = err;
-        reject(error);
-      });
-
+      const run = await io.write(write,result.css);
+      if(run){resolve();} else {reject("failed-write_file");}
     }
 
-    sass.render({file:read},worker);
+    sass.render({file:read,outputStyle:'compressed'},worker);
 
   });
   //promise ends here
 
 }
 //render function ends here
-
-function get_base_dir(path){
-  let hold = io.clean_path(path).split("/");
-  let collect = '';
-  for(let i=0;i<hold.length-1;i++){
-    collect += hold[i] + "/";
-  }
-  return collect;
-}

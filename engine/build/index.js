@@ -33,7 +33,7 @@ async function init(platform,base){
     return cordova.init();
   }
   if(platform === 'web'){
-    common.tell("base directory can also be provided in package.json as vegana_web_base_url key");
+    common.info("base directory can also be provided in package.json as vegana_web_base_url key");
     return web.init(base);
   }
 

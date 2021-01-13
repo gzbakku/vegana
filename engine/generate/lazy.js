@@ -16,9 +16,9 @@ module.exports = {
     //do sass
     if(type == 'sass'){
       if(!bool.sass){
-        bool['sass'] = [name];
+        bool['sass'] = [name + "Pack"];
       } else {
-        bool.sass.push(name);
+        bool.sass.push(name + "Pack");
       }
     }
 

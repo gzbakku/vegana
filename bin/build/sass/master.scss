@@ -1,57 +1,39 @@
 
-//fonts
 
-@import url('https://fonts.googleapis.com/css?family=Nova+Round');
+/*???????????????????
 
-//image cont
+please set all your env varibales in sass_varables file all lazy sass files in app use sass_variables to import your env variables automatically
 
-.image-cont{
-  text-align: center;
-  padding-top: 50px;
-}
+while making sass files in app directory use
 
-  .logo-image{
-    height: 30vh;
-    width: auto;
+"@" - for sub files in a sass tree structure, ignored in main sass compiler
+example - "@sub_component.scss"
+this file is compiled only when its parent is compiled and ignored if its parent-less
+
+"!" - for files to ignore in main sass compiler
+example - "!ignored_sass_file.scss"
+this file is ignored
+
+files starting without any of above characters compiles into main sass bundle
+
+files in lazy modules are lazy css and are needed to be loaded with module loader sepratly.
+
+???????????????????*/
+
+//------------------------
+// you code goes here
+
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
   }
 
-//greetings cont
+//------------------------
+// dont remove these files
 
-.greetings{
-  text-align: center;
-  padding-top: 25px;
-  font-size: 48px;
-  font-family: 'Nova Round';
-  color:#9E1818;
-}
+@import './sass_variables.scss';
+@import './vegana_tree.scss';
 
-//tag cont
-
-.tag-cont{
-  width: 25%;
-  height: auto;
-  text-align: right;
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  padding: 10px;
-}
-
-  .tag-image{
-    height: 20vh;
-    width: auto;
-  }
-
-@media screen and (max-width:480px){
-  .greetings{
-    font-size: 32px;
-  }
-  .tag-cont{
-    width: 100%;
-    text-align: right;
-  }
-  .tag-image{
-    height: 25vh;
-    width: auto;
-  }
-}
+//------------------------
+// import your files here

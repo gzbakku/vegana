@@ -68,7 +68,16 @@ module.exports = {
 
 function render(read,write){
 
-  return new Promise((resolve,reject)=>{
+  return new Promise(async (resolve,reject)=>{
+
+    if(!await io.exists(read)){
+      reject("file_not_found");
+    }
+    if(!await io.exists(write)){
+      if(!await io.dir.ensure(get_base_dir(write))){
+        reject("failed-make_write_directory");
+      }
+    }
 
     let error;
 
@@ -110,3 +119,12 @@ function render(read,write){
 
 }
 //render function ends here
+
+function get_base_dir(path){
+  let hold = io.clean_path(path).split("/");
+  let collect = '';
+  for(let i=0;i<hold.length-1;i++){
+    collect += hold[i] + "/";
+  }
+  return collect;
+}

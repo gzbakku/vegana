@@ -4,6 +4,7 @@ const server = require('./server');
 const socket = require('./socket');
 const watcher = require('./watcher');
 const sass = require('./sass');
+const os = require("os");
 
 async function init(port,secure,outside){
 
@@ -59,6 +60,8 @@ async function init(port,secure,outside){
     return common.error('failed-lazy_module_compilations');
   }
 
+  // return;
+
   //compile css here
 
   let doSassCompilation = await sass.init();
@@ -94,21 +97,24 @@ async function init(port,secure,outside){
   console.log('>>> opening url in browser');
 
   if(true){
-    cmd.run('start ' + startServer)
-    .catch((e)=>{
-      common.error(e);
-      common.error('open_browser_url failed');
-    });
+    let os_type = os.type();
+    if(os_type === "Windows_NT"){
+      cmd.run('start ' + startServer)
+      .catch((e)=>{
+        common.error(e);
+        common.error('open_browser_url failed');
+      });
+    } else if(os_type === "Linux"){
+      cmd.run('xdg-open ' + startServer)
+      .catch((e)=>{
+        common.error(e);
+        common.error('open_browser_url failed');
+      });
+    }
   }
 
   if(run_electron){
     console.log('>>> starting electron');
-    // cmd.run('electron electro.js')
-    // .catch((error)=>{
-    //   common.error(error);
-    //   common.error('failed run electron script');
-    //   common.error('try $ electron electro.js in the command line');
-    // });
     const path = io.dir.cwd() + '/electronRun.js';
     let runElectron = await cmd.child("node",[path]);
     global.start_electron = async ()=>{

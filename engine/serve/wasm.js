@@ -7,7 +7,7 @@ async function recompile(parents){
 
   common.tell("recompiling wasm module : " + parents.wasm);
 
-  const cwd = process.cwd();
+  const cwd = await io.dir.cwd();
   let module_dir = cwd + '/app/wasm/' + parents.wasm;
   let script = 'wasm-pack build ' + module_dir + ' --target no-modules --out-name index';
 

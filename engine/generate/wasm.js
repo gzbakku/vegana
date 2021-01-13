@@ -1,7 +1,8 @@
 module.exports = async (name,container)=>{
 
   if(!await io.exists(container)){
-    await io.dir.ensure(container);
+    return common.info("wasm folder is not available please run command '$ vegana config wasm' to ensure you are finished with your rust and wasm support.");
+    // await io.dir.ensure(container);
   }
 
   if(await io.exists(container + "/" + name)){

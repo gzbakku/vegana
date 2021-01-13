@@ -38,6 +38,8 @@ module.exports = {
 
     common.info("all sass files are included in the vegana_tree.scss file in the sass folder please import this file in your master file to finish the tree configration.");
 
+    return true;
+
   }
 
 };
@@ -88,6 +90,8 @@ async function process_dir(path){
 
 function check_file(file_name,file_path){
   if(file_name[0] === "@"){return false;}
+  if(file_name[0] === "!"){return false;}
+  if(file_name[0] === "+"){return false;}
   if(!file_name.includes(".")){return false;}
   let hold = file_name.split(".");
   if(hold[hold.length - 1] !== "scss"){return false;}

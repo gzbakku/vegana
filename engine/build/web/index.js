@@ -8,15 +8,24 @@ const get_base = require('./get_base');
 
 async function init(base,no_base){
 
-  let help_message = 'base directory is the location where you store the vegana project files for example if the index is available at https://vegana.js/website1 please provide https://vegana.js/website1 as the base directory.';
+  let help_message = 'base directory is the location where you store the vegana project files for example if the index is available at https://vegana.js/website1/index.html please provide https://vegana.js/website1 as the base directory.';
 
   if(!no_base){
     if(!base){
       base = await get_base.init();
+      if(base){
+        no_base = true;
+        common.info("base directory for web build is taken from package.json");
+        common.tell("------------------------");
+        common.info(base);
+        common.tell("------------------------");
+      }
     }
     if(!base){
       if(await input.confirm("do you need help with base directory")){
-        return common.info(help_message);
+        common.info("you can set base_directory or vegana_web_base_url to your base directory in package.json to automate this input");
+        common.info(help_message);
+        return
       }
       base = await input.text("please give a base directory where the vegana app will be available");
     }
@@ -30,6 +39,14 @@ async function init(base,no_base){
     }
   } else {
     base = '';
+  }
+
+  if(!no_base && base.length > 0){
+    if(await input.confirm("do you want to add this base directory to your package.json to automate this step")){
+      if(!await get_base.new_base(base)){
+        common.error("sorry we couldnt submit this base directory for some reson please try again next time.");
+      }
+    }
   }
 
   //check the files

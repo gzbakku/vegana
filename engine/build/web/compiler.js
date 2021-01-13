@@ -15,110 +15,54 @@ module.exports = {
 };
 
 async function init(){
-
-  common.tell('compiling app');
-
-  //test
-  //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
-
-  let currentDirectory = io.dir.cwd() + '/';
-
-  //prod
-  let
-  readLocation = currentDirectory + 'compile.js',
-  writeLocation = currentDirectory + 'js/bundle.js';
-
-  let doCompile = await compile(readLocation,writeLocation);
-
+  console.log('>>> compiling app');
+  let currentDirectory = await io.dir.cwd(),
+  readLocation = currentDirectory + '/compile.js',
+  writeLocation = currentDirectory + '/js/bundle.js',
+  doCompile = await compile(readLocation,writeLocation);
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
-  }
-
-  return true;
-
+  } else {return true;}
 }
 
 async function lazyLoader(){
 
   return new Promise(async (resolve,reject)=>{
 
-    common.tell('compiling lazy modules');
+    console.log('>>> compiling lazy modules');
 
     let adb = await lazy.getAllModules(); //adb = address book
-
-    if(adb == false){
-      return common.error('compiler_failed-lazy_loader');
-    }
+    if(!adb){return common.error('compiler_failed-lazy_loader');}
 
     let promises = [];
-
-    if(adb.globals){
-      if(adb.globals.length){
-        if(adb.globals.length > 0){
-          let globals = adb.globals;
-          for(var i=0;i<globals.length;i++){
-            let hold = globals[i];
-            promises.push(compile(hold.read,hold.write));
-          }
-        }
+    if(adb.sass && adb.sass.length > 0){
+      for(let sassPack of adb.sass){
+        promises.push(sass.render(sassPack.read,sassPack.write));
       }
     }
-
-    if(adb.pages){
-      if(adb.pages.length){
-        if(adb.pages.length > 0){
-          let pages = adb.pages;
-          for(var i=0;i<pages.length;i++){
-            let page = pages[i];
-            promises.push(compile(page.read,page.write));
-          }
-        }
+    if(adb.globals && adb.globals.length > 0){
+      for(let global of adb.globals){
+        promises.push(compile(global.read,global.write,global.sassRead,global.sassWrite));
       }
     }
-
-    if(adb.conts){
-      if(adb.conts.length){
-        if(adb.conts.length > 0){
-          let conts = adb.conts;
-          for(var i=0;i<conts.length;i++){
-            let cont = conts[i];
-            promises.push(compile(cont.read,cont.write));
-          }
-        }
+    if(adb.pages && adb.pages.length > 0){
+      for(let page of adb.pages){
+        promises.push(compile(page.read,page.write,page.sassRead,page.sassWrite));
       }
     }
-
-    if(adb.panels){
-      if(adb.panels.length){
-        if(adb.panels.length > 0){
-          let panels = adb.panels;
-          for(var i=0;i<panels.length;i++){
-            let panel = panels[i];
-            promises.push(compile(panel.read,panel.write));
-          }
-        }
+    if(adb.conts && adb.conts.length > 0){
+      for(let cont of adb.conts){
+        promises.push(compile(cont.read,cont.write,cont.sassRead,cont.sassWrite));
       }
     }
-
-    if(adb.sass){
-      if(adb.sass.length){
-        if(adb.sass.length > 0){
-          let scsses = adb.sass;
-          for(var i=0;i<scsses.length;i++){
-            let scss = scsses[i];
-            promises.push(sass.render(scss.read,scss.write));
-          }
-        }
+    if(adb.panels && adb.panels.length > 0){
+      for(let panel of adb.panels){
+        promises.push(compile(panel.read,panel.write,panel.sassRead,panel.sassWrite));
       }
     }
-
-    if(adb.wasm){
-      if(adb.wasm.length){
-        if(adb.wasm.length > 0){
-          for(let wasm of adb.wasm){
-            promises.push(compile_wasm(wasm));
-          }
-        }
+    if(adb.wasm && adb.wasm.length > 0){
+      for(let wasmModule of adb.wasm){
+        promises.push(compile_wasm(wasmModule));
       }
     }
 
@@ -194,27 +138,14 @@ async function compile_wasm(locations){
 }
 
 async function bundle(){
-
   common.tell('compiling app');
-
-  let currentDirectory = process.cwd() + '/';
-
-  //test
-  //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
-
-  //prod
-  let
+  let currentDirectory = await io.dir.cwd() + '/',
   readLocation = currentDirectory + 'compile.js',
-  writeLocation = currentDirectory + 'js/bundle.js';
-
-  let doCompile = await compile(readLocation,writeLocation);
-
+  writeLocation = currentDirectory + 'js/bundle.js',
+  doCompile = await compile(readLocation,writeLocation);
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
-  }
-
-  return true;
-
+  } else {return true;}
 }
 
 async function appModule(type,parents,name){
@@ -222,16 +153,9 @@ async function appModule(type,parents,name){
   common.tell('compiling lazy module');
 
   let readLocation = null,writeLocation = null;
-
-  let currentDirectory = process.cwd() + "/";
-
-  //test
-  //let baseRead = './akku/app/pages/';
-  //let baseWrite = './akku/js/pages/';
-
-  //prod
-  let baseRead = currentDirectory + 'app';
-  let baseWrite = currentDirectory + 'js';
+  let currentDirectory = await io.dir.cwd() + "/";
+  let baseRead = currentDirectory + 'app/';
+  let baseWrite = currentDirectory + 'js/';
 
   if(
     parents.hasOwnProperty('page') == false ||
@@ -241,69 +165,56 @@ async function appModule(type,parents,name){
     return common.error('invalid-comp_parents');
   }
 
-  if(type == 'global'){
-
-    if(parents.global == null){
-      return common.error('not_found-global_comp_name');
-    }
-
-    readLocation = baseRead + '/globals/' + parents['global'] + '/globalComp.js';
-    writeLocation = baseWrite + '/globals/' + parents['global'] + '/globalComp.js';
-
-  }
-
+  // if(type == 'sass'){
+  //   if(!parents.page){return common.error('not_found-comp_parent_page');}
+  //   readLocation = baseRead + 'pages/' + parents['page'] + '/page.js';
+  //   writeLocation = baseWrite + 'pages/'  + parents['page'] + '/page.js';
+  // }
   if(type == 'page'){
-
-    if(parents.page == null){
-      return common.error('not_found-comp_parent_page');
-    }
-
-    readLocation = baseRead + '/pages/' + parents['page'] + '/page.js';
-    writeLocation = baseWrite + '/pages/' + parents['page'] + '/page.js';
+    if(parents.page){return common.error('not_found-comp_parent_page');}
+    readLocation = baseRead + 'pages/'  + parents['page'] + '/page.js';
+    writeLocation = baseWrite + 'pages/'  + parents['page'] + '/page.js';
+  } else if(type == 'cont'){
+    if(!parents.page || !parents.cont){return common.error('not_found-comp_parent_page/cont');}
+    readLocation = baseRead + 'pages/'  + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
+    writeLocation = baseWrite + 'pages/'  + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
+  } else if(type == 'panel'){
+    if(!parents.page || !parents.cont || !parents.panel){return common.error('not_found-comp_parent_page/cont/panel');}
+    readLocation = baseRead + 'pages/'  + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
+    writeLocation = baseWrite + 'pages/'  + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
+  } else if(type == 'global'){
+    if(!parents.global){return common.error('not_found-global_comp');}
+    readLocation = baseRead + 'globals/'  + parents['global'] + '/globalComp.js';
+    writeLocation = baseWrite + 'globals/'  + parents['global'] + '/globalComp.js';
   }
 
-  if(type == 'cont'){
-
-    if(parents.page == null || parents.cont == null){
-      return common.error('not_found-comp_parent_page/cont');
-    }
-
-    readLocation = baseRead + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
-    writeLocation = baseWrite + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
-  }
-
-  if(type == 'panel'){
-
-    if(parents.page == null || parents.cont == null || parents.panel == null){
-      return common.error('not_found-comp_parent_page/cont/panel');
-    }
-
-    readLocation = baseRead + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
-    writeLocation = baseWrite + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
-  }
-
-  if(
-    readLocation == null ||
-    writeLocation == null
-  ){
-    return common.error('invalid-comp_type');
-  }
-
+  if(!readLocation || !writeLocation){return common.error('invalid-comp_type');}
   let doCompile = await compile(readLocation,writeLocation);
-
   if(doCompile == false){
     return common.error('failed-lazy_module_compilation');
-  }
-
-  return true;
+  } else {return true;}
 
 }
 
-async function compile(readLocation,writeLocation){
+async function compile(readLocation,writeLocation,sassRead,sassWrite){
 
-  return new Promise((resolve,reject)=>{
+  return new Promise(async (resolve,reject)=>{
 
-    let writePath = makeBaseDir(writeLocation);
+    if(await io.exists(sassRead)){
+      const compile_sass = await sass.render(sassRead,sassWrite)
+      .then(()=>{return true;}).catch(()=>{return false;});
+      if(!compile_sass){
+        reject("failed-sass_compile");
+      }
+    }
+
+    if(!await io.exists(writeLocation)){
+      if(!await makeBaseDir(writeLocation)){
+        common.error("failed-make_base_dir");
+        reject("failed-make_base_dir");
+      }
+    }
+
     browserify({ debug: false })
     .plugin(tinyify, { flat: false })
     .require(readLocation,{entry: true})
@@ -322,52 +233,9 @@ async function compile(readLocation,writeLocation){
 }
 
 async function makeBaseDir(path){
-  if(path){
-    while(path.indexOf("\\") >= 0){
-      path = path.replace("\\","/");
-    }
+  let collect = '',hold = io.clean_path(path).split("/")
+  for(let i=0;i<hold.length-1;i++){
+    collect += hold[i] + "/";
   }
-  let array = path.split('/');
-  let location = null;
-  for(var i=0;i<array.length - 1;i++){
-    let key = array[i];
-    if(location == null){
-      location = key;
-    } else {
-      location = location + '/' + key;
-    }
-  }
-  shell.mkdir('-p',location);
-  return location;
-}
-
-async function compileOne(readLocation,writeLocation){
-
-  let runFile = {
-    command : 'browserify',
-    argv : [
-      readLocation,
-      '-o',
-      writeLocation
-    ]
-  };
-
-  let buildBundle = await cmd.runFile(runFile.command,runFile.argv)
-  .then(()=>{
-    return true;
-  })
-  .catch((err)=>{
-    console.log(err);
-    return false;
-  },(stderr)=>{
-    console.log(stderr);
-    return false;
-  });
-
-  if(buildBundle == false){
-    return common.error('failed-broswerify_compiler');
-  }
-
-  return true;
-
+  if(!await io.dir.ensure(collect)){return false} else {return collect;}
 }

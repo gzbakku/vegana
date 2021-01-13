@@ -11,7 +11,7 @@ module.exports = {
       page:'page',
       cont:'cont',
       panel:'panel',
-      sass:'css'
+      sass:'pack'
     };
 
     let fileExt = {
@@ -24,12 +24,7 @@ module.exports = {
     };
 
     let fileLocation = appDirectory + fileNames[type] + fileExt[type];
-    let fileDestination;
-    if(type == 'sass'){
-      fileDestination = compLocation + name + fileExt[type];
-    } else {
-      fileDestination = compLocation + fileNames[type]  + fileExt[type];
-    }
+    let fileDestination = compLocation + fileNames[type]  + fileExt[type];
 
     let copy = await io.copy(fileLocation,fileDestination)
     .then(()=>{

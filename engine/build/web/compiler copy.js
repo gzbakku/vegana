@@ -1,35 +1,35 @@
-const fs = require('fs');
+const fs = require('fs-extra');
 const lazy = require('./lazy');
 const sass = require('./sass');
 const browserify = require('browserify');
 const uglifyify = require('uglifyify');
 const shell = require('shelljs');
 const tinyify = require('tinyify');
-const wasm = require('./wasm');
 
 module.exports = {
   init:init,
   bundle:bundle,
   appModule:appModule,
   lazyLoader:lazyLoader,
-  wasm:wasm.recompile
+  wasm:compile_wasm
 };
 
 async function init(){
 
-  console.log('>>> compiling app');
+  common.tell('compiling app');
 
   //test
   //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
 
-  let currentDirectory = process.cwd() + '\\';
+  let currentDirectory = io.dir.cwd() + '/';
 
   //prod
   let
   readLocation = currentDirectory + 'compile.js',
-  writeLocation = currentDirectory + 'js\\bundle.js';
+  writeLocation = currentDirectory + 'js/bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
+
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   }
@@ -42,7 +42,7 @@ async function lazyLoader(){
 
   return new Promise(async (resolve,reject)=>{
 
-    console.log('>>> compiling lazy modules');
+    common.tell('compiling lazy modules');
 
     let adb = await lazy.getAllModules(); //adb = address book
 
@@ -57,9 +57,8 @@ async function lazyLoader(){
         if(adb.globals.length > 0){
           let globals = adb.globals;
           for(var i=0;i<globals.length;i++){
-            let global = globals[i];
-            //console.log(page);
-            promises.push(compile(global.read,global.write));
+            let hold = globals[i];
+            promises.push(compile(hold.read,hold.write));
           }
         }
       }
@@ -71,7 +70,6 @@ async function lazyLoader(){
           let pages = adb.pages;
           for(var i=0;i<pages.length;i++){
             let page = pages[i];
-            //console.log(page);
             promises.push(compile(page.read,page.write));
           }
         }
@@ -117,8 +115,8 @@ async function lazyLoader(){
     if(adb.wasm){
       if(adb.wasm.length){
         if(adb.wasm.length > 0){
-          for(let mod of adb.wasm){
-            promises.push(wasm.lazy(mod));
+          for(let wasm of adb.wasm){
+            promises.push(compile_wasm(wasm));
           }
         }
       }
@@ -137,11 +135,69 @@ async function lazyLoader(){
 
 }
 
+async function compile_wasm(locations){
+
+  common.tell("compiling wasm project : " + locations.app);
+
+  let app_dir = locations.read;
+  let out_dir = locations.write;
+  let script = 'wasm-pack build ' + locations.read  + ' --target no-modules --out-name index';
+
+  const run = await cmd.run(script)
+  .then(()=>{
+    common.tell("wasm project compiled : " + locations.app);
+    return true;
+  }).catch((e)=>{
+    console.log(e);
+    return common.error("failed-wasm-pack-build");
+  });
+
+  if(!run){return false;}
+
+  let cwd = io.dir.cwd();
+  await io.dir.ensure(cwd + "/js/");
+  await io.dir.ensure(cwd + "/js/wasm/");
+  await io.dir.ensure(cwd + "/js/wasm/" + locations.app + "/");
+
+  //*******************
+  //copy wrapper
+
+  let from = app_dir + "/pkg/index.js"
+  let to = out_dir + "/wrapper.js";
+
+  let read = await io.read(from);
+  if(!read){
+    return common.error("failed-read_wasm_wrapper-build");;
+  }
+  let custom_was_controller = locations.app + '_wasm_controller'
+
+  read = read.replace("wasm_bindgen = Object.assign(init, __exports);",custom_was_controller +" = Object.assign(init, __exports);");
+  read = read.replace("let wasm_bindgen;","let " + custom_was_controller + ";");
+
+  let write = await io.write(to,read);
+  if(!write){
+    return common.error("failed-write_wasm_wrapper-build");;
+  }
+
+  //*******************
+  //copy wasm
+
+  from = app_dir + "/pkg/index_bg.wasm";
+  to = out_dir + "/index.wasm";
+  let do_copy_wasm = await io.copy(from,to);
+  if(!do_copy_wasm){
+    return common.error("failed-do_copy_wasm-build");
+  }
+
+  return true;
+
+}
+
 async function bundle(){
 
   common.tell('compiling app');
 
-  let currentDirectory = process.cwd() + '\\';
+  let currentDirectory = process.cwd() + '/';
 
   //test
   //let readLocation = './akku/compile.js',writeLocation = './akku/js/bundle.js';
@@ -149,9 +205,10 @@ async function bundle(){
   //prod
   let
   readLocation = currentDirectory + 'compile.js',
-  writeLocation = currentDirectory + 'js\\bundle.js';
+  writeLocation = currentDirectory + 'js/bundle.js';
 
   let doCompile = await compile(readLocation,writeLocation);
+
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   }
@@ -166,15 +223,15 @@ async function appModule(type,parents,name){
 
   let readLocation = null,writeLocation = null;
 
-  let currentDirectory = process.cwd() + "\\";
+  let currentDirectory = process.cwd() + "/";
 
   //test
   //let baseRead = './akku/app/pages/';
   //let baseWrite = './akku/js/pages/';
 
   //prod
-  let baseRead = currentDirectory + 'app\\';
-  let baseWrite = currentDirectory + 'js\\';
+  let baseRead = currentDirectory + 'app';
+  let baseWrite = currentDirectory + 'js';
 
   if(
     parents.hasOwnProperty('page') == false ||
@@ -184,51 +241,45 @@ async function appModule(type,parents,name){
     return common.error('invalid-comp_parents');
   }
 
-  if(type == 'sass'){
+  if(type == 'global'){
 
-    if(parents.page == null){
-      return common.error('not_found-comp_parent_page');
+    if(parents.global == null){
+      return common.error('not_found-global_comp_name');
     }
 
-    readLocation = baseRead + 'pages\\' + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\page.js';
+    readLocation = baseRead + '/globals/' + parents['global'] + '/globalComp.js';
+    writeLocation = baseWrite + '/globals/' + parents['global'] + '/globalComp.js';
+
   }
+
   if(type == 'page'){
 
     if(parents.page == null){
       return common.error('not_found-comp_parent_page');
     }
 
-    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\page.js';
-    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\page.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/page.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/page.js';
   }
+
   if(type == 'cont'){
 
     if(parents.page == null || parents.cont == null){
       return common.error('not_found-comp_parent_page/cont');
     }
 
-    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
-    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\cont.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/cont.js';
   }
+
   if(type == 'panel'){
 
     if(parents.page == null || parents.cont == null || parents.panel == null){
       return common.error('not_found-comp_parent_page/cont/panel');
     }
 
-    readLocation = baseRead + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
-    writeLocation = baseWrite + 'pages\\'  + parents['page'] + '\\conts\\' + parents['cont'] + '\\panels\\' + parents['panel'] + '\\panel.js';
-  }
-
-  if(type == 'global'){
-
-    if(!parents.global){
-      return common.error('not_found-global_comp');
-    }
-
-    readLocation = baseRead + 'globals\\'  + parents['global'] + '\\globalComp.js';
-    writeLocation = baseWrite + 'globals\\'  + parents['global'] + '\\globalComp.js';
+    readLocation = baseRead + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
+    writeLocation = baseWrite + '/pages/' + parents['page'] + '/conts/' + parents['cont'] + '/panels/' + parents['panel'] + '/panel.js';
   }
 
   if(
@@ -239,11 +290,10 @@ async function appModule(type,parents,name){
   }
 
   let doCompile = await compile(readLocation,writeLocation);
+
   if(doCompile == false){
     return common.error('failed-lazy_module_compilation');
   }
-
-  //console.log({doCompile:doCompile});
 
   return true;
 
@@ -255,13 +305,14 @@ async function compile(readLocation,writeLocation){
 
     let writePath = makeBaseDir(writeLocation);
     browserify({ debug: false })
+    .plugin(tinyify, { flat: false })
     .require(readLocation,{entry: true})
     .bundle()
     .on("error", (err)=>{
       let error = err.message;
       reject(error);
     })
-    .on("end", (e,f)=>{
+    .on("end", ()=>{
       resolve();
     })
     .pipe(fs.createWriteStream(writeLocation));
@@ -271,16 +322,12 @@ async function compile(readLocation,writeLocation){
 }
 
 async function makeBaseDir(path){
-
-  let splitter = '\\';
-  if(path.indexOf("/") >= 0){
+  if(path){
     while(path.indexOf("\\") >= 0){
       path = path.replace("\\","/");
     }
-    splitter = '/';
   }
-
-  let array = path.split(splitter);
+  let array = path.split('/');
   let location = null;
   for(var i=0;i<array.length - 1;i++){
     let key = array[i];
@@ -290,7 +337,6 @@ async function makeBaseDir(path){
       location = location + '/' + key;
     }
   }
-  //console.log(location);
   shell.mkdir('-p',location);
   return location;
 }
@@ -306,8 +352,6 @@ async function compileOne(readLocation,writeLocation){
     ]
   };
 
-  //console.log(toRun);
-
   let buildBundle = await cmd.runFile(runFile.command,runFile.argv)
   .then(()=>{
     return true;
@@ -320,8 +364,6 @@ async function compileOne(readLocation,writeLocation){
     return false;
   });
 
-  //console.log(buildBundle);
-
   if(buildBundle == false){
     return common.error('failed-broswerify_compiler');
   }
@@ -329,5 +371,3 @@ async function compileOne(readLocation,writeLocation){
   return true;
 
 }
-
-async function build_base_app_dir(){}

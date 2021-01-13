@@ -9,7 +9,7 @@ module.exports = {
 
   dir:{
     cwd:()=>{
-      return process.cwd();
+      return io.clean_path(process.cwd());
     },
     app:async ()=>{
       let base = await get_npm_root();
@@ -124,9 +124,31 @@ module.exports = {
       return io.write(await getLazyFilePath(),data);
     }
 
-  }
+  },
+
+  package:{
+
+    read:async ()=>{
+      return io.readJson(await getPackageFilePath());
+    },
+
+    write:async (data)=>{
+      if(typeof(data) === "object"){data = JSON.stringify(data,null,2);}
+      return io.write(await getPackageFilePath(),data);
+    }
+
+  },
+
+  clean_path:clean_path
 
 };
+
+function clean_path(p){
+  while(p.indexOf("\\") >= 0){
+    p = p.replace('\\','/');
+  }
+  return p;
+}
 
 async function getLazyFilePath(){
 
@@ -147,5 +169,27 @@ async function getLazyFilePath(){
     lazyPath = lazyPath + pathComp + '/';
   }
   lazyPath = lazyPath + 'lazy.json';
+  return lazyPath;
+}
+
+async function getPackageFilePath(){
+
+  let currentDirectory = process.cwd(),lazyPath = '';
+  while(currentDirectory.indexOf("\\") >= 0){
+    currentDirectory = currentDirectory.replace("\\","/");
+  }
+  if(!currentDirectory.match('app')){
+    if(await io.exists(currentDirectory + "/package.json")){
+      return currentDirectory + "/package.json";
+    }
+    return common.error('invalid-project_directory');
+  }
+  let locationArray = currentDirectory.split('/');
+  let appIndex = locationArray.indexOf('app');
+  for(var i=0;i<appIndex;i++){
+    let pathComp = locationArray[i];
+    lazyPath = lazyPath + pathComp + '/';
+  }
+  lazyPath = lazyPath + 'package.json';
   return lazyPath;
 }

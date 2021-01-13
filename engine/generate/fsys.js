@@ -57,7 +57,7 @@ module.exports = {
   },
 
   get_cont:async (page_name)=>{
-    console.log({page_name_get_cont:page_name});
+    // console.log({page_name_get_cont:page_name});
     return await get_items_worker({
       path:"app/pages/" + page_name + "/conts",
       not_found:"please add some conts to this page",
