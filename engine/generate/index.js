@@ -2,6 +2,30 @@ const gen = require('./gen');
 
 async function init(type,name,laziness){
 
+  const types = ['page','cont','panel','comp','sass','wasm'];
+  if(types.indexOf(type) < 0){
+    common.tell("you cant make 'page','cont','panel','comp','sass','wasm'");
+    return common.error("sorry i cant make " + type);
+  }
+  const laziness_options = ['--lazy','--common','--global'];
+  if(laziness && laziness_options.indexOf(laziness) < 0){
+    common.tell("valid module route controls are '--lazy', '--common', '--global'");
+    return common.error("that is a invalid module route type : " + laziness);
+  }
+  if(laziness_options.indexOf(name) >= 0){
+    common.tell("valid generate commands looks like : vegana generate page king --lazy");
+    common.tell("valid generate commands looks like : vegana generate 'module_type' 'module_name' ('--lazy' || '--common' || '--global')");
+    return common.error("you most probably didnt named the module.");
+  }
+  if(name.indexOf("--") >= 0){
+    check_name = await input.select("are you sure you wanna name your module : " + name,['no','yes']);
+    if(check_name === "no"){
+      return common.error("thanks i dont like it anyways");
+    } else {
+      common.tell("if you say so.");
+    }
+  }
+
   let no_type = false,no_name = false;
   if(!type){
     no_type = true;
@@ -11,9 +35,14 @@ async function init(type,name,laziness){
     no_name = true;
     name = await input.text("please provide a valid name for this module");
   }
-  if((no_type || no_name) && type !== "wasm"){
+  if(!laziness && type !== "wasm"){
     is_lazy = await input.select("is this module lazy?",['no','yes']);
     if(is_lazy === "yes"){laziness = "--lazy"}
+  }
+
+  if(type === "comp" && !laziness){
+    let is_global = await input.select("is this common comp?",['no','yes']);
+    if(is_global === "yes"){laziness = '--common';}
   }
 
   if(type == null || type == undefined){
@@ -57,7 +86,7 @@ async function init(type,name,laziness){
   if(laziness){
     if(laziness === '--lazy'){
       isLazy = true;
-    } else if(laziness === "--global"){
+    } else if(laziness === "--global" || laziness === "--common"){
       isGlobal = true;
     }
   }

@@ -16,8 +16,6 @@ async function init(type,name,laziness,outside,isGlobal){
 
   //check directory
 
-
-
   if(laziness && type == 'comp'){type = 'globalComp';}
   let compLocation,pgName,cnName,pnName,doCheck;
   let dontCheckDir = false;
