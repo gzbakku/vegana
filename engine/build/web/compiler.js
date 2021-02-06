@@ -3,7 +3,7 @@ const lazy = require('./lazy');
 const sass = require('./sass');
 const browserify = require('browserify');
 const uglifyify = require('uglifyify');
-const shell = require('shelljs');
+// const shell = require('shelljs');
 const tinyify = require('tinyify');
 
 module.exports = {

@@ -1,5 +1,5 @@
 const fs = require('fs-extra');
-const shell = require('shelljs');
+// const shell = require('shelljs');
 
 module.exports = {init:init};
 
