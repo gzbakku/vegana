@@ -21,16 +21,7 @@ files in lazy modules are lazy css and are needed to be loaded with module loade
 ???????????????????*/
 
 //------------------------
-// you code goes here
-
-*{
-    padding: 0px;
-    margin: 0px;
-    box-sizing: border-box;
-  }
-
-//------------------------
-// dont remove these files
+// vegana base files
 
 @import './sass_variables.scss';
 @import './vegana_tree.scss';
@@ -39,52 +30,10 @@ files in lazy modules are lazy css and are needed to be loaded with module loade
 // import your files here
 
 //------------------------
-// rmoeve this code here, its test code for base vegana page
+// you code goes here
 
-@import url('https://fonts.googleapis.com/css?family=Nova+Round');
-.image-cont{
-  text-align: center;
-  padding-top: 50px;
-}
-
-  .logo-image{
-    height: 30vh;
-    width: auto;
+*{
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
   }
-
-.greetings{
-  text-align: center;
-  padding-top: 25px;
-  font-size: 48px;
-  font-family: 'Nova Round';
-  color:#9E1818;
-}
-
-.tag-cont{
-  width: 25%;
-  height: auto;
-  text-align: right;
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  padding: 10px;
-}
-
-  .tag-image{
-    height: 20vh;
-    width: auto;
-  }
-
-@media screen and (max-width:480px){
-  .greetings{
-    font-size: 32px;
-  }
-  .tag-cont{
-    width: 100%;
-    text-align: right;
-  }
-  .tag-image{
-    height: 25vh;
-    width: auto;
-  }
-}

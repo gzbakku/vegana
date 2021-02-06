@@ -67,6 +67,12 @@ async function init(projectName,location){
     }
   }
 
+  if(true){
+    if(!await global.sass_collect()){
+      return common.error("failed to build sass tree");
+    }
+  }
+
   common.success("project generated successfully");
 
   spinner.stop();

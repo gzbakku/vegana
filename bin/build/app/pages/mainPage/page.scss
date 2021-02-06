@@ -1,0 +1,51 @@
+
+/*-----------------------------
+  remove all of this code
+-----------------------------*/
+
+.image-cont{
+  text-align: center;
+  padding-top: 50px;
+}
+
+  .logo-image{
+    height: 30vh;
+    width: auto;
+  }
+
+.greetings{
+  text-align: center;
+  padding-top: 25px;
+  font-size: 48px;
+  font-family: $font-text;
+  color:#9E1818;
+}
+
+.tag-cont{
+  width: 25%;
+  height: auto;
+  text-align: right;
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 10px;
+}
+
+  .tag-image{
+    height: 20vh;
+    width: auto;
+  }
+
+@media screen and (max-width:480px){
+  .greetings{
+    font-size: 32px;
+  }
+  .tag-cont{
+    width: 100%;
+    text-align: right;
+  }
+  .tag-image{
+    height: 25vh;
+    width: auto;
+  }
+}
