@@ -13,6 +13,14 @@ module.exports = {
       return common.error('failed-read_package');
     }
 
+    let check_cordova = await cmd.run("cordova --version")
+    .then(()=>{return true;})
+    .catch(()=>{return false;});
+    if(!check_cordova){
+      common.tell("please install cordova cli via npm '$ npm i -g cordova'");
+      return common.error("cordova not found");
+    }
+
     //create cordova project
     const create_project_script = 'cordova create cordova vegana.cordova.' + package.name + ' ' + package.name;
     const create_project = await cmd.run(create_project_script);

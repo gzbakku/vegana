@@ -11,6 +11,11 @@ module.exports = {
     cwd:()=>{
       return io.clean_path(process.cwd());
     },
+    app_dir:async ()=>{
+      let base = await get_npm_root();
+      base += "/vegana"
+      return base;
+    },
     app:async ()=>{
       let base = await get_npm_root();
       base += "/vegana/bin"

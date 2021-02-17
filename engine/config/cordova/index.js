@@ -1,4 +1,5 @@
 const install = require('./install');
+const platform = require('./platform');
 const copy = require('./copy');
 
 async function init(base){
@@ -35,7 +36,14 @@ async function init(base){
     }
   }
 
-
+  //config cordova platform
+  if(true){
+    common.tell("configuring cordova platforms");
+    const config_platforms = await platform.init();
+    if(!config_platforms){
+      return common.error('failed-config_platforms');
+    }
+  }
 
   //copy built files
   if(true){
@@ -51,6 +59,16 @@ async function init(base){
     let makeExecutor = await copy.init();
     if(!makeExecutor){
       return common.error('failed-generate-cordova_executor');
+    }
+  }
+
+  if(true){
+    const cwd = await io.dir.cwd();
+    const cordovaIgnorePath = cwd + "/cordova/.gitignore";
+    if(await io.exists(cordovaIgnorePath)){
+      if(!await io.delete(cordovaIgnorePath)){
+        common.error("failed to remove gitignore file from cordova dir no worries you can do it manually yourself.");
+      }
     }
   }
 

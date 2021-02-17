@@ -9,6 +9,7 @@ const ui = require('./engine/ui/index');
 const electron = require('./engine/electron/index');
 const static = require('./engine/static/index');
 const collect = require('./engine/collect/index');
+const version = require('./engine/version');
 const chalk = require('chalk');
 const log = console.log;
 
@@ -34,7 +35,8 @@ async function starter(){
   let func = work[2];
   let bank = [
     'collect','static','serve','build','generate','init','help',
-    'check','founder','config','run','sass','ui','electron'
+    'check','founder','config','run','sass','ui','electron',
+    '--version','-version','-Version','--Version','version',"-V",'-v','--V','--v'
   ];
 
   if(bank.indexOf(func) < 0){
@@ -50,8 +52,12 @@ function run_cli(func,work,is_outside){
 
   let location = work[1];
 
+  let version_tags = ['--version','-version','-Version','--Version','version',"-V",'-v','--V','--v'];
+
   if(func == 'serve'){
     return serve.init(work[3],work[4],is_outside);
+  } else if(version_tags.indexOf(func) >= 0){
+    return version.init();
   } else if(func === "collect"){
     return collect.init(work[3]);
   } else if(func == 'build'){
