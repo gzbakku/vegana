@@ -12,7 +12,8 @@ function createWindow(){
     frame:true,
     titleBarStyle: 'customButtonsOnHover',
     webPreferences: {
-      nodeIntegration: true
+      nodeIntegration: true,
+      contextIsolation:false
     }
   });
   win.loadFile('electric.html');
