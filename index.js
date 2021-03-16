@@ -26,6 +26,7 @@ global.sass_collect = ()=>{
   return sass.init("collect");
 }
 global.common_collect = collect.commonComp;
+global.get_variable = get_variable;
 
 starter();
 
@@ -96,4 +97,25 @@ function run_cli(func,work,is_outside){
     return log(chalk.greenBright('Akku - Tejasav Dutt, you can found me at gzbakku@gmail.com'));
   }
 
+}
+
+function get_variable(name){
+  let args = process.argv;
+  for(let item of args){
+    if(item.indexOf(name) >= 0){
+      if(item.indexOf("=") >= 0){
+        let value = item.split("=")[1];
+        while(value.indexOf(`"`) >= 0){
+          value = value.replace(`"`,"");
+        }
+        while(value.indexOf(`'`) >= 0){
+          value = value.replace(`'`,"");
+        }
+        return value;
+      } else {
+        return true;
+      }
+    }
+  }
+  return false;
 }

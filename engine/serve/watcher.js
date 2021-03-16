@@ -4,7 +4,8 @@ const compile = require('./compiler');
 const chokidar = require('chokidar');
 const sass = require('./sass');
 const workers = require("./watcher_workers");
-const common = require('../../common');
+const class_worker = require("./watcher_class_worker");
+// const common = require('../../common');
 
 let lazy = null;
 
@@ -366,6 +367,10 @@ async function init(){
     let lazy_parent = workers.get_lazy_parent(module_type,parents,lazy);
     let parent = lazy_parent.name?lazy_parent.name:lazy_parent.type;
     let name = parents[module_type]?parents[module_type]:module_type;
+
+    if(file_type === "js"){
+      class_worker(path,module_type);
+    }
 
     if(file_type){
       common.tell('compiling : ' + file_type + " => " + name + " => " + parent);

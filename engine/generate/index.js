@@ -1,29 +1,18 @@
 const gen = require('./gen');
 
-async function init(type,name,laziness){
+async function init(type,name){
+
+  if(name && name.indexOf("--") >= 0){name = null;}
+
+  if(get_variable("--help")){
+    return common.tell("valid flags are : --lazy --common --global --lazy --common --not-lazy --not-common --name");
+  }
 
   const types = ['page','cont','panel','comp','sass','wasm'];
-  if(types.indexOf(type) < 0){
-    common.tell("you cant make 'page','cont','panel','comp','sass','wasm'");
-    return common.error("sorry i cant make " + type);
-  }
-  const laziness_options = ['--lazy','--common','--global'];
-  if(laziness && laziness_options.indexOf(laziness) < 0){
-    common.tell("valid module route controls are '--lazy', '--common', '--global'");
-    return common.error("that is a invalid module route type : " + laziness);
-  }
-  if(laziness_options.indexOf(name) >= 0){
-    common.tell("valid generate commands looks like : vegana generate page king --lazy");
-    common.tell("valid generate commands looks like : vegana generate 'module_type' 'module_name' ('--lazy' || '--common' || '--global')");
-    return common.error("you most probably didnt named the module.");
-  }
-  if(name.indexOf("--") >= 0){
-    check_name = await input.select("are you sure you wanna name your module : " + name,['no','yes']);
-    if(check_name === "no"){
-      return common.error("thanks i dont like it anyways");
-    } else {
-      common.tell("if you say so.");
-    }
+  if(type && type.length > 0 && types.indexOf(type) < 0){
+    common.error("sorry i cant make " + type);
+    common.tell("you can make 'page','cont','panel','comp','sass','wasm'");
+    type = await input.select("please select a module type",types);
   }
 
   let no_type = false,no_name = false;
@@ -32,25 +21,24 @@ async function init(type,name,laziness){
     type = await input.select("please select a module type",['page','cont','panel','comp','sass','wasm']);
   }
   if(!name){
+    name = get_variable("--name");
+  }
+  if(!name){
     no_name = true;
     name = await input.text("please provide a valid name for this module");
   }
-  if(!laziness && type !== "wasm"){
-    is_lazy = await input.select("is this module lazy?",['no','yes']);
-    if(is_lazy === "yes"){laziness = "--lazy"}
-  }
 
-  if(type === "comp" && !laziness){
-    let is_global = await input.select("is this common comp?",['no','yes']);
-    if(is_global === "yes"){laziness = '--common';}
-  }
+  if(type === "comp"){name = name.replace("Comp","");} else
+  if(type === "page"){name = name.replace("Page","");} else
+  if(type === "cont"){name = name.replace("Cont","");} else
+  if(type === "panel"){name = name.replace("Panel","");}
 
-  if(type == null || type == undefined){
+  if(type === null || type === undefined){
     common.tell('what do you want us to generate page,comp,cont or panel please tell us.');
     common.tell('example : vegana generate page main');
     return common.error('no_comp_type_found');
   }
-  if(name == null || name == undefined){
+  if(name === null || name === undefined){
     common.tell('what do you want us to call this component?');
     common.tell('example : vegana generate page login (where login is the name)');
     return common.error('no_comp_name_found');
@@ -81,14 +69,17 @@ async function init(type,name,laziness){
     return common.error('component name cannot be shorter then 4 letters');
   }
 
-  let isLazy = false,isGlobal = false;
-
-  if(laziness){
-    if(laziness === '--lazy'){
-      isLazy = true;
-    } else if(laziness === "--global" || laziness === "--common"){
-      isGlobal = true;
-    }
+  let
+  isLazy = get_variable("--lazy"),
+  isGlobal = get_variable("--common") || get_variable("--global");
+  if(!isLazy && type !== "wasm" && !get_variable("--not-lazy")){
+    is_lazy = await input.select("is this module lazy?",['no','yes']);
+    if(is_lazy === "yes"){laziness = "--lazy"}
+  }
+  let dont_run_global = get_variable("--not-global") || get_variable("--not-common");
+  if(type === "comp" && !isLazy && !dont_run_global){
+    let is_global = await input.select("is this common comp?",['no','yes']);
+    if(is_global === "yes"){isGlobal = '--common';}
   }
 
   let work = await gen.init(type,name,isLazy,no_type || no_name,isGlobal);

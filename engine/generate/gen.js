@@ -29,13 +29,28 @@ async function init(type,name,laziness,outside,isGlobal){
     compLocation = base_dir + "app/pages/" + name + "Page/";
     if(!dontCheckDir && await io.exists(compLocation)){return common.error("page with given name already exists");}
   } else if(type === "cont"){
-    pgName = await fsys.get_page();if(!pgName){return common.error("failed-get-page_name");}
+    pgName = get_variable("--page");
+    if(pgName){
+      let pageDir = base_dir + "app/pages/" + pgName + '/';
+      if(!await io.exists(pageDir)){common.error(`given page ${pgName} is invalid`);pgName=null;}
+    }
+    if(!pgName){pgName = await fsys.get_page();if(!pgName){return common.error("failed-get-page_name");}}
     cnName = name;
     compLocation = base_dir + "app/pages/" + pgName + "/conts/" + name + "Cont/";
     if(!dontCheckDir && await io.exists(compLocation)){return common.error("cont with given name already exists");}
   } else if(type === "panel"){
-    pgName = await fsys.get_page();if(!pgName){return common.error("failed-get-page_name");}
-    cnName = await fsys.get_cont(pgName);if(!pgName){return common.error("failed-get-cont_name");}
+    pgName = get_variable("--page");
+    if(pgName){
+      let pageDir = base_dir + "app/pages/" + pgName + '/';
+      if(!await io.exists(pageDir)){common.error(`given page ${pgName} is invalid`);pgName = null;}
+    }
+    if(!pgName){pgName = await fsys.get_page();if(!pgName){return common.error("failed-get-page_name");}}
+    cnName = get_variable("--cont");
+    if(cnName){
+      let contDir = base_dir + "app/pages/" + pgName + '/conts/' + cnName + '/';
+      if(!await io.exists(contDir)){common.error(`given cont ${cnName} is invalid`);cnName=null;}
+    }
+    if(!cnName){cnName = await fsys.get_cont(pgName);if(!pgName){return common.error("failed-get-cont_name");}}
     pnName = name;
     compLocation = base_dir + "app/pages/" + pgName + "/conts/" + cnName + "/panels/" + name + "Panel/";
     if(!dontCheckDir && await io.exists(compLocation)){return common.error("panel with given name already exists");}
@@ -43,10 +58,11 @@ async function init(type,name,laziness,outside,isGlobal){
     compLocation = base_dir + "app/commonComps/" + name + "Comp/";
     if(!dontCheckDir && await io.exists(compLocation)){return common.error("common comp with given name already exists");}
   } else if((type === "comp" || type === "globalComp") && !laziness){
-    compLocation = await fsys.browse_dir();
-    if(!compLocation){
-      return common.error("failed-get_dir_for_comp");
+    compLocation = get_variable("--path");
+    if(compLocation){
+      if(!await io.exists(compLocation)){common.error(`given path doesnt exist => ${compLocation}`);compLocation=null;}
     }
+    if(!compLocation){compLocation = await fsys.browse_dir();if(!compLocation){return common.error("failed-get-comp_path");}}
     compLocation = compLocation += "/comps/" + name + "Comp/";
     if(!dontCheckDir && await io.exists(compLocation)){return common.error("comp with given name already exists");}
     if(!await io.dir.ensure(compLocation)){

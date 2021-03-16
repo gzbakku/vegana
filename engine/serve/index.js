@@ -41,46 +41,59 @@ async function init(port,secure,outside){
 
   //check the files
 
-  let doCheck = await check.init();
-  if(doCheck == false){
-    return common.error('check failed');
+  if(true){
+    let doCheck = await check.init();
+    if(doCheck == false){
+      return common.error('check failed');
+    }
   }
 
   //compile here
 
-  let doCompile = await compile.init();
-  if(doCompile == false){
-    return common.error('failed-bundle_compilation');
+  if(true){
+    let doCompile = await compile.init();
+    if(doCompile == false){
+      return common.error('failed-bundle_compilation');
+    }
   }
 
   //compile lazy moduules here
 
-  let doLazyLoad = await compile.lazyLoader();
-  if(doLazyLoad == false){
-    return common.error('failed-lazy_module_compilations');
+  if(true){
+    let doLazyLoad = await compile.lazyLoader();
+    if(doLazyLoad == false){
+      return common.error('failed-lazy_module_compilations');
+    }
   }
 
   // return;
 
   //compile css here
 
-  let doSassCompilation = await sass.init();
-  if(doSassCompilation == false){
-    return common.error('failed-master_sass_compilation');
+  if(true){
+    let doSassCompilation = await sass.init();
+    if(doSassCompilation == false){
+      return common.error('failed-master_sass_compilation');
+    }
   }
 
   //start the server
 
-  let startServer = await server.init(port,secure);
-  if(startServer == false){
-    return common.error('server failed');
+  let startServer;
+  if(true){
+    startServer = await server.init(port,secure);
+    if(startServer == false){
+      return common.error('server failed');
+    }
   }
 
   //start the socket
 
-  let startSocket = await socket.init(run_cordova,run_electron);
-  if(startSocket == false){
-    return common.error('socket failed');
+  if(true){
+    let startSocket = await socket.init(run_cordova,run_electron);
+    if(startSocket == false){
+      return common.error('socket failed');
+    }
   }
 
   //start watcher

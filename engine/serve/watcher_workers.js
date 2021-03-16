@@ -1,12 +1,12 @@
 const common = require("../../common");
-const sass = require("./sass"); 
+const sass = require("./sass");
 
 module.exports = {
 
     get_file_type:(path)=>{
         if(
-            path.indexOf("/app/wasm/") >= 0 && 
-            path.indexOf(".rs") >= 0 
+            path.indexOf("/app/wasm/") >= 0 &&
+            path.indexOf(".rs") >= 0
         ){return "wasm";}
         let hold = io.clean_path(path).split("/");
         let last = hold[hold.length - 1];
@@ -14,17 +14,18 @@ module.exports = {
         let file_hold = last.split(".");
         if(file_hold.length === 1){return false;}
         let file_type = file_hold[file_hold.length - 1];
-        if(file_type === "js" && path.indexOf("/app/wasm/") < 0){return 'js';} else 
-        if(file_type === "scss"){return 'sass';} 
+        if(file_type === "js" && path.indexOf("/app/wasm/") < 0){return 'js';} else
+        if(file_type === "scss"){return 'sass';}
         else{return false;}
     },
 
     get_location:(path)=>{
         let hold = io.clean_path(path).split("/");
-        for(let item in hold){
-            if(item === "globals"){return 'globals';} else 
-            if(item === "pages"){return 'pages';} else 
-            if(item === "ui"){return 'ui';} else 
+        for(let item of hold){
+            if(item === "globals"){return 'globals';} else
+            if(item === "commonComps"){return 'commonComps';} else
+            if(item === "pages"){return 'pages';} else
+            if(item === "ui"){return 'ui';} else
             if(item === "wasm"){return 'wasm';}
         }
     },
@@ -58,12 +59,12 @@ module.exports = {
                 if(collect === 'panels'){modules.panel = place;}
                 collect = null;
             } else {
-                if(place === "ui"){collect = 'ui';} else 
-                if(place === "wasm"){collect = 'wasm';} else 
-                if(place === "globals"){collect = 'global';} else 
-                if(place === "pages"){collect = 'pages';} else 
-                if(place === "conts"){collect = 'conts';} else 
-                if(place === "panels"){collect = 'panels';} 
+                if(place === "ui"){collect = 'ui';} else
+                if(place === "wasm"){collect = 'wasm';} else
+                if(place === "globals"){collect = 'global';} else
+                if(place === "pages"){collect = 'pages';} else
+                if(place === "conts"){collect = 'conts';} else
+                if(place === "panels"){collect = 'panels';}
             }
         }
 
@@ -88,28 +89,28 @@ module.exports = {
         } else if(parents.global){
             return {type:'global',name:parents.global};
         } else if(//check panel
-            parents.page && parents.cont && parents.panel && 
-            lazyBook.panels && 
+            parents.page && parents.cont && parents.panel &&
+            lazyBook.panels &&
             lazyBook.panels.hasOwnProperty(parents.page) &&
             lazyBook.panels[parents.page].hasOwnProperty(parents.cont) &&
             lazyBook.panels[parents.page][parents.cont].indexOf(parents.panel) >= 0
         ){
             return {type:'panel',name:parents.panel};
         } else if(//check cont
-            parents.page && parents.cont && 
-            lazyBook.conts && 
+            parents.page && parents.cont &&
+            lazyBook.conts &&
             lazyBook.conts.hasOwnProperty(parents.page) &&
             lazyBook.conts[parents.page].indexOf(parents.cont) >= 0
         ){
             return {type:'cont',name:parents.cont};
         } else if(//check page
             parents.page &&
-            lazyBook.pages && 
+            lazyBook.pages &&
             lazyBook.pages.indexOf(parents.page) >= 0
         ){
             return {type:'page',name:parents.page};
         } else {//any other including ui module
-            return {type:"app"}; 
+            return {type:"app"};
         }
 
     },//get_lazy_parent
