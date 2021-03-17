@@ -4,7 +4,7 @@ const copy = require('./copy');
 const customize = require('./customize');
 const lazy = require('./lazy');
 const fsys = require('./fsys');
-const common = require("../../common");
+// const common = require("../../common");
 const sass = require("./sass");
 const comp = require("./comp");
 
@@ -18,7 +18,7 @@ async function init(type,name,laziness,outside,isGlobal){
 
   if(laziness && type == 'comp'){type = 'globalComp';}
   let compLocation,pgName,cnName,pnName,doCheck;
-  let dontCheckDir = false;
+  let dontCheckDir = true;
 
   let base_dir = await fsys.get_base_dir();
   if(type === "wasm"){
@@ -63,7 +63,8 @@ async function init(type,name,laziness,outside,isGlobal){
       if(!await io.exists(compLocation)){common.error(`given path doesnt exist => ${compLocation}`);compLocation=null;}
     }
     if(!compLocation){compLocation = await fsys.browse_dir();if(!compLocation){return common.error("failed-get-comp_path");}}
-    compLocation = compLocation += "/comps/" + name + "Comp/";
+    compLocation += "/comps/" + name + "Comp/";
+    compLocation = await io.clean_path(compLocation);
     if(!dontCheckDir && await io.exists(compLocation)){return common.error("comp with given name already exists");}
     if(!await io.dir.ensure(compLocation)){
       return common.error("failed-ensure_dir_for_comp");

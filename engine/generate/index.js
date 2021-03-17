@@ -73,13 +73,13 @@ async function init(type,name){
   isLazy = get_variable("--lazy"),
   isGlobal = get_variable("--common") || get_variable("--global");
   if(!isLazy && type !== "wasm" && !get_variable("--not-lazy")){
-    is_lazy = await input.select("is this module lazy?",['no','yes']);
-    if(is_lazy === "yes"){laziness = "--lazy"}
+    let is_lazy = await input.select("is this module lazy?",['no','yes']);
+    if(is_lazy === "yes"){isLazy = true;}
   }
   let dont_run_global = get_variable("--not-global") || get_variable("--not-common");
   if(type === "comp" && !isLazy && !dont_run_global){
     let is_global = await input.select("is this common comp?",['no','yes']);
-    if(is_global === "yes"){isGlobal = '--common';}
+    if(is_global === "yes"){isGlobal = true;}
   }
 
   let work = await gen.init(type,name,isLazy,no_type || no_name,isGlobal);

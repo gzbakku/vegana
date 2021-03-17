@@ -96,26 +96,26 @@ async function check_if_parent_is_lazy(type,modules,base_path,name){
             if(lazyBook.pages.indexOf(modules.page) >= 0){
                 lazy_module_type = 'page';
                 lazy_file_path = base_dir + "/app/pages/" + modules.page + "/+page.scss";
-                compName = modules.name + "Cont"; 
+                compName = modules.name + "Cont";
             }
         }
     } else
     if(type === "panel"){
         if(
-            lazyBook.conts && 
+            lazyBook.conts &&
             lazyBook.conts.hasOwnProperty(modules.page) &&
             lazyBook.conts[modules.page].indexOf(modules.cont) >= 0
         ){
-            compName = modules.name + "Panel"; 
+            compName = modules.name + "Panel";
             lazy_module_type = 'cont';
-            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/conts/" + modules.cont + "/+cont.scss"; 
+            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/conts/" + modules.cont + "/+cont.scss";
         } else if(
-            lazyBook.pages && 
+            lazyBook.pages &&
             lazyBook.pages.indexOf(modules.page) >= 0
         ){
-            compName = modules.name + "Panel"; 
+            compName = modules.name + "Panel";
             lazy_module_type = 'page';
-            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/+page.scss"; 
+            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/+page.scss";
         }
     } else
     if(type === "comp"){
@@ -125,36 +125,36 @@ async function check_if_parent_is_lazy(type,modules,base_path,name){
         modules.name = name;
         if(
             modules.page && modules.cont && modules.panel &&
-            lazyBook.panels && 
+            lazyBook.panels &&
             lazyBook.panels.hasOwnProperty(modules.page) &&
-            lazyBook.panels[modules.page].hasOwnProperty(modules.cont) && 
-            lazyBook.panels[modules.page][modules.cont].indexOf(modules.panel) >= 0 
+            lazyBook.panels[modules.page].hasOwnProperty(modules.cont) &&
+            lazyBook.panels[modules.page][modules.cont].indexOf(modules.panel) >= 0
         ){
-            compName = modules.name + "Panel"; 
+            compName = modules.name + "Panel";
             lazy_module_type = 'panel';
-            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/conts/" + modules.cont + "/panels/" + modules.panel + "/+panel.scss"; 
+            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/conts/" + modules.cont + "/panels/" + modules.panel + "/+panel.scss";
         } else if(
             modules.page && modules.cont && !modules.panel &&
             lazyBook.conts.hasOwnProperty(modules.page) &&
             lazyBook.conts[modules.page].indexOf(modules.cont) >= 0
         ){
-            compName = modules.name + "Cont"; 
+            compName = modules.name + "Cont";
             lazy_module_type = 'cont';
-            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/conts/" + modules.cont + "/+cont.scss"; 
+            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/conts/" + modules.cont + "/+cont.scss";
         } else if(
             modules.page && !modules.cont && !modules.panel &&
             lazyBook.pages.indexOf(modules.page) >= 0
         ){
-            compName = modules.name + "Page"; 
+            compName = modules.name + "Page";
             lazy_module_type = 'page';
-            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/+page.scss"; 
+            lazy_file_path = base_dir + "/app/pages/" + modules.page + "/+page.scss";
         } else if(
-            modules.global && 
+            modules.global &&
             lazyBook.globals.indexOf(modules.global) >= 0
         ){
-            compName = modules.name + "Comp"; 
+            compName = modules.name + "Comp";
             lazy_module_type = 'global';
-            lazy_file_path = base_dir + "/app/globals/" + modules.global + "/+comp.scss"; 
+            lazy_file_path = base_dir + "/app/globals/" + modules.global + "/+comp.scss";
         } else {
             // this will include the comp in global vegana_tree
             return true;
@@ -203,16 +203,24 @@ async function check_if_parent_is_lazy(type,modules,base_path,name){
         if(type === "panel"){
             path_to_child = './conts/' + modules.cont + "/panels/" + modules.name + "Panel/@panel.scss";
         }
-    } 
+    }
     if(type === "comp"){
-        let comp_path = base_path + "@comp.scss"; 
+        let comp_path = base_path + "@comp.scss";
         if(lazy_module_type === "global"){path_to_child = extract_path(modules.global,comp_path);} else
         if(lazy_module_type === "page"){path_to_child = extract_path(modules.page,comp_path);} else
         if(lazy_module_type === "cont"){path_to_child = extract_path(modules.cont,comp_path);} else
-        if(lazy_module_type === "panel"){path_to_child = extract_path(modules.panel,comp_path);} 
+        if(lazy_module_type === "panel"){path_to_child = extract_path(modules.panel,comp_path);}
     }
 
-    read += "\n@import '" + path_to_child + "';";
+    let toAdd = "@import '" + path_to_child + "';"
+    let children_replacer = "//+++children+++";
+    if(read.indexOf(children_replacer) >= 0){
+      toAdd += "\n" + children_replacer
+      read = read.replace(children_replacer,toAdd);
+    } else {
+      read += '\n' + toAdd;
+    }
+
     if(!await io.write(lazy_file_path,read)){
         return common.error("failed-link_sass_to_parent_module");
     } else {
@@ -242,10 +250,10 @@ function parse_path(path){
             if(collect === 'panels'){modules.panel = place;}
             collect = null;
         } else {
-            if(place === "globals"){collect = 'global';} else 
-            if(place === "pages"){collect = 'pages';} else 
-            if(place === "conts"){collect = 'conts';} else 
-            if(place === "panels"){collect = 'panels';} 
+            if(place === "globals"){collect = 'global';} else
+            if(place === "pages"){collect = 'pages';} else
+            if(place === "conts"){collect = 'conts';} else
+            if(place === "panels"){collect = 'panels';}
         }
     }
     return modules;
