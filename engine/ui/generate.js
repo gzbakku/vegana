@@ -51,8 +51,9 @@ module.exports = {
     const lib_dir = ui_dir + "/" + uiLib;
     const comp_dir = lib_dir + "/" + compName;
     const bin_dir = await io.dir.app();
+    const check_dir = false;
 
-    if(await io.exists(comp_dir)){
+    if(check_dir && await io.exists(comp_dir)){
       return common.error("comp with this name already exists in the ui lib.");
     }
 
@@ -63,7 +64,7 @@ module.exports = {
     const base_comp_path = bin_dir + '/generate/uiComp.js';
     const next_comp_path = comp_dir + "/comp.js";
     const base_scss_path = bin_dir + '/generate/index.scss';
-    const next_scss_path = comp_dir + "/index.scss";
+    const next_scss_path = comp_dir + "/@comp.scss";
 
     if(!await io.copy(base_scss_path,next_scss_path)){
       return common.error("failed-generate-comp-scss-file");
@@ -86,7 +87,23 @@ module.exports = {
     }
 
     //--------------------------------------------------
-    //insert in index
+    //insert in sass index
+
+    let sass_path = lib_dir + "/index.scss";
+    let sass_read;
+    if(!await io.exists(sass_path)){sass_read = '';} else {
+      sass_read = await io.read(sass_path);
+    }
+    if(sass_read === false){
+      return common.error("failed-open_sass_file");
+    }
+    sass_read += `\n@import("./${compName}/@comp.scss");`;
+    if(!await io.write(sass_path,sass_read)){
+      return common.error("failed-update-lib_sass_index");
+    }
+
+    //--------------------------------------------------
+    //insert in js index
 
     const index_path = lib_dir + "/index.js";
     const ui_libs = await uiRunner.getUiComps(uiLib)

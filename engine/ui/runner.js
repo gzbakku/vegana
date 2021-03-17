@@ -18,10 +18,14 @@ module.exports = {
         resolve([]);
       }
 
-      fs.readdir(ui_dir,(err,files)=>{
+      fs.readdir(ui_dir,{withFileTypes:true},(err,files)=>{
         if(err){reject(err);} else {
           let h = [];
-          for(let c of files){if(c !== "index.js"){h.push(c);}}
+          for(let c of files){
+            if(c.isDirectory() && c.name.indexOf("Ui") >= 0){
+              h.push(c.name);
+            }
+          }
           resolve(h);
         }
       });
@@ -37,10 +41,14 @@ module.exports = {
       const app_dir = await get_app_dir();
       const comp_dir = app_dir + "/ui/" + uiLibName;
 
-      fs.readdir(comp_dir,(err,comps)=>{
+      fs.readdir(comp_dir,{withFileTypes:true},(err,comps)=>{
         if(err){reject(err);} else {
           let h = [];
-          for(let c of comps){if(c !== "index.js"){h.push(c);}}
+          for(let c of comps){
+            if(c.isDirectory() && c.name.indexOf("Comp") >= 0){
+              h.push(c.name);
+            }
+          }
           resolve(h);
         }
       });

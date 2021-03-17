@@ -1,4 +1,5 @@
 const fs = require('fs-extra');
+const fs_native = require("fs/promises");
 const get_npm_root = require("get_npm_root");
 
 module.exports = {
@@ -109,6 +110,17 @@ module.exports = {
 
   delete:(location)=>{
     return fs.remove(location)
+    .then(()=>{
+      return true;
+    })
+    .catch((e)=>{
+      common.error(e);
+      return false;
+    });
+  },
+
+  rename:(from,to)=>{
+    return fs_native.rename(from,to)
     .then(()=>{
       return true;
     })

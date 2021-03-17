@@ -9,6 +9,8 @@ module.exports = {
       return common.error("failed-invalid-ui_lib-name");
     }
 
+    name = name.replace("Ui","");
+
     const this_name = name + "Ui";
     const ui_pool = await uiRunner.getUiLibs().then((f)=>{return f;}).catch((e)=>{console.log(e);return false;});
     const ui_dir = await uiRunner.getUiDir().then((f)=>{return f;}).catch(()=>{return false;});
@@ -19,15 +21,9 @@ module.exports = {
       return common.error("failed-get-UiDir");
     }
 
-    common.tell("app dir found");
-
-    if(ui_pool.indexOf(this_name) >= 0 && true){
-      return common.error("ui lib already exists with this name try generate command to add new components to this ui");
-    }
-
-    //activate dir check here
+    const check_dir = true;
     const this_ui_dir = ui_dir + "/" + this_name;
-    if(await io.exists(this_ui_dir)){
+    if(check_dir && await io.exists(this_ui_dir)){
       return common.error("ui lib with this name already exists.");
     }
     if(!await io.dir.ensure(this_ui_dir)){
@@ -38,6 +34,14 @@ module.exports = {
 
     //copy the ui index file
     const bin = await io.dir.app();
+
+    const uiSassBinPath = bin + "/generate/clean.scss";
+    const uiSassToPath = this_ui_dir + "/index.scss";
+
+    if(!await io.copy(uiSassBinPath,uiSassToPath)){
+      return common.error("failed-generate-comp-sass_file");
+    }
+
     const uiIndexPath = bin + "/generate/uiIndex.js"
     const nextIndexPath = this_ui_dir + "/index.js";
 
