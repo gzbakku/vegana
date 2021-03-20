@@ -2,6 +2,10 @@ module.exports = {
 
   init:async (compName,uiLib)=>{
 
+    // console.log({compName:compName});
+    // console.log({uiLib:uiLib});
+    // return;
+
     //--------------------------------------------------
     //get ui workers
 
@@ -17,7 +21,6 @@ module.exports = {
 
     //--------------------------------------------------
     //get comp name and compname if not procided
-
     if(!compName){
       compName = await input.text("please provide a ui component name");
     }
@@ -97,7 +100,7 @@ module.exports = {
     if(sass_read === false){
       return common.error("failed-open_sass_file");
     }
-    sass_read += `\n@import("./${compName}/@comp.scss");`;
+    sass_read += `\n@import './${compName}/@comp.scss';`;
     if(!await io.write(sass_path,sass_read)){
       return common.error("failed-update-lib_sass_index");
     }

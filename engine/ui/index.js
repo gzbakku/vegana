@@ -8,8 +8,18 @@ module.exports = {
 
   init:async (cmd,name,uiLibName)=>{
 
+    if(get_variable("--help")){
+      return common.info("you can pass comp name with --name var and ui lib name by --lib || --ui || --ui-lib");
+    }
+
     if(uiLibName && uiLibName.indexOf("--") >= 0){
       uiLibName = null;
+    }
+    if(name && name.indexOf("--") >= 0){
+      name = null;
+    }
+    if(!name){
+      name = get_variable("--name");
     }
 
     let valid_apis = ['new','generate','manage','upgrade'];
@@ -22,7 +32,7 @@ module.exports = {
     if(cmd === "upgrade"){upgrade.init(name);} else
     if(cmd === "generate"){
       if(!uiLibName){
-        uiLibName = get_variable("--ui-lib");
+        uiLibName = get_variable("--ui-lib") || get_variable("--lib") || get_variable("--ui");
       }
       generate.init(name,uiLibName);
     } else {

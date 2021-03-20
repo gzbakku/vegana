@@ -2,14 +2,19 @@
 
 module.exports = async (path,module_type)=>{
 
-  let sassFilePath;
-
-  let sass_path = await get_sass_location(path,module_type);
-
   let do_extract_classes = await extract_classes(path);
   if(do_extract_classes === false){
     return common.error("failed-extract_classes-add_class_from_js_to_module_sass");
   }
+  if(do_extract_classes.length === 0){
+    return true;
+  }
+
+  let sassFilePath;
+
+  let sass_path = await get_sass_location(path,module_type);
+
+
 
   let read = await io.read(sass_path);
   if(read === false){
