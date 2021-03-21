@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2stknj"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.loader.load.js"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api lazy loads a js file either form a valid url or from your vegana app js directory"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2stknj": {
+      "id": "2iyza7ekkm2stknj",
+      "template": [
+        "2iyza7ekkm2stlnb"
+      ],
+      "containers": {
+        "2iyza7ekkm2stlnb": {
+          "id": "2iyza7ekkm2stlnb",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\n/*================================\n\tload js file from vegana app directory\n\tthis file is placed in vegana_project_directory/js/some/random.js\n================================*/\nconst load_native_vegana_wasm_module = await engine.loader.load.js({\n\tid;'any_id',//this is not required or is elective\n\ttype:'local',\n\turl:'some/random.js'\n})\n.then(()=>{\n\treturn true;\n})\n.catch(()=>{\n\treturn false;\n});\n\n/*================================\n\tload external js file\n================================*/\nconst load_external_wasm_module = await engine.loader.load.js({\n\ttype:'url',\n\turl:'https://some.com/some.js'\n})\n.then(()=>{\n\treturn true;\n})\n.catch(()=>{\n\treturn false;\n});\n\n\n/*================================\n\tinput object schema\n================================*/\n{\n\tid:{type:'string',elective:true},\n\ttype:{type:'string',options:['local','url']},\n\turl:{type:'string',max:4048},\n\tmodule:{type:'boolean',elective:true}        \n}\n"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Loader Load Js",
+  "discription": "how to lazy load a js file in vegana js.",
+  "keywords": "vegana,api,engine,loader,load,js"
+}

@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2stknj"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.loader.load.wasm"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api loads a native vegana wasm module written using rust and takes a object as argument and returns a promise you will have to catch the error if any."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2stknj": {
+      "id": "2iyza7ekkm2stknj",
+      "template": [
+        "2iyza7ekkm2stlnb"
+      ],
+      "containers": {
+        "2iyza7ekkm2stlnb": {
+          "id": "2iyza7ekkm2stlnb",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\n/*================================\n\tload native vegana rust wasm module\n================================*/\nconst load_native_vegana_wasm_module = await engine.loader.load.wasm({\n\ttype:'local',\n\tmodule:'module_name'\n})\n.then(()=>{\n\treturn true;\n})\n.catch(()=>{\n\treturn false;\n});\n\n/*================================\n\tload external rust wasm module\n================================*/\nconst load_external_wasm_module = await engine.loader.load.wasm({\n\ttype:'url',\n\turl:'https://some.com/some.wasm'\n})\n.then(()=>{\n\treturn true;\n})\n.catch(()=>{\n\treturn false;\n});\n\n"
+            }
+          },
+          "style": {
+            "width": "95%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Loader Load Wasm",
+  "discription": "how to load a lazy wasm module in vegana js.",
+  "keywords": "vegana,api,engine,loader,load,wasm"
+}

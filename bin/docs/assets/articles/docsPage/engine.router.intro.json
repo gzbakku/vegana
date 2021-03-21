@@ -1,0 +1,37 @@
+{
+  "template": [
+    "2iyzacm8km64dhta"
+  ],
+  "rows": {
+    "2iyzacm8km64dhta": {
+      "id": "2iyzacm8km64dhta",
+      "template": [
+        "2iyzacm8km64djwv",
+        "2iyzacm8km64dwem"
+      ],
+      "containers": {
+        "2iyzacm8km64djwv": {
+          "id": "2iyzacm8km64djwv",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Vegana Router"
+            }
+          }
+        },
+        "2iyzacm8km64dwem": {
+          "id": "2iyzacm8km64dwem",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nvegana router system is designed to make a app fast to load and browse so a page is divided into multiple diffrent components which can be lazy loaded to make a fast experience for user.\n\nbasic vegana components are  :-\n\n-page\n -cont\n  -panel\n  \n--comp  \n  \neach html document is made of page module at the top this page can be routed to diffrent pages to make the browsing experince friction less. the user never leaves a active page ever.\n\neach page is built of cont modules, these can be sections of a page ie for a article page it can be main article cont, writer profile cont and comments cont, all these conts can be loaded lazyely this makes the initial app size tiny and makes it load faster, the later conts can le loaded as there parent conts are created.\n\nthese conts can also be routed in a cont router, this router can provide a page flexibility to provide many features through one collection of modules ie a settings page might have sections that shows through a router like profile, security, data, notifications etc, by giving  a page ability to lazy load these conts the initial page size again can become tiny and only that be loaded which is used by the user.\n\nconts are made of panels again these panels can either be used in a structral or routable model these can be applied to load even further extension for a page ie settings page may have diffrent sections like profile picture, data or password for these section lazy load can reduce page size even further.\n\nbut a user might need even deeper or shalow structural template for this you can use comp modules these modules are parent agnostic and can be produced anywhere but can also be used in a router sesstings these modules can also be lazy.\n\nthis much flexibility allows you to only load what the user needs for a task this reduces bloat and makes your app extreamly fast.\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Router Introduction",
+  "discription": "introduction to vegana js router.",
+  "keywords": "vegana,api,engine,router,introduction"
+}

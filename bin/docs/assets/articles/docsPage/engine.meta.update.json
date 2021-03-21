@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza3qkkm5xbtaw"
+  ],
+  "rows": {
+    "2iyza3qkkm5xbtaw": {
+      "id": "2iyza3qkkm5xbtaw",
+      "template": [
+        "2iyza3qkkm5xbueg",
+        "2iyza3qkkm5xbvnk",
+        "2iyza3qkkm5xbw0o"
+      ],
+      "containers": {
+        "2iyza3qkkm5xbueg": {
+          "id": "2iyza3qkkm5xbueg",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.meta.update"
+            }
+          }
+        },
+        "2iyza3qkkm5xbvnk": {
+          "id": "2iyza3qkkm5xbvnk",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api updates a meta tag in the html document."
+            }
+          }
+        },
+        "2iyza3qkkm5xbw0o": {
+          "id": "2iyza3qkkm5xbw0o",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//if meta tag doesnt exists on the html page it will be created\nengine.meta.update({\n\tname:'keywords',\n    content:'vegana,js'\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Meta Update",
+  "discription": "how to update a meta tag in vegana js.",
+  "keywords": "vegana,api,engine,meta,update"
+}

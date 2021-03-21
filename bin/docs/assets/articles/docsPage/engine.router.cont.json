@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza37wkm613isc"
+  ],
+  "rows": {
+    "2iyza37wkm613isc": {
+      "id": "2iyza37wkm613isc",
+      "template": [
+        "2iyza37wkm613jqs",
+        "2iyza37wkm613r44",
+        "2iyza37wkm613rk4"
+      ],
+      "containers": {
+        "2iyza37wkm613jqs": {
+          "id": "2iyza37wkm613jqs",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana cont module router"
+            }
+          }
+        },
+        "2iyza37wkm613r44": {
+          "id": "2iyza37wkm613r44",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nvegana cont module can be routed on cont router all needed steps to navigate are given below please follow all steps."
+            }
+          }
+        },
+        "2iyza37wkm613rk4": {
+          "id": "2iyza37wkm613rk4",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\n//-----------------------------------\n//\tmake cont module\n//-----------------------------------\n/*\n\n\t//you can make cont module with vegana cli\n    //for more information see the cli documents\n    \n    $ vegana generate cont first\n    \n    $ vegana generate cont second\n\n*/\n\n//-----------------------------------\n//\tmake cont router\n//-----------------------------------\n/*\n\n\tthis router should be made on a page module only.\n\n\trouter params\n    \n    engine.router.init.conts(page_id_string,router_class_string);\n\n*/\n\nengine.router.init.conts(pageId,\"conts-router-class\");\n\n//-----------------------------------\n//\tintegrate cont\n//-----------------------------------\n/*\n\n\tthe cont module will integrate automatically once you require it in your page module.\n    \n    cont module should only be loaded in there parent page.\n\n*/\n\n\nrequire(\"./conts/firstCont/cont\");\n\n//-----------------------------------\n// integrate lazy cont\n//-----------------------------------\n/*\n\n\tlazy cont first are neede to be loaded on to the app.\n\n*/\n\nconst loadFirstCont = await engine.loader.load.cont(\"firstPage\",\"firstCont\")\n.then(()=>{\n\treturn true;\n})\n.catch(()=>{\n\treturn false;\n});\n\n//-----------------------------------\n// get cont modules\n//-----------------------------------\n/*\n\n\tcall the contModule sub-api in get api of engine to get contModule.\n\n*/\n\nlet firstCont = engine.get.contModule(\"firstPage\",\"firstCont\");\n\n//-----------------------------------\n//\troute to new cont\n//-----------------------------------\n/*\n\n\t//navigator params\n    \n    engine.router.navigate.to.cont(cont_module_object,{data_to_pass})\n\n*/\n\n//route to prebuilt or new cont module\nengine.router.navigate.to.cont(firstCont,{data_to_pass});\n\n//rebuild page module\n//this api removes the old cont module body and makes a new one.\nengine.router.navigate.new.cont(firstCont,{data_to_pass});\n\n//-----------------------------------\n//\tthis wont execute here\n//-----------------------------------\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Router Cont",
+  "discription": "how to route to a cont module in vegana js.",
+  "keywords": "vegana,api,engine,router,cont,init,make,to,new"
+}

@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.span"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api makes a span dom element."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst span = engine.make.span({\n\tparent:pageId,\n    text:\"i am a span\"\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Span",
+  "discription": "how to make a span element in vegana js.",
+  "keywords": "vegana,api,engine,make,span"
+}

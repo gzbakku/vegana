@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza37wkm613isc"
+  ],
+  "rows": {
+    "2iyza37wkm613isc": {
+      "id": "2iyza37wkm613isc",
+      "template": [
+        "2iyza37wkm613jqs",
+        "2iyza37wkm613r44",
+        "2iyza37wkm613rk4"
+      ],
+      "containers": {
+        "2iyza37wkm613jqs": {
+          "id": "2iyza37wkm613jqs",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana page module router"
+            }
+          }
+        },
+        "2iyza37wkm613r44": {
+          "id": "2iyza37wkm613r44",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nvegana page module can be routed on page router all needed steps to navigate are given below please follow all steps."
+            }
+          }
+        },
+        "2iyza37wkm613rk4": {
+          "id": "2iyza37wkm613rk4",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\n//-----------------------------------\n//\tmake page module\n//-----------------------------------\n/*\n\n\t//you can make page module with vegana cli\n    //for more information see the cli documents\n    \n    $ vegana generate page first\n    \n    $ vegana generate page second\n\n*/\n\n//-----------------------------------\n//\tintegrate page\n//-----------------------------------\n/*\n\n\tthe page module will integrate automatically once you require it in your page.\n\n*/\n\n\nrequire(\"./pages/firstPage/page\");\n\n//-----------------------------------\n// integrate lazy page\n//-----------------------------------\n/*\n\n\tlazy page first are neede to be loaded on to the app index.\n\n*/\n\nconst loadFirstPage = await engine.loader.load.page(\"firstPage\")\n.then(()=>{\n\treturn true;\n})\n.catch(()=>{\n\treturn false;\n});\n\n//-----------------------------------\n// get page modules\n//-----------------------------------\n/*\n\n\tcall the pageModule sub-api in get api of engine to get pageModule.\n\n*/\n\nlet firstPage = engine.get.pageModule(\"firstPage\");\n\n//-----------------------------------\n//\troute to new page\n//-----------------------------------\n/*\n\n\t//navigator params\n    \n    engine.router.navigate.to.page(page_module_object,{data_to_pass})\n\n*/\n\n//route to prebuilt or new page module\nengine.router.navigate.to.page(firstPage,{data_to_pass});\n\n//rebuild page module\n//this api removes the old page module body and makes a new one\nengine.router.navigate.new.page(firstPage,{data_to_pass});\n\n//-----------------------------------\n//\tthis wont execute here\n//-----------------------------------\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Router Page",
+  "discription": "how to route to a page module in vegana js.",
+  "keywords": "vegana,api,engine,router,page,init,make,to,new"
+}

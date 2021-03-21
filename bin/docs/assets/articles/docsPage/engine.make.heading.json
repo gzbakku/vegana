@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.heading"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api makes a heading dom element."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\"\n        }\n    }\n});\n\n//engine.make.heading({\"all creator params\",level});\n\n//level is to be provided for this specific vegana creator api.\n\nengine.make.heading({\n\tparent:parent_div,\n    level:1,\n    text:\"heading 1\"\n});\n\nengine.make.heading({\n\tparent:parent_div,\n    level:2,\n    text:\"heading 2\"\n});\n\nengine.make.heading({\n\tparent:parent_div,\n    level:3,\n    text:\"heading 3\"\n});\n\nengine.make.heading({\n\tparent:parent_div,\n    level:4,\n    text:\"heading 4\"\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Heading",
+  "discription": "how to make a heading element in vegana js.",
+  "keywords": "vegana,api,engine,make,heading"
+}

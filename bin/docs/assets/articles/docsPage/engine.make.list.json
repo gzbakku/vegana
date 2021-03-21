@@ -1,0 +1,85 @@
+{
+  "template": [
+    "2iyza5mwkm50399y",
+    "2iyza6wwkm5wnswy"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.list"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nthis api makes a list dom element\n\nlist api works on the concept of inheritance ie all creator apis like function event and events will be applied to list items not to list itself so you can control each list item with single function input, but sometimes you may need to apply unique functions to list items for this purpose you can pass creator apis directly to the list items.\n\n**draw sub-api from creator api is not inherited by list items they break the inheritane pattern used by native wrappers. \n\n**only event, events, class and function creator apis are inherited.\n"
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\"\n        }\n    }\n});\n\nengine.make.list({\n\tparent:parent_div,\n    \n    //this is class applied to the list element itself\n    class:\"page-docs-cont-make-panel-list-list\",\n    \n    //this can be ol and ul default is ol if not provided\n    type:'ol',\n    \n    //item class will be applied to all list items\n    itemClass:'page-docs-cont-make-panel-list-list-item',\t\n    \n    //creator function api will be applied to list item\n    function:()=>{console.log(\"item is clicked\");},\t\t\n    \n    //creator events api will be applied to list item\n    //events will be overtaken if provided by any list item object\n    //events:[..{creator_event_object}]\t\n    //event:{creator_event_object}\n    \n    //click items and see item one function overtakes the global function.\n    data:[\n    \t{\n        \ttext:\"item one\",\n            //overtakes global item function if defined\n            function:()=>{console.log(\"item one is clicked\");},\n            //overtakes itemClass if defined\n            class:'page-docs-cont-make-panel-list-list-item_one'\t\t\t\t\t\t\t\n        },\n        {text:\"item two\"},\n        {text:\"item three\"},\n        {text:\"item four\"},\n    ]\n});\n\n"
+            }
+          }
+        }
+      }
+    },
+    "2iyza6wwkm5wnswy": {
+      "id": "2iyza6wwkm5wnswy",
+      "template": [
+        "2iyza6wwkm5wnttm",
+        "2iyza6wwkm5wnu9u",
+        "2iyza6wwkm5wnuo9"
+      ],
+      "containers": {
+        "2iyza6wwkm5wnttm": {
+          "id": "2iyza6wwkm5wnttm",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "add new items to list"
+            }
+          }
+        },
+        "2iyza6wwkm5wnu9u": {
+          "id": "2iyza6wwkm5wnu9u",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "sometimes you may need to add items to the list this is assumed since vegana is a active framework."
+            }
+          }
+        },
+        "2iyza6wwkm5wnuo9": {
+          "id": "2iyza6wwkm5wnuo9",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\"\n        }\n    }\n});\n\nconst list = engine.make.list({\n\n\tparent:parent_div,\n    class:\"page-docs-cont-make-panel-list-list\",\n    type:'ol',\n    itemClass:'page-docs-cont-make-panel-list-list-item',\t\n    \n    data:[\n    \t{text:\"item one\"},\n        {text:\"item two\"},\n        {text:\"item three\"},\n        {text:\"item four\"},\n    ]\n});\n\n//=========================\n//add singel item\n//all list properties can be provided in base object\n//no orignal global list creator apis will be applied to this new item\n\nengine.make.listItem({\n\tlist_id:list,\n    itemClass:'page-docs-cont-make-panel-list-list-item',\n    text:\"item five\"\n});\n\n//=========================\n//add multiple items\n//all list properties can be provided in base object or the item object\n//no orignal global list creator apis will be applied to this new item\n\nengine.make.listItems({\n\tlist_id:list,\n    itemClass:'page-docs-cont-make-panel-list-list-item',\n    data:[\n    \t{text:\"item six\"},\n        {text:\"item seven\",class:\"page-docs-cont-make-panel-list-list-item_one\"},\n    ]\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make List",
+  "discription": "how to make a list element in vegana js. how to make a ul list in vegana js.how to make a ol list in vegana js.",
+  "keywords": "vegana,api,engine,make,list,ol,li,ul"
+}

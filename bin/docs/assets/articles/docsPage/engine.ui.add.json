@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.ui.add api"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api adds a vegana comp module to a ui collection."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst someCompModule = require(\"./comps/someComp/comp\");\n\nengine.ui.add(\"someComp\",someCompModule);\n\n//==================================\n//\twont execute on here\n//==================================\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Sketch Colors Api",
+  "discription": "how to manage and share colors in vegana js.",
+  "keywords": "vegana,api,engine,sketch,colors,add,get,manage"
+}

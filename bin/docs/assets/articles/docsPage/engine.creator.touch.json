@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza824km4ibz4b"
+  ],
+  "rows": {
+    "2iyza824km4ibz4b": {
+      "id": "2iyza824km4ibz4b",
+      "template": [
+        "2iyza824km4ic17v",
+        "2iyza824km4ic6ii",
+        "2iyza824km4ic8pv"
+      ],
+      "containers": {
+        "2iyza824km4ic17v": {
+          "id": "2iyza824km4ic17v",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Vegana Creator Touch Api"
+            }
+          }
+        },
+        "2iyza824km4ic6ii": {
+          "id": "2iyza824km4ic6ii",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api provides stream of position data to a tigger function starting from pointer down on given dom element continuing with pointer move and ends with pointer up. "
+            }
+          }
+        },
+        "2iyza824km4ic8pv": {
+          "id": "2iyza824km4ic8pv",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nengine.make.div({\n\tparent:pageId,\n    text:\"track me\",\n    functionData:{some:true},\n    touch:(id,move,functionData,event)=>{\n    \t//id = this element id\n        //move is a custom move object\n        //functionData = you can provide it in element properties\n        //event defualt dom event\n        \n        console.log(move);\n        \n    }\n});\n\n/*===========================\n\n\t//------------------------------\n    \tmove object\n    //------------------------------\n    \n    {\n    \n      type:start/continue/end,\n\n      dirX:left/right,\n      dirY:top/bottom,\n\n      moveX:Diff_Number_PX,\n      moveY:Diff_Number_PX,\n\n      posX:Number_PX,\n      posY:Number_PX,\n\n      basePosX:Number_PX,\n      basePosY:Number_PX,\n\n      percX:Number_Perc,\n      percY:Number_Perc,\n\n      time:MilliSeconds\n    \n  }\n\n===========================*/\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Creator Touch",
+  "discription": "vegana creator api to trigger event on pointer movements",
+  "keywords": "vegana,api,engine,make,creator,touch"
+}

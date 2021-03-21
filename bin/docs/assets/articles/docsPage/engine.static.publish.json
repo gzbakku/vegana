@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.static.publish api"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api publishes the page in vegana static when you are done processing it, we do not assume when the page is done you have to tell the api that page is ready to be published."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nengine.static.publish();\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Static publish Api",
+  "discription": "how to publish or finish the page in vegana static.",
+  "keywords": "vegana,api,engine,static,publish,build,finish,page"
+}

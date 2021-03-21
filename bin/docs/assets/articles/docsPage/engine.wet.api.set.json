@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.wet.api.set api"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api sets the base wet api location."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nengine.wet.api.set(\"https://some.com\")\n\nconst base_api_location = engine.wet.api.get();\n\nconsole.log({base_api_location:base_api_location});"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Wet Api Set Subapi",
+  "discription": "this api sets the active wet base api location",
+  "keywords": "engine,api,wet,subapi,api,set"
+}

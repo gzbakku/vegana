@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza3qkkm5xbtaw"
+  ],
+  "rows": {
+    "2iyza3qkkm5xbtaw": {
+      "id": "2iyza3qkkm5xbtaw",
+      "template": [
+        "2iyza3qkkm5xbueg",
+        "2iyza3qkkm5xbvnk",
+        "2iyza3qkkm5xbw0o"
+      ],
+      "containers": {
+        "2iyza3qkkm5xbueg": {
+          "id": "2iyza3qkkm5xbueg",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.meta.delete"
+            }
+          }
+        },
+        "2iyza3qkkm5xbvnk": {
+          "id": "2iyza3qkkm5xbvnk",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api deletes a meta tags in the html document."
+            }
+          }
+        },
+        "2iyza3qkkm5xbw0o": {
+          "id": "2iyza3qkkm5xbw0o",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nengine.meta.delete(\"keywords\");\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Meta Delete",
+  "discription": "how to delete a meta tag in vegana js.",
+  "keywords": "vegana,api,engine,meta,delete"
+}

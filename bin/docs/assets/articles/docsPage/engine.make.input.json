@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.input"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api makes a dom input element it takes a type value to provide the specific input functions as per user need."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\"\n        }\n    }\n});\n\n    const value_div = engine.make.div({\n        parent:parent_div,\n        text:'selected value will be displayed here.',\n        draw:{\n            all:{\n                border:\"5px solid pink\",\n                padding:\"10px\"\n            }\n        }\n    });\n    \n    let input_draw = {\n    \tall:{\n        \tdisplay:'block',\n            border:\"5px solid pink\",\n            width:'100%',\n            padding:\"10px\",\n            'outline':'none'\n        }\n    };\n        \n     let input_function =  (id,value)=>{\n     \tif(typeof(value) !== \"string\"){\n        \tvalue = String(value);\n        }\n     \tengine.set.div.text(value_div,`selected value : ${value}`);\n     }  \n\n\tengine.make.input({\n    \tparent:parent_div,\n        type:\"string\",\n        placeholder:'string input',\n        draw:input_draw,\n        function:input_function\n    });\n    \n    engine.make.input({\n    \tparent:parent_div,\n        type:\"number\",\n        placeholder:'number input',\n        draw:input_draw,\n        function:input_function\n    });\n    \n    engine.make.input({\n    \tparent:parent_div,\n        type:\"email\",\n        placeholder:'email input',\n        draw:input_draw,\n        function:input_function\n    });\n    \n    engine.make.input({\n    \tparent:parent_div,\n        type:\"file\",\n        draw:input_draw,\n        function:(id,files)=>{\n            engine.set.div.text(value_div,`selected file : ${files[0].name}`);\n        }\n    });\n    \n    engine.make.input({\n    \tparent:parent_div,\n        type:\"checkbox\",\n        draw:{\n        \tall:{\n            \tmargin:\"10px\"\n            }\n        },\n        function:(id,checked)=>{\n            engine.set.div.text(value_div,`selected value : checked => ${checked}`);\n        }\n    });\n\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Input",
+  "discription": "how to make a input element in vegana js.",
+  "keywords": "vegana,api,engine,make,input,string,number,files,checkbox"
+}

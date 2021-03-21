@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.addClass"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api adds a class property to any dom element."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nlet class_added = false;\n\nlet parent_div = engine.make.div({\n\tparent:pageId,\n    text:'click me',\n    class:\"page-docs-cont-make-panel-addClass-test_div\",\n    function:(id)=>{\n    \n    \tif(class_added){\n        \treturn true;\n        }\n    \t\n        //------------------------------------\n        //api is here\n        \n        /*\n        \n        \tengine.make.addClass({id,class})\n        \n        */\n        \n        engine.make.addClass({\n        \tid:id,\n            class:\"page-docs-cont-make-panel-addClass-class_to_add\"\n        });\n        \n        //------------------------------------\n        \n    }\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make AddClass",
+  "keywords": "vegana,api,engine,make,addClass",
+  "discription": "how to add a class to a dom element in vegana js."
+}

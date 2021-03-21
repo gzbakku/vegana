@@ -1,0 +1,44 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.button"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api makes a dom button type input element."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\"\n        }\n    }\n});\n\n    const value_div = engine.make.div({\n        parent:parent_div,\n        text:'number of button clicks will be displayed here.',\n        draw:{\n            all:{\n                border:\"5px solid pink\",\n                padding:\"10px\"\n            }\n        }\n    });\n    \n    let count = 0;\n\n\tengine.make.button({\n    \tparent:parent_div,\n        value:'click me',\n        draw:{\n            all:{\n                border:\"5px solid pink\",\n                'border-radius':'10px',\n                padding:\"10px\",\n                margin:\"10px\"\n            }\n        },\n        function:(id,value)=>{\n        \tcount += 1;\n        \tengine.set.div.text(value_div,`click count : ${count}`);\n        }\n    });\n\n"
+            }
+          }
+        }
+      }
+    }
+  }
+}

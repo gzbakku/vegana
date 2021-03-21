@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza60kkm5zx9x7"
+  ],
+  "rows": {
+    "2iyza60kkm5zx9x7": {
+      "id": "2iyza60kkm5zx9x7",
+      "template": [
+        "2iyza60kkm5zxaor",
+        "2iyza60kkm5zxcbm",
+        "2iyza60kkm5zxdxm"
+      ],
+      "containers": {
+        "2iyza60kkm5zxaor": {
+          "id": "2iyza60kkm5zxaor",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.request"
+            }
+          }
+        },
+        "2iyza60kkm5zxcbm": {
+          "id": "2iyza60kkm5zxcbm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this vegana engine api is a cover of web fetch api, but on native platforms ie cordova electron or native os apps this wrapper exposes native os apis too but with the same interface as web fetch api."
+            }
+          }
+        },
+        "2iyza60kkm5zxdxm": {
+          "id": "2iyza60kkm5zxdxm",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//please support creators of \n/*\n\n\thttps://reqres.in\n\n*/\n\n\nconst query = await engine.request({\n\turl:'https://reqres.in/api/login',\n\tmethod:'post',\n    body:{\n    \t\"email\": \"eve.holt@reqres.in\",\n        \"password\": \"cityslicka\"\n    }\n});\n\nconsole.log(query);\n\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Request Api",
+  "discription": "this api is a wrapper around the web fetch api but also provides the same functionality of all platforms ie native, static, electron and cordova.",
+  "keywords": "vegana,api,engine,request"
+}

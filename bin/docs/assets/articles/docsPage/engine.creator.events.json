@@ -1,0 +1,93 @@
+{
+  "template": [
+    "2iyza824km4ibz4b",
+    "2iyza824km4igb3w",
+    "2iyza824km4igkh0"
+  ],
+  "rows": {
+    "2iyza824km4ibz4b": {
+      "id": "2iyza824km4ibz4b",
+      "template": [
+        "2iyza824km4ic17v",
+        "2iyza824km4ic6ii"
+      ],
+      "containers": {
+        "2iyza824km4ic17v": {
+          "id": "2iyza824km4ic17v",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Vegana Creator Events Api"
+            }
+          }
+        },
+        "2iyza824km4ic6ii": {
+          "id": "2iyza824km4ic6ii",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nthis api provides a simple fast way to attach events to a dom element either you can attach one or multiple events to any dom element when you are making it.\n"
+            }
+          }
+        }
+      }
+    },
+    "2iyza824km4igb3w": {
+      "id": "2iyza824km4igb3w",
+      "template": [
+        "2iyza824km4igcdg",
+        "2iyza824km4ige9o"
+      ],
+      "containers": {
+        "2iyza824km4igcdg": {
+          "id": "2iyza824km4igcdg",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Add Single Event"
+            }
+          }
+        },
+        "2iyza824km4ige9o": {
+          "id": "2iyza824km4ige9o",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nengine.make.div({\n\tparent:pageId,\n    text:\"hover over me\",\n    event:{\n    \ttype:\"pointerenter\",\n        function:()=>{\n        \tconsole.log(\"you are on me\");\n        }\n    }\n});\n"
+            }
+          }
+        }
+      }
+    },
+    "2iyza824km4igkh0": {
+      "id": "2iyza824km4igkh0",
+      "template": [
+        "2iyza824km4igmrf",
+        "2iyza824km4igsxg"
+      ],
+      "containers": {
+        "2iyza824km4igmrf": {
+          "id": "2iyza824km4igmrf",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Add Multiple Events"
+            }
+          }
+        },
+        "2iyza824km4igsxg": {
+          "id": "2iyza824km4igsxg",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\nengine.make.div({\n\tparent:pageId,\n    text:\"check context\",\n    events:[\n    \t{event:\"pointerenter\",function:()=>{\n        \tconsole.log(\"i am in context\");\n        }},\n        {event:\"pointerleave\",function:()=>{\n        \tconsole.log(\"i am out of context\");\n        }}\n    ]\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Creator Events | Event Listener",
+  "discription": "vegana creator api to add event listeneres to any dom element from one input.",
+  "keywords": "vegana,api,engine,make,creator,events,event,add,eventListener"
+}

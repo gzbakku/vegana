@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza9rkkm1ply8b"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.binder.click"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "trigger function on pointer click on a html dom element."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza9rkkm1ply8b": {
+      "id": "2iyza9rkkm1ply8b",
+      "template": [
+        "2iyza140km2qoizm"
+      ],
+      "containers": {
+        "2iyza140km2qoizm": {
+          "id": "2iyza140km2qoizm",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst sample = engine.make.div({\n  parent:pageId,  //change this to the id of parent dom element\n  text:'hover over me'\n});\n\nengine.binder.click(sample,()=>{\n  console.log(\"i was clicked.\");\n});"
+            }
+          },
+          "style": {
+            "width": "95%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Binder Click",
+  "discription": "trigger function on pointer click on a html dom element.",
+  "keywords": "vegana,api,engine,binder,click"
+}

@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.wet.api.query api"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api sends a wet request which includes the wet token - \"td-wet-token\" header from sessions api if available."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//please support creators of \n/*\n\n\thttps://reqres.in\n\n*/\n\nengine.wet.api.set(\"https://reqres.in/\");\n\nconst query = await engine.wet.api.query({\n\tat:\"api/login\",\n    method:\"post\",//default is post\n    headers:{},//if any\n    body:{\n    \t\"email\": \"eve.holt@reqres.in\",\n        \"password\": \"cityslicka\"\n    }\n});\n\nconsole.log({query:query});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Wet Api Query Subapi",
+  "discription": "this api sends a request to base wet api.",
+  "keywords": "engine,api,wet,subapi,api,query"
+}

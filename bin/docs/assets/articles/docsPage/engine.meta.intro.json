@@ -1,0 +1,37 @@
+{
+  "template": [
+    "2iyza3qkkm5xbtaw"
+  ],
+  "rows": {
+    "2iyza3qkkm5xbtaw": {
+      "id": "2iyza3qkkm5xbtaw",
+      "template": [
+        "2iyza3qkkm5xbueg",
+        "2iyza3qkkm5xbvnk"
+      ],
+      "containers": {
+        "2iyza3qkkm5xbueg": {
+          "id": "2iyza3qkkm5xbueg",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Introduction to Vegana Meta Api"
+            }
+          }
+        },
+        "2iyza3qkkm5xbvnk": {
+          "id": "2iyza3qkkm5xbvnk",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nmeta tags tells seach engines and browsers important information about your website like a brief description of the page important keywords now google has rich meta tags to extract relevent information so they can link to it more efficiently.\n\nthis api is deeply integrated in vegana module system each vegana module ie comp, page, cont and panel can set there own meta tags on the html page and are present in module tracker object present below the init function of a module, this setup helps you to not miss meta tags on your page.\n\nremember only set the important meta tags so you dont set these tags multiple times ie if the html page content is panel heavy only panel should set meta tags to avoid any irrelevent tags being set by page or cont modules.\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Meta Intro",
+  "keywords": "vegana,api,engine,meta,intro",
+  "discription": "what is meta api in vegana js, Introduction to vegana meta api."
+}

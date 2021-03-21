@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.view.hide api"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api hides a html dom element by settings its display property to none. any element which uses custom display property should not use this api."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//---------------------------\n//\tapi params\n//---------------------------\n/*\n\n\tengine.view.hide(parent_dom_element_id_string);\n\n*/\n\n\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    text:\"hide me\"\n});\n\nengine.make.button({\n\tparent:pageId,\n    value:\"click me\",\n    function:()=>{\n    \n    \t//---------------------------\n        //api\n    \tengine.view.hide(parent_div);\n        //---------------------------\n        \n    }\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine View Hide Api",
+  "keywords": "vegana,api,engine,view.hide",
+  "discription": "this api hides a dom element."
+}

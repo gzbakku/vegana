@@ -1,0 +1,109 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza140km2phg54",
+    "2iyza9rkkm1ply8b"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.add.comp"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "some components are required to be built across apps like user page links are required to be built across pages and components this can bloat your code if you pass on component as a parameter to all those vegana components so to keep only one reference to this function in the memory you can share a component as a global object this reduces memory footprint and differentiates between generic js functions and vegana components to help you manage your code base."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza9rkkm1ply8b": {
+      "id": "2iyza9rkkm1ply8b",
+      "template": [
+        "2iyza9rkkm1pmijn",
+        "2iyzaa0ckm1povc2"
+      ],
+      "containers": {
+        "2iyza9rkkm1pmijn": {
+          "id": "2iyza9rkkm1pmijn",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "if you require some data multiple times and across multiple components this data can be stored in the global context."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        },
+        "2iyzaa0ckm1povc2": {
+          "id": "2iyzaa0ckm1povc2",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//example\n\n//import the file\nconst sampleComp = require(\"./comps/sampleComp/comp);\n\n//add the comp to global scope\nengine.add.comp(\"sampleComp \",sampleComp );\n\n//initiate the component\nengine.global.comp.sampleComp.init();"
+            }
+          },
+          "style": {
+            "width": "98%",
+            "height": "300px"
+          }
+        }
+      }
+    },
+    "2iyza140km2phg54": {
+      "id": "2iyza140km2phg54",
+      "template": [
+        "2iyza140km2phpfj",
+        "2iyza140km2phxxr"
+      ],
+      "containers": {
+        "2iyza140km2phpfj": {
+          "id": "2iyza140km2phpfj",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "How to use vegana components multiple times?"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        },
+        "2iyza140km2phxxr": {
+          "id": "2iyza140km2phxxr",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "How to share vegana components across vegana app?"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "engine.add.comp api",
+  "keywords": "engine,add,comp,api",
+  "discription": "this api gets a global comp."
+}

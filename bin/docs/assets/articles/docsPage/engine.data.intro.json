@@ -1,0 +1,133 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2twp57",
+    "2iyza7ekkm2u0vhl",
+    "2iyza7ekkm2udfrg"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Vegana Data Api"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "vegana data api is basic data storage system for vegana app, it is based on web storage system with local and session data groups but with an addition of mem group. "
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2twp57": {
+      "id": "2iyza7ekkm2twp57",
+      "template": [
+        "2iyza7ekkm2twrlv",
+        "2iyza7ekkm2tx2nu"
+      ],
+      "containers": {
+        "2iyza7ekkm2twrlv": {
+          "id": "2iyza7ekkm2twrlv",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana data local group"
+            }
+          }
+        },
+        "2iyza7ekkm2tx2nu": {
+          "id": "2iyza7ekkm2tx2nu",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "local group is same as localStorage on web this data persist on the app until you delete it or the user machine removes it forcefully. this data can be removed by user or the user machine admin so any mission critical data like rsa keys should be backed up to permanent and safe storage. this data can be accessed and updated across sessions windows or tabs."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2u0vhl": {
+      "id": "2iyza7ekkm2u0vhl",
+      "template": [
+        "2iyza7ekkm2u0x0h",
+        "2iyza7ekkm2u13s1"
+      ],
+      "containers": {
+        "2iyza7ekkm2u0x0h": {
+          "id": "2iyza7ekkm2u0x0h",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana data session group"
+            }
+          }
+        },
+        "2iyza7ekkm2u13s1": {
+          "id": "2iyza7ekkm2u13s1",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "session group is same as sessionStorage on web this data persist on the app until user closes the session. Session is a set of active instances of a app so until all tabs or windows the data will persist in session group. This data can be accessed and updated across sessions windows or tabs."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2udfrg": {
+      "id": "2iyza7ekkm2udfrg",
+      "template": [
+        "2iyza7ekkm2udgnh",
+        "2iyza7ekkm2udrjo"
+      ],
+      "containers": {
+        "2iyza7ekkm2udgnh": {
+          "id": "2iyza7ekkm2udgnh",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana data mem group"
+            }
+          }
+        },
+        "2iyza7ekkm2udrjo": {
+          "id": "2iyza7ekkm2udrjo",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "mem group stores the data in instance scope so when the user closes the instance ie tab or window the data is removed."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Data Introduction",
+  "discription": "introduction to vegana data api.",
+  "keywords": "vegana,api,engine,data,intro,introduction"
+}

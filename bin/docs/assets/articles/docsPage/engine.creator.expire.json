@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza824km4ibz4b"
+  ],
+  "rows": {
+    "2iyza824km4ibz4b": {
+      "id": "2iyza824km4ibz4b",
+      "template": [
+        "2iyza824km4ic17v",
+        "2iyza824km4ic6ii",
+        "2iyza824km4ic8pv"
+      ],
+      "containers": {
+        "2iyza824km4ic17v": {
+          "id": "2iyza824km4ic17v",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Vegana Creator Expire Api"
+            }
+          }
+        },
+        "2iyza824km4ic6ii": {
+          "id": "2iyza824km4ic6ii",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api simply removes a dom element after given time in milliseconds"
+            }
+          }
+        },
+        "2iyza824km4ic8pv": {
+          "id": "2iyza824km4ic8pv",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nengine.make.div({\n\tparent:pageId,\n    text:\"i will disappear in 5 seconds\",\n    expire:5000\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Creator Expire",
+  "discription": "vegana creator api to remove a dom element after a given time.",
+  "keywords": "vegana,api,engine,make,creator,expire"
+}

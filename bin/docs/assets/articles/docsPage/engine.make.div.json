@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.div"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nthis api makes a div please check creator api to know how it works this is just a wrapper for creator api.\n\nfunction trigger is click for divs.\n"
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\"\n        }\n    }\n});\n\nlet clicks_count = 0;\n\nconst make_div = engine.make.div({\n\tparent:parent_div,\n    text:\"i am a child div\",//this is not required,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid pink\",\n            padding:\"10px\",\n            cursor:'pointer',\n            'user-select':'none'\n        }\n    },\n    function:(id)=>{\n    \tclicks_count += 1;\n        engine.set.div.text(id,`you click me ${clicks_count} times.`);\n    }\n});\n\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Div",
+  "discription": "how to make a div in vegana js.",
+  "keywords": "vegana,api,engine,make,div"
+}

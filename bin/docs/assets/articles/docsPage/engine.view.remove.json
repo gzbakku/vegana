@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.view.remove api"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api removes a html dom element."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//---------------------------\n//\tapi params\n//---------------------------\n/*\n\n\tengine.view.remove(parent_dom_element_id_string);\n\n*/\n\n\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    text:\"remove me\"\n});\n\nengine.make.button({\n\tparent:pageId,\n    value:\"click me\",\n    function:()=>{\n    \n    \t//---------------------------\n        //api\n    \tengine.view.remove(parent_div);\n        //---------------------------\n        \n        console.log({element:engine.get.element(parent_div)});\n        \n    }\n});\n\n\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine View Remove Api",
+  "keywords": "vegana,api,engine,view,remove",
+  "discription": "this api removes a dom element."
+}

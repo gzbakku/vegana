@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza37wkm613isc"
+  ],
+  "rows": {
+    "2iyza37wkm613isc": {
+      "id": "2iyza37wkm613isc",
+      "template": [
+        "2iyza37wkm613jqs",
+        "2iyza37wkm613r44",
+        "2iyza37wkm613rk4"
+      ],
+      "containers": {
+        "2iyza37wkm613jqs": {
+          "id": "2iyza37wkm613jqs",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana comp module router"
+            }
+          }
+        },
+        "2iyza37wkm613r44": {
+          "id": "2iyza37wkm613r44",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nvegana comp module can be routed on comp router all needed steps to make a comp router and navigate to are given below please follow all steps."
+            }
+          }
+        },
+        "2iyza37wkm613rk4": {
+          "id": "2iyza37wkm613rk4",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\n//-----------------------------------\n//\tmake comp module\n//-----------------------------------\n/*\n\n\t//you can make comp module with vegana cli\n    //for more information see the cli documents\n    \n    $ vegana generate comp first\n    \n    $ vegana generate comp second\n\n*/\n\n//-----------------------------------\n//\tmake comp router\n//-----------------------------------\n/*\n\n\t//router params\n    \n    engine.router.init.comps(parent_element_id_string,comp_module_object,{data_to_pass},\"router_class_string\")\n\n*/\n\nconst firstComp = require(\"./comps/firstComp/comp\");\nconst secondComp = require(\"./comps/secondComp/comp\");\n\nlet router_id = engine.router.init.comps(pageId,firstComp,{some:true},\"router-class\");\n\n//-----------------------------------\n//\troute to new comp\n//-----------------------------------\n/*\n\n\t//navigator params\n    \n    engine.router.navigate.to.comp(comp_module_object,{data_to_pass},router_is_string)\n\n*/\n\n//route to prebuilt or new comp module\nengine.router.navigate.to.comp(secondComp,{data_to_pass},router_id);\n\n//rebuild comp module\n//this api removes the old comp module body and makes a new one\nengine.router.navigate.new.comp(secondComp,{data_to_pass},router_id);\n\n//-----------------------------------\n//\tthis wont execute here\n//-----------------------------------\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Router Comp",
+  "discription": "how to route to a comp module in vegana js.",
+  "keywords": "vegana,api,engine,router,comp,init,make,to,new"
+}

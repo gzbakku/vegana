@@ -1,0 +1,170 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza170km4edcfg",
+    "2iyza170km4elssx",
+    "2iyza170km4eivqq",
+    "2iyza170km4ftasq"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.creator"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api makes html dom elements with integrated functions that can make development a lot faster and reduce code base size and makes execution as fast as native html. \nprimary motive for this api is to reduce code size so you can pass any key needed by the dom element and that will be passed to the element, execpt a few reserved keywords."
+            }
+          },
+          "style": {}
+        }
+      }
+    },
+    "2iyza170km4edcfg": {
+      "id": "2iyza170km4edcfg",
+      "template": [
+        "2iyza170km4eddsr"
+      ],
+      "containers": {
+        "2iyza170km4eddsr": {
+          "id": "2iyza170km4eddsr",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//how to make a div in vegana js\n\n/*==============================\n\nengine.make.creator(tag,properties);\n\tdom element type^^^\t^^^ object\n\n==============================*/\n\nlet parentElement = engine.make.div({\n\tid:'any-id',\n\tparent:pageId,\n});\n\nlet makeElement = engine.make.creator(\"div\",{\n\tparent:parentElement,\n    class:'some-class',\n    text:\"i am a div\"\n});\n"
+            }
+          }
+        }
+      }
+    },
+    "2iyza170km4eivqq": {
+      "id": "2iyza170km4eivqq",
+      "template": [
+        "2iyza170km4eixh6",
+        "2iyza170km4ej3uy",
+        "2iyza170km4f08cj"
+      ],
+      "containers": {
+        "2iyza170km4eixh6": {
+          "id": "2iyza170km4eixh6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Element Parent Property"
+            }
+          }
+        },
+        "2iyza170km4ej3uy": {
+          "id": "2iyza170km4ej3uy",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "first element of a module can use id from any vegana module ie pageId,contId,panelId or compId.\nparent is a string id of the parent dom element."
+            }
+          }
+        },
+        "2iyza170km4f08cj": {
+          "id": "2iyza170km4f08cj",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst first_comp_element = engine.make.creator(\"div\",{\n\tparent:compId,\n    text:\"i am first element of comp module\"\n});\n\nconst first_page_element = engine.make.creator(\"div\",{\n\tparent:pageId,\n    text:\"i am first element of page module\"\n});\n\nconst first_cont_element = engine.make.creator(\"div\",{\n\tparent:contId,\n    text:\"i am first element of cont module\"\n});\n\nconst first_panel_element = engine.make.creator(\"div\",{\n\tparent:panelId,\n    text:\"i am first element of panel module\"\n});\n"
+            }
+          }
+        }
+      }
+    },
+    "2iyza170km4elssx": {
+      "id": "2iyza170km4elssx",
+      "template": [
+        "2iyza170km4elwcx",
+        "2iyza170km4em4yp",
+        "2iyza170km4epv6f"
+      ],
+      "containers": {
+        "2iyza170km4elwcx": {
+          "id": "2iyza170km4elwcx",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Element Id Property"
+            }
+          }
+        },
+        "2iyza170km4em4yp": {
+          "id": "2iyza170km4em4yp",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "id is an identifying tag used to select dom element from html document it can be provided by id key in object property if no id is provided a random id is assigned with concatenation.\n\nid can be provided as is and to remove clashes with other ids the id will be concantinated with id of its parent element ie if the ID of parent element is \"one\" the id of its child element will be \"one-child\".\n\nconstant id without any concantination be provided if only_id property is provided as true boolean with the object properties."
+            }
+          }
+        },
+        "2iyza170km4epv6f": {
+          "id": "2iyza170km4epv6f",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nfunction show_my_id(id){\n\tengine.set.div.text(id,`my id : ${id}`);\n}\n\nconst parentElement = engine.make.div({\n\tid:\"id_test_property\",\n    only_id:true,\n\tparent:pageId\n});\n\nlet draw = {\n\tall:{\n    \tmargin:'10px',\n        border:\"5px solid purple\",\n        \"border-radius\":\"10px\",\n        padding:'10px'\n    }\n};\n\n//============================\n// user defined id\n//============================\nconst concantinated_id = engine.make.creator(\"div\",{\n\tid:\"one\",\n    parent:parentElement,\n    text:\"click to see my id : concantinated_id\",\n    function:show_my_id,\n    draw:draw\n});\n//output = \"base-one\" id will be concantenated with parent id\n\n//============================\n// no id provided\n//============================\nconst no_id = engine.make.creator(\"div\",{\n    parent:parentElement,\n    text:\"click to see my id : no_id\",\n    function:show_my_id,\n    draw:draw\n});\n//output = \"base-sdsd98\" random id will be assigned with concantation\n\n//============================\n// constant id\n//============================\nconst constant_id = engine.make.creator(\"div\",{\n\tid:\"constant\",\n    //---------------\n    only_id:true,//this property assigns constant id\n    //---------------\n    parent:parentElement,\n    text:\"click to see my id : constant_id\",\n    function:show_my_id,\n    draw:draw\n});\n//output = \"constant\" provided is will be assigned\n\n"
+            }
+          }
+        }
+      }
+    },
+    "2iyza170km4ftasq": {
+      "id": "2iyza170km4ftasq",
+      "template": [
+        "2iyza824km4g6lh3",
+        "2iyza824km4g6un1",
+        "2iyza824km4gf1bu"
+      ],
+      "containers": {
+        "2iyza824km4g6lh3": {
+          "id": "2iyza824km4g6lh3",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Element Class Property"
+            }
+          }
+        },
+        "2iyza824km4g6un1": {
+          "id": "2iyza824km4g6un1",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "class should be provided without \".\" at the begnning."
+            }
+          }
+        },
+        "2iyza824km4gf1bu": {
+          "id": "2iyza824km4gf1bu",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nengine.make.div({\n\n\tparent:pageId,\n    \n    //=================================\n    class:\"page-main-div-main\",\n    //=================================\n    \n    text:\"i am a div\"\n    \n})\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Creator",
+  "discription": "vegana creator api",
+  "keywords": "vegana,api,engine,make,creator"
+}

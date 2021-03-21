@@ -1,0 +1,88 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza9rkkm1ply8b"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.add.object"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "GUI Applications require to share data between components which is used often instead of passing the data to every single component, it can be shared via a global context this data can be any valid Javascript Object ie JSON object, array, string or number. do not share functions with this api so you know any data can be saved safely if required, to share functions use engine.add.function api."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza9rkkm1ply8b": {
+      "id": "2iyza9rkkm1ply8b",
+      "template": [
+        "2iyza9rkkm1plzsr",
+        "2iyza9rkkm1pmijn",
+        "2iyzaa0ckm1povc2"
+      ],
+      "containers": {
+        "2iyza9rkkm1plzsr": {
+          "id": "2iyza9rkkm1plzsr",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "How to share data between components in vegana js?"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        },
+        "2iyza9rkkm1pmijn": {
+          "id": "2iyza9rkkm1pmijn",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "if you require some data multiple times and across multiple components this data can be stored in the global context."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        },
+        "2iyzaa0ckm1povc2": {
+          "id": "2iyzaa0ckm1povc2",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "//variables\nengine.add.object('key','value');\n\n\n//example\nengine.add.object(\"user\",{\n  name:'gzbakku',\n  id:1\n});\n\nlet get = engine.global.object.user;\n\nconsole.log(get);"
+            }
+          },
+          "style": {
+            "width": "98%",
+            "height": "300px"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Add Object",
+  "keywords": "vegana,api,add,object",
+  "discription": "How to share data between components in vegana js?"
+}

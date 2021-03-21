@@ -14,8 +14,6 @@ module.exports = async (path,module_type)=>{
 
   let sass_path = await get_sass_location(path,module_type);
 
-
-
   let read = await io.read(sass_path);
   if(read === false){
     console.log({read:read});
