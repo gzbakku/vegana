@@ -92,7 +92,7 @@ module.exports = {
     //--------------------------------------------------
     //insert in sass index
 
-    let sass_path = lib_dir + "/index.scss";
+    let sass_path = lib_dir + "/@index.scss";
     let sass_read;
     if(!await io.exists(sass_path)){sass_read = '';} else {
       sass_read = await io.read(sass_path);

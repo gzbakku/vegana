@@ -36,7 +36,7 @@ module.exports = {
     const bin = await io.dir.app();
 
     const uiSassBinPath = bin + "/generate/clean.scss";
-    const uiSassToPath = this_ui_dir + "/index.scss";
+    const uiSassToPath = this_ui_dir + "/@index.scss";
 
     if(!await io.copy(uiSassBinPath,uiSassToPath)){
       return common.error("failed-generate-comp-sass_file");
@@ -69,24 +69,44 @@ module.exports = {
     //------------------------------------
     //make ui index file
 
-    const ui_index_path = ui_dir + "/index.js";
-    const ui_libs = await uiRunner.getUiLibs().then((f)=>{return f;}).catch(()=>{return false;});
-    if(ui_libs === false){
-      return common.error("failed-get_ui_libs");
-    }
-    let make = '';
-    for(let lib of ui_libs){
-      if(lib !== "index.js"){
-        make += 'require("./' + lib + '/index.js");\n';
+    let uiDir = ui_dir,active = [],ui_index_manage_path = uiDir + `/manage.json`;
+    if(await io.exists(ui_index_manage_path)){
+      active = await io.readJson(ui_index_manage_path);
+      if(!active){
+        return common.error(`failed read ${ui_index_manage_path} make sure this file has valid json or delete it if you cant.`);
       }
     }
-    if(!await io.write(ui_index_path,make)){
-      return common.error("failed-add_lib_to_lib_index");
+    active.push(this_name);
+
+    let
+    ui_index_scss_path = uiDir + `/index.scss`,ui_index_js_path = uiDir + `/index.js`,
+    compile_index_scss = '',compile_index_js = '';
+    for(let lib of active){
+      let lib_index_sass_file = `${uiDir}/${lib}/@index.scss`;
+      let lib_index_js_file = `${uiDir}/${lib}/index.js`;
+      if(await io.exists(lib_index_sass_file)){
+        compile_index_scss += `\n@import './${lib}/@index.scss';`;
+      }
+      if(await io.exists(lib_index_js_file)){
+        compile_index_js += `\nrequire("./${lib}/index.js");`;
+      }
+    }
+    if(!await io.write(ui_index_scss_path,compile_index_scss)){
+      return common.error(`failed-write-ui_index_scss => ${ui_index_scss}`);
+    }
+    if(!await io.write(ui_index_js_path,compile_index_js)){
+      return common.error(`failed-write-ui_index_js_path => ${ui_index_js_path}`);
+    }
+    if(!await io.write(ui_index_manage_path,JSON.stringify(active))){
+      return common.error(`failed-write-ui_index_manage_path => ${ui_index_manage_path}`);
     }
 
-    common.tell("index file configured");
+    common.tell("lib integrated successfully");
 
-    common.tell("lib successfully generated");
+    //---------------------------------------
+    //return success
+
+    common.success("lib successfully generated");
 
   }
 

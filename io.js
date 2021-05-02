@@ -156,7 +156,15 @@ module.exports = {
 
   },
 
-  clean_path:clean_path
+  clean_path:clean_path,
+
+  browse_dir:browse_dir,
+
+  get_dir_items:get_dir_items,
+
+  get_sub_dir:get_sub_dir,
+
+  get_base_dir:get_base_dir
 
 };
 
@@ -209,4 +217,92 @@ async function getPackageFilePath(){
   }
   lazyPath = lazyPath + 'package.json';
   return lazyPath;
+}
+
+let browser_tree = [];
+
+async function browse_dir(){
+
+  // console.clear();
+
+  const base_dir = await get_base_dir();
+  if(!base_dir){
+    return common.error("failed-get_base_dir-browse_dir");
+  }
+
+  let app_dir = base_dir + "app";
+  for(let item of browser_tree){
+    app_dir += '/' + item;
+  }
+
+  const dirs = await get_sub_dir(app_dir)
+  .then((f)=>{return f;}).catch(()=>{return false;});
+
+  if(!dirs){
+    return common.error("failed-get_sub_dir-browse_dir");
+  }
+
+  let options = [];
+  options.push("<<< back");
+  options.push(">>> select this dir");
+  for(let h of dirs){options.push(h);}
+
+  const select = await input.select("please select a dir",options);
+  if(select === "<<< back"){
+    if(browser_tree.length > 0){
+      browser_tree.pop();
+    }
+  } else
+  if(select === ">>> select this dir"){
+    return app_dir;
+  } else {
+    browser_tree.push(select);
+  }
+
+  return await browse_dir();
+
+}
+
+async function get_dir_items(path){
+  return new Promise((resolve,reject)=>{
+    fs.readdir(path,(e,items)=>{
+      if(e){
+        reject("failed-readdir-not_found");
+      } else {
+        resolve(items);
+      }
+    });
+  });
+}
+
+async function get_sub_dir(path){
+  return new Promise((resolve,reject)=>{
+    fs.readdir(path,{withFileTypes:true},(e,items)=>{
+      if(e){
+        reject("failed-readdir-not_found");
+      } else {
+        let collect = [];
+        for(let item of items){
+          if(item.isDirectory()){
+            collect.push(item.name);
+          }
+        }
+        resolve(collect);
+      }
+    });
+  });
+}
+
+async function get_base_dir(){
+  let cwd = io.dir.cwd();
+  if(cwd.includes("\\")){while(cwd.includes("\\")){cwd = cwd.replace('\\','/');}}
+  let hold = cwd.split("/");
+  let app_found = false;
+  for(let h of hold){if(h === "app"){app_found = true;}}
+  if(!app_found){if(await io.exists(cwd + "/app")){return cwd + "/";}}
+  let remake = '';
+  for(let h of hold){if(h === "app"){break;} else {
+    remake += h + "/";
+  }}
+  return remake;
 }

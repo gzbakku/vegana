@@ -1,8 +1,9 @@
 global.uiRunner = require("./runner");
 const make = require("./make");
 const generate = require('./generate');
-const manage = require('./manage');
-const upgrade = require('./upgrade');
+const link = require('./link');
+const manage = require('./manage/index');
+const upgrade = require('./upgrade/index');
 
 module.exports = {
 
@@ -22,12 +23,13 @@ module.exports = {
       name = get_variable("--name");
     }
 
-    let valid_apis = ['new','generate','manage','upgrade'];
+    let valid_apis = ['new','generate','manage','upgrade','link'];
     if(!cmd || valid_apis.indexOf(cmd) < 0){
       cmd = await input.select("please select a api",valid_apis);
     }
 
     if(cmd === "new"){make.init(name);} else
+    if(cmd === "link"){link.init(name);} else
     if(cmd === "manage"){manage.init(name);} else
     if(cmd === "upgrade"){upgrade.init(name);} else
     if(cmd === "generate"){
