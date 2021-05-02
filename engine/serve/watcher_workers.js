@@ -116,25 +116,39 @@ module.exports = {
     },//get_lazy_parent
 
     compile_lazy_sass:async (lazy,parents,file_path)=>{
-        let base_dir = io.dir.cwd(),name,writeLocation;
-        if(lazy.type === "page"){
-            writeLocation = base_dir + "/css/pages/" + lazy.name + "/";
-            name = "page.css";
-        } else if(lazy.type === "cont"){
-            writeLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + lazy.name + "/";
-            name = "cont.css";
-        } else if(lazy.type === "panel"){
-            writeLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + parents.cont + "/panels/" + lazy.name + "/";
-            name = "panel.css";
-        } else if(lazy.type === "global"){
-            writeLocation = base_dir + "/css/globals/" + lazy.name + "/";
-            name = "comp.css";
-        }
-        if(!await io.dir.ensure(writeLocation)){return common.error("failed-ensure-write_location-directory");}
-        const do_render = await sass.render(file_path,writeLocation + name)
-        .then(()=>{return true;})
-        .catch((e)=>{console.error(e);return false;});
-        if(!do_render){return common.error("render failed");} else {return true;}
+
+      // console.log({
+      //   lazy:lazy,
+      //   parents:parents,
+      //   file_path:file_path
+      // });
+
+      let base_dir = io.dir.cwd(),name,writeLocation;
+      if(lazy.type === "page"){
+          writeLocation = base_dir + "/css/pages/" + lazy.name + "/";
+          readLocation = base_dir + "/app/pages/" + lazy.name + "/+page.scss";
+          name = "page.css";
+      } else if(lazy.type === "cont"){
+          writeLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + lazy.name + "/";
+          readLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + lazy.name + "/+cont.scss";
+          name = "cont.css";
+      } else if(lazy.type === "panel"){
+          writeLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + parents.cont + "/panels/" + lazy.name + "/";
+          readLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + parents.cont + "/panels/" + lazy.name + "/+panel.scss";
+          name = "panel.css";
+      } else if(lazy.type === "global"){
+          writeLocation = base_dir + "/css/globals/" + lazy.name + "/";
+          readLocation = base_dir + "/css/globals/" + lazy.name + "/+comp.scss";
+          name = "comp.css";
+      }
+
+      // console.log({writeLocation:writeLocation,readLocation:readLocation});
+
+      if(!await io.dir.ensure(writeLocation)){return common.error("failed-ensure-write_location-directory");}
+      const do_render = await sass.render(readLocation,writeLocation + name)
+      .then(()=>{return true;})
+      .catch((e)=>{console.error(e);return false;});
+      if(!do_render){return common.error("render failed");} else {return true;}
     },
 
     extract_sass_pack:async (path)=>{

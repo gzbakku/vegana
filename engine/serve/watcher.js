@@ -368,6 +368,10 @@ async function init(){
     let parent = lazy_parent.name?lazy_parent.name:lazy_parent.type;
     let name = parents[module_type]?parents[module_type]:module_type;
 
+    // console.log("\n");
+    // console.log({file_type:file_type,lazy_parent:lazy_parent});
+    // console.log("\n");
+
     if(file_type === "js"){
       class_worker(path,module_type);
     }
@@ -394,6 +398,7 @@ async function init(){
       }
     } else if(file_type === "sass"){
       let sass_type = workers.get_sass_type(path);
+      // console.log({sass_type:sass_type});
       if(sass_type === "tree"){
         return await compile_sass_bundle();
       } else if(sass_type === "included"){

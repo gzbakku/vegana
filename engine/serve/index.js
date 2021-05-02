@@ -8,6 +8,8 @@ const os = require("os");
 
 async function init(port,secure,outside){
 
+  if(isNaN(port)){port = false;}
+
   if(outside || port === "help" || port === "-h" || port === "--help"){
     port = await input.select("please select a platform",['web','cordova','electron']);
     if(port === "web"){
@@ -109,7 +111,7 @@ async function init(port,secure,outside){
 
   console.log('>>> opening url in browser');
 
-  if(true){
+  if(!get_variable("no-serve")){
     let os_type = os.type();
     if(os_type === "Windows_NT"){
       cmd.run('start ' + startServer)
