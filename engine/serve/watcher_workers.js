@@ -130,15 +130,15 @@ module.exports = {
           name = "page.css";
       } else if(lazy.type === "cont"){
           writeLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + lazy.name + "/";
-          readLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + lazy.name + "/+cont.scss";
+          readLocation = base_dir + "/app/pages/" + parents.page + "/conts/" + lazy.name + "/+cont.scss";
           name = "cont.css";
       } else if(lazy.type === "panel"){
           writeLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + parents.cont + "/panels/" + lazy.name + "/";
-          readLocation = base_dir + "/css/pages/" + parents.page + "/conts/" + parents.cont + "/panels/" + lazy.name + "/+panel.scss";
+          readLocation = base_dir + "/app/pages/" + parents.page + "/conts/" + parents.cont + "/panels/" + lazy.name + "/+panel.scss";
           name = "panel.css";
       } else if(lazy.type === "global"){
           writeLocation = base_dir + "/css/globals/" + lazy.name + "/";
-          readLocation = base_dir + "/css/globals/" + lazy.name + "/+comp.scss";
+          readLocation = base_dir + "/app/globals/" + lazy.name + "/+comp.scss";
           name = "comp.css";
       }
 
