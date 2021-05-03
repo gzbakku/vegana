@@ -13,12 +13,17 @@ module.exports = async (path,module_type)=>{
   let sassFilePath;
 
   let sass_path = await get_sass_location(path,module_type);
-
-  let read = await io.read(sass_path);
-  if(read === false){
-    console.log({read:read});
-    return common.error("failed-read_sass_file => " + sass_path);
+  if(!sass_path){return true;}
+  let read = '';
+  if(await io.exists(sass_path)){
+    read = await io.read(sass_path);
+    if(read === false){
+      // console.log({read:read});
+      return common.error("failed-read_sass_file => " + sass_path);
+    }
   }
+
+  common.tell("checking for new scss classes in js module");
 
   let index = 0,edited = false;
   for(let cls of do_extract_classes){
@@ -32,9 +37,10 @@ module.exports = async (path,module_type)=>{
   }
 
   if(edited){
+    common.tell("generating new scss classes");
     // read += "\n";
     if(true && !await io.write(sass_path,read)){
-      return common.error("failed-read_sass_file => " + sass_path);
+      return common.error("failed-write_sass_file => " + sass_path);
     }
   }
 
@@ -60,7 +66,7 @@ function add_class(base,cls,parent){
   }
 
   if(!matched_group){
-    common.error("no parent found");
+    common.error("no parent found",log);
     base += `\n.${cls}{}\n`;
     return base;
   }
@@ -74,6 +80,8 @@ function add_class(base,cls,parent){
 }
 
 async function get_sass_location(path,module_type,dont_follow){
+
+  let log = false;
 
   let
   pathItems = path.split("/"),
@@ -101,7 +109,7 @@ async function get_sass_location(path,module_type,dont_follow){
   if(await io.exists(included)){return included;}
   if(await io.exists(base)){return base;}
   if(await io.exists(lazy)){return lazy;} else if(module_type || dont_follow) {
-    return false;
+    return common.error("dont_follow",log);
   }
 
   if(!await io.exists(base)){

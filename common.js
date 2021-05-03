@@ -2,7 +2,8 @@ const chalk = require('chalk');
 
 module.exports = {
 
-  error : function(error){
+  error : function(error,log){
+    if(log === false){return false;}
     console.log(chalk.red('!!! ' + error));
     return false;
   },

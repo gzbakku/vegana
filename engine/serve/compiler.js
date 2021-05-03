@@ -78,11 +78,18 @@ async function lazyLoader(){
 }
 
 async function bundle(){
-  common.tell('compiling app');
+  common.tell('compiling app bundle');
   let currentDirectory = await io.dir.cwd() + '/',
   readLocation = currentDirectory + 'compile.js',
   writeLocation = currentDirectory + 'js/bundle.js',
-  doCompile = await compile(readLocation,writeLocation);
+
+  doCompile = await compile(readLocation,writeLocation)
+  .then(()=>{return true;}).catch(()=>{return false;});
+
+  // console.log("\n\n");
+  // console.log({readLocation:readLocation,writeLocation:writeLocation,doCompile:doCompile});
+  // console.log("\n\n");
+
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   } else {return true;}
@@ -154,7 +161,9 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite){
         reject("failed-make_base_dir");
       }
     }
- 
+
+    // console.log({r:readLocation,w:writeLocation});
+
     browserify({ debug: false })
     .require(readLocation,{entry: true})
     .bundle()

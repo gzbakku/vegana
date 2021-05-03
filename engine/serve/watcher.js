@@ -368,11 +368,22 @@ async function init(){
     let parent = lazy_parent.name?lazy_parent.name:lazy_parent.type;
     let name = parents[module_type]?parents[module_type]:module_type;
 
-    // console.log("\n");
-    // console.log({file_type:file_type,lazy_parent:lazy_parent});
-    // console.log("\n");
+    if(false){
+      console.log("\n");
+      console.log(JSON.stringify({
+        location:location,
+        file_type:file_type,
+        parents:parents,
+        module_type:module_type,
+        lazy_parent:lazy_parent,
+        parent:parent,
+        name:name
+      },null,1));
+      console.log("\n");
+    }
 
     if(file_type === "js"){
+      //this function reads the js file and finds any css classesd attached to a vegana make api worker
       class_worker(path,module_type);
     }
 
