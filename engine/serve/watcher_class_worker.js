@@ -50,6 +50,8 @@ module.exports = async (path,module_type)=>{
 
 function add_class(base,cls,parent){
 
+  let log = false;
+
   if(base.indexOf(cls) < 0 && cls === parent){
     base += `\n.${cls}{}\n`;
     return base;
@@ -104,11 +106,12 @@ async function get_sass_location(path,module_type,dont_follow){
   included = `${path_directory}${lastItemOfPath}.scss`,
   base = `${path_directory}@${lastItemOfPath}.scss`,
   lazy = `${path_directory}+${lastItemOfPath}.scss`;
-
+  
   let sass_type;
   if(await io.exists(included)){return included;}
   if(await io.exists(base)){return base;}
-  if(await io.exists(lazy)){return lazy;} else if(module_type || dont_follow) {
+  if(await io.exists(lazy)){return lazy;} else if(dont_follow) {
+    // console.log({module_type:module_type,dont_follow:dont_follow});
     return common.error("dont_follow",log);
   }
 
