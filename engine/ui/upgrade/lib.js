@@ -61,7 +61,7 @@ async function init(uiLibName){
 
   //------------------------
   //make js index
-  const index_js_file_path = lib_dir + "/@index.js";
+  const index_js_file_path = lib_dir + "/index.js";
   let make = '\nconst comps = {';
   for(let comp of ui_comps){
     make += `\n\t"${comp}":require("./${comp}/comp.js"),`;
@@ -76,7 +76,7 @@ async function init(uiLibName){
 
   //------------------------
   //make sass index
-  const index_sass_file_path = lib_dir + "/index.scss";
+  const index_sass_file_path = lib_dir + "/@index.scss";
   let make_sass = '';
   for(let comp of ui_comps){
     make_sass += `\n@import './${comp}/@comp.scss';`;
