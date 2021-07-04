@@ -12,12 +12,17 @@ async function init(uiLibName){
 
   if(!uiLibName){
     let uiLibpool = await uiRunner.getUiLibs()
-    .then((libs)=>{return libs;}).catch(()=>{return false;});
+    .then((libs)=>{return libs;}).catch((e)=>{
+      return false;
+    });
     if(!uiLibpool){
       return common.error("failed-get-ui-libs");
     }
     if(uiLibpool.length === 0){return common.error("no ui libs found");}
-    if(uiLibpool.length === 1){common.tell(`selected the only available ui lib : ${uiLibpool[0]}`);} else {
+    if(uiLibpool.length === 1){
+      common.tell(`selected the only available ui lib : ${uiLibpool[0]}`);
+      uiLibName = uiLibpool[0];
+    } else {
       uiLibName = await input.select("please select a ui lib",uiLibpool);
     }
   }
@@ -28,7 +33,10 @@ async function init(uiLibName){
   }
 
   const ui_comps = await uiRunner.getUiComps(uiLibName)
-  .then((libs)=>{return libs;}).catch(()=>{return false;});
+  .then((libs)=>{return libs;}).catch((e)=>{
+    console.log(e);
+    return false;
+  });
   if(!ui_comps){
     return common.error("failed-get-ui-libs");
   }
