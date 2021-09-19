@@ -8,7 +8,23 @@ const os = require("os");
 
 async function init(port,secure,outside){
 
-  if(isNaN(port)){port = false;}
+  let run_electron = false,run_cordova = false;
+  if(!port){
+    port = 5566;
+  }
+  if(port === 'secure'){
+    port = 5566;
+    secure = 'secure';
+  }
+
+  if(port === 'cordova'){
+    run_cordova = true;
+    port = 5566;
+  }
+  if(port === 'electron'){
+    run_electron = true;
+    port = 5566;
+  }
 
   if(outside || port === "help" || port === "-h" || port === "--help"){
     port = await input.select("please select a platform",['web','cordova','electron']);
@@ -21,23 +37,9 @@ async function init(port,secure,outside){
     }
   }
 
-  let run_electron = false,run_cordova = false;
-  if(!port){
-    port = 5566;
-  }
-  if(port === 'secure'){
-    port = 5566;
-    secure = 'secure';
-  }
+  console.log({port:port});
 
-  if(port === 'electron'){
-    run_electron = true;
-    port = 5566;
-  }
-  if(port === 'cordova'){
-    run_cordova = true;
-    port = 5566;
-  }
+  console.log({run_cordova:run_cordova});
 
   console.log('>>> serve initiated');
 

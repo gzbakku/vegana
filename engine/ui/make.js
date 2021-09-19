@@ -21,7 +21,7 @@ module.exports = {
       return common.error("failed-get-UiDir");
     }
 
-    const check_dir = true;
+    const check_dir = false;
     const this_ui_dir = ui_dir + "/" + this_name;
     if(check_dir && await io.exists(this_ui_dir)){
       return common.error("ui lib with this name already exists.");
@@ -71,8 +71,9 @@ module.exports = {
 
     let uiDir = ui_dir,active = [],ui_index_manage_path = uiDir + `/manage.json`;
     if(await io.exists(ui_index_manage_path)){
-      active = await io.readJson(ui_index_manage_path);
-      if(!active){
+      active = await io.readJson(ui_index_manage_path,true);
+      if(active === true){active = [];}
+      if(active === false){
         return common.error(`failed read ${ui_index_manage_path} make sure this file has valid json or delete it if you cant.`);
       }
     }

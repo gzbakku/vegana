@@ -20,9 +20,10 @@ async function init(type,name){
     no_type = true;
     type = await input.select("please select a module type",['page','cont','panel','comp','sass','wasm']);
   }
-  if(!name){
-    name = get_variable("--name");
-  }
+  if(!name && type === "page"){name = get_variable("--pageName");}
+  if(!name && type === "cont"){name = get_variable("--contName");}
+  if(!name && type === "panel"){name = get_variable("--panelName");}
+  if(!name){name = get_variable("--name");}
   if(!name){
     no_name = true;
     name = await input.text("please provide a valid name for this module");

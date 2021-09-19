@@ -71,7 +71,7 @@ module.exports = {
     });
   },
 
-  readJson:async (location)=>{
+  readJson:async (location,if_no_string_return_true_bool)=>{
     let run = await fs.readFile(location,'utf-8')
     .then((data)=>{
       return data;
@@ -80,6 +80,11 @@ module.exports = {
       common.error(err);
       return common.error("failed-readJson-io");
     });
+    if(
+      typeof(run) === "string" &&
+      run.length === 0 &&
+      if_no_string_return_true_bool
+    ){return true;}
     if(run){
       return JSON.parse(run);
     } else {
