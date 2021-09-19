@@ -37,10 +37,6 @@ async function init(port,secure,outside){
     }
   }
 
-  console.log({port:port});
-
-  console.log({run_cordova:run_cordova});
-
   console.log('>>> serve initiated');
 
   //check the files
