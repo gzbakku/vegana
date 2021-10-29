@@ -6,6 +6,22 @@ please visit https://veganajs.web.app for docs
 ## old docs
 please visit http://vegana.github.io for docs
 
+## install directions
+
+### windows
+
+```
+npm i -g vegana
+```
+
+### linux (ubuntu)
+
+linux node-modules need --unsafe-perm flag to install
+
+```
+npm i -g vegana --unsafe-perm
+```
+
 ## new features
   - UI core can upgrade to latest design
   - now UI libs can be statically linked to lazy modules so they can be removed from main bundle and be added to where they are needed.
