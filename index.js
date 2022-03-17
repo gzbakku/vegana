@@ -6,6 +6,7 @@ const generate = require('./engine/generate/index');
 const run = require('./engine/run/index');
 const sass = require('./engine/sass/index');
 const ui = require('./engine/ui/index');
+const install = require('./engine/install/index');
 const electron = require('./engine/electron/index');
 const static = require('./engine/static/index');
 const collect = require('./engine/collect/index');
@@ -23,6 +24,7 @@ global.config_electron = require("./engine/electron/config/index");
 global.copy_build_to_cordova = require('./copy_build_to_cordova');
 global.input = require('input');
 global.check_vegana_directory = require("./check_vegana_directory");
+global.html = require('./html');
 global.sass_collect = ()=>{
   return sass.init("collect");
 }
@@ -37,7 +39,7 @@ async function starter(){
   let func = work[2];
   let bank = [
     'collect','static','serve','build','generate','init','help',
-    'check','founder','config','run','sass','ui','electron',"docs",
+    'check','founder','config','run','sass','ui','electron',"docs",,"install",
     '--version','-version','-Version','--Version','version',"-V",'-v','--V','--v'
   ];
 
@@ -82,6 +84,8 @@ function run_cli(func,work,is_outside){
     return static.init(work[3],work[4],work[5]);
   } else if(func === "electron"){
     return electron.init(work[3],work[4],work[5]);
+  } else if(func === "install"){
+    return install.init(work[3],work[4],work[5]);
   } else if(func == 'help'){
     log(chalk.white('vegana cli can do the following things :-'));
     log(chalk.greenBright('- init'));
@@ -93,6 +97,8 @@ function run_cli(func,work,is_outside){
     log(chalk.greenBright('- config'));
     log(chalk.greenBright('- sass'));
     log(chalk.greenBright('- run'));
+    log(chalk.greenBright('- ui'));
+    log(chalk.greenBright('- install'));
     return;
   } else if(func == 'check'){
     return log(chalk.greenBright('Hey you got Vegana'));
