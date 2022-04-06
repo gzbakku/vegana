@@ -1,8 +1,5 @@
 const fs = require('fs-extra');
-// const sass = require('node-sass');
-var sass = require('sass');
-
-//"node-sass": "^4.14.1",
+const sass = require('node-sass');
 
 module.exports = {
 

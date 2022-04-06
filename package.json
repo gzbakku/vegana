@@ -1,6 +1,6 @@
 {
   "name": "vegana",
-  "version": "3.5.1",
+  "version": "3.5.2",
   "description": "vegana is a container based js framework",
   "main": "index.js",
   "scripts": {
@@ -28,7 +28,7 @@
     "get_npm_root": "^1.0.1",
     "http": "0.0.0",
     "input": "^1.0.1",
-    "node-sass": "^4.14.1",
+    "sass": "^1.49.11",
     "socket.io": "^2.1.1",
     "tinyify": "^2.4.3",
     "uglifyify": "^5.0.2",
@@ -38,7 +38,6 @@
     "vegana": "./bin/index.js"
   },
   "preferGlobal": true,
-  "devDependencies": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/gzbakku/vegana.git"
