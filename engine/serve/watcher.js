@@ -458,6 +458,14 @@ async function init(){
     common.tell('css updated');
     socket.reload();
   });
+  
+  //js
+  let location_js = currentDirectory + 'js/';
+  chokidar.watch(location_js)
+  .on('change',async (path)=>{
+    common.tell('js updated');
+    socket.reload();
+  });
 
   //assets
   let location_assets = currentDirectory + 'assets/';
