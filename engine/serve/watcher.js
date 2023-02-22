@@ -539,6 +539,7 @@ async function init(){
     common.tell('vegana static engine updated');
     if(global.start_static){
       start_static(true);
+      socket.reload();
     }
   });
 
