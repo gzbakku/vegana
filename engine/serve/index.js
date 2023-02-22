@@ -68,7 +68,6 @@ async function init(port,secure,outside){
     if(config_customize == false){
       return common.error('failed config customize');
     }
-    return;
   }
 
   //compile snippets here
