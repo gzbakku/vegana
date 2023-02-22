@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza3qkkm5yv6if"
+  ],
+  "rows": {
+    "2iyza3qkkm5yv6if": {
+      "id": "2iyza3qkkm5yv6if",
+      "template": [
+        "2iyza3qkkm5yv7tr",
+        "2iyza3qkkm5yv8of",
+        "2iyza3qkkm5yv93r"
+      ],
+      "containers": {
+        "2iyza3qkkm5yv7tr": {
+          "id": "2iyza3qkkm5yv7tr",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.params.native.get"
+            }
+          }
+        },
+        "2iyza3qkkm5yv8of": {
+          "id": "2iyza3qkkm5yv8of",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api returns a parsed object for vegana router\n\nhttps://some.com/page1/cont1/panel1?key=value\n\nurl above all parts are displayed that are extracted from url.\n"
+            }
+          }
+        },
+        "2iyza3qkkm5yv93r": {
+          "id": "2iyza3qkkm5yv93r",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst get_native = engine.params.native.get();\n\nconsole.log(get_native);\n\n//========================\n//out put is this object\n/*\n\n{\n  page:String,\n  cont:String,\n  panel:String,\n  custom:[],\n  params:{}\n}\n\n*/\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Params Native Get",
+  "discription": "how to parse and get url data in vegana js.",
+  "keywords": "vegana,api,engine,params,native,get"
+}

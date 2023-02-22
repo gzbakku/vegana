@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2stknj"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.loader.hook.cont"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api triggers a given function when the native vegana cont module is loaded and ready for use."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2stknj": {
+      "id": "2iyza7ekkm2stknj",
+      "template": [
+        "2iyza7ekkm2stlnb"
+      ],
+      "containers": {
+        "2iyza7ekkm2stlnb": {
+          "id": "2iyza7ekkm2stlnb",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\n\n//this takes a object with page, cont and function keys\n//page should be a full valid name of a native vegana page module\n//cont should be a full valid name of a native vegana cont module\n//function should be a valid js function\n\nengine.loader.hook.cont({\n\tpage:\"samplePage\",\n\tcont:'sampleCont',\n\tfunction:()=>{\n\t\tconsole.log(\"cont loaded successfully.\");\n\t}\n});\n"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Loader Hook Cont",
+  "discription": "how to tigger a function when a lazy cont is loaded.",
+  "keywords": "vegana,api,engine,loader,hook,cont"
+}

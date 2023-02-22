@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza8ggkm7un0ki"
+  ],
+  "rows": {
+    "2iyza8ggkm7un0ki": {
+      "id": "2iyza8ggkm7un0ki",
+      "template": [
+        "2iyza8ggkm7un1a2",
+        "2iyza8ggkm7un1lu",
+        "2iyza8ggkm7un1y2"
+      ],
+      "containers": {
+        "2iyza8ggkm7un1a2": {
+          "id": "2iyza8ggkm7un1a2",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana.set.div.text"
+            }
+          }
+        },
+        "2iyza8ggkm7un1lu": {
+          "id": "2iyza8ggkm7un1lu",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api sets div inner value for any dom element."
+            }
+          }
+        },
+        "2iyza8ggkm7un1y2": {
+          "id": "2iyza8ggkm7un1y2",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//=========================================\n/*\n\n\t//engine.set.div.text api params\n    \n    engine.set.div.text(dom_element_id_string,value_as_string);\n    \n*/        \n//=========================================        \n\nconst test_div = engine.make.div({\n\tparent:pageId,\n    text:\"original value\",\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\",\n            cursor:\"pointer\"\n        }\n    },\n    function:(id)=>{\n    \t\n        //=========================================\n        //\tengine.set.div.text api is here\n        \n        engine.set.div.text(id,\"new value\");\n        \n        //=========================================\n        \n    }\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Set Div",
+  "discription": "how to set div text and style.",
+  "keywords": "vegana,api,engine,set,div,text,style"
+}

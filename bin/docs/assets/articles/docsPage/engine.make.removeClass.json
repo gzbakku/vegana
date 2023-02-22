@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.removeClass"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api removes a class property to any dom element."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nlet class_added = false;\n\nlet parent_div = engine.make.div({\n\tparent:pageId,\n    text:'click me',\n    class:\"page-docs-cont-make-panel-addClass-test_div page-docs-cont-make-panel-addClass-class_to_add\",\n    function:(id)=>{\n    \n    \tif(class_added){\n        \treturn true;\n        }\n    \t\n        //------------------------------------\n        //api is here\n        \n        /*\n        \n        \tengine.make.removeClass({id,class})\n        \n        */\n        \n        engine.make.removeClass({\n        \tid:id,\n            class:\"page-docs-cont-make-panel-addClass-class_to_add\"\n        });\n        \n        //------------------------------------\n        \n    }\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make RemoveClass",
+  "discription": "how to remove a class from a fom element in vegana js.",
+  "keywords": "vegana,api,engine,make,class,remove,removeClass"
+}

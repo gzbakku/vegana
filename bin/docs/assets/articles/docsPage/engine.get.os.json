@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2stknj"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.get.os"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "get the operating system the app is running on."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2stknj": {
+      "id": "2iyza7ekkm2stknj",
+      "template": [
+        "2iyza7ekkm2stlnb"
+      ],
+      "containers": {
+        "2iyza7ekkm2stlnb": {
+          "id": "2iyza7ekkm2stlnb",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\nlet os = engine.get.os();\n\nconsole.log(os);"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Get Os",
+  "discription": "this api returns os the app is running on.",
+  "keywords": "vegana,api,engine,get,os"
+}

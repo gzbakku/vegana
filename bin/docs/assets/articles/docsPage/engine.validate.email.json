@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.validate.email api"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api regex checks a string to be a valid email."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst check = engine.validate.email(\"gzbakku@gmail.com\");\n\nconsole.log({\n\temail_check:check\n});\n\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Validate Email",
+  "discription": "how api regex checks a stringif it is a email or not.",
+  "keywords": "vegana,api,engine,validate,email,string,schema,regex"
+}

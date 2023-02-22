@@ -1,0 +1,59 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2stknj"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.loader.load.image"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api loads a image before it is showed to the user ie the user might be going through some tutorial and you can load the images needed next before they are deployed on to the user context."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2stknj": {
+      "id": "2iyza7ekkm2stknj",
+      "template": [
+        "2iyza7ekkm2stlnb"
+      ],
+      "containers": {
+        "2iyza7ekkm2stlnb": {
+          "id": "2iyza7ekkm2stlnb",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "//this api takes the full image url \n\nengine.loader.load.image(\"https://some.com/image.png\");\n\n//this image will be cached to use later."
+            }
+          },
+          "style": {}
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Loader Load Image",
+  "discription": "how to load a image before it is displayed to the user.",
+  "keywords": "vegana,api,engine,loader,load,image"
+}

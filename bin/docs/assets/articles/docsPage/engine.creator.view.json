@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza824km4ibz4b"
+  ],
+  "rows": {
+    "2iyza824km4ibz4b": {
+      "id": "2iyza824km4ibz4b",
+      "template": [
+        "2iyza824km4ic17v",
+        "2iyza824km4ic6ii",
+        "2iyza824km4ic8pv"
+      ],
+      "containers": {
+        "2iyza824km4ic17v": {
+          "id": "2iyza824km4ic17v",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Vegana Creator Context Apis"
+            }
+          }
+        },
+        "2iyza824km4ic6ii": {
+          "id": "2iyza824km4ic6ii",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "these apis can trigger when a dom element comes in or goes out of view."
+            }
+          }
+        },
+        "2iyza824km4ic8pv": {
+          "id": "2iyza824km4ic8pv",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//.................................\n//padding\nengine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \theight:'100vh'\n        }\n    }\n});\n//.................................\n\n\n//============================================\n\nengine.make.div({\n\tparent:pageId,\n    text:\"follow me\",\n    enter:(id)=>{\n    \tconsole.log(\"i entered the view\");\n    },\n    exit:(id)=>{\n    \tconsole.log(\"i exited the view\");\n    }\n});\n\n//============================================\n\n//.................................\n//padding\nengine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \theight:'100vh'\n        }\n    }\n});\n//.................................\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Creator Enter | Exit",
+  "discription": "vegana creator api to trigger events when a dom element comes in or goes out of user view.",
+  "keywords": "vegana,api,engine,make,creator,enter,exit"
+}

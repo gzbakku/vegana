@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2stknj"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.loader.load.css"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api loads a lazy css file either from vegana app directory or from a valid url and takes location and is_link as arguments."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2stknj": {
+      "id": "2iyza7ekkm2stknj",
+      "template": [
+        "2iyza7ekkm2stlnb"
+      ],
+      "containers": {
+        "2iyza7ekkm2stlnb": {
+          "id": "2iyza7ekkm2stlnb",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\n/*===============================\n\targuments\n===============================*/\n\nengine.loader.load.css(path,is_link);\n\n//path is relative path or url\n//is_link tells the api should the path be considered relative or a independent url.\n//this api returns a promise \n\n/*===============================\n\tload from external valid url\n===============================*/\n\nengine.loader.load.css(\"https://some.com/some.css\",true);\n\n/*===============================\n\tload from vegana app css directory\n\tfile is location at vegana_project_directory/css/some/sample.css\n===============================*/\n\nengine.loader.load.css(\"some/sample.css\",false);\n"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Loader Css",
+  "discription": "how to load a css file in vegana app.",
+  "keywords": "vegana,api,engine,loader,css"
+}

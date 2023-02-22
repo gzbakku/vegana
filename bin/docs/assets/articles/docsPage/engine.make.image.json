@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.image"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api amkes dom image element but since vegana does have dynamic routing to support multiple platforms local images can be loded by the routing system ie local image present in assets directory can be loaded by just proviing a relative path to the assets directory."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\",\n            \"grid-template-columns\":\"50% 50%\",\n            display:\"grid\"\n        }\n    }\n});\n\n//local image\n\nconst local_image_div = engine.make.div({\n\tparent:parent_div,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid pink\",\n            padding:\"10px\",\n        }\n    }\n});\n\n  engine.make.image({\n      parent:local_image_div,\n      type:\"local\",\n      location:\"assets/images/logo-mix.png\",\n      draw:{\n          all:{\n              height:\"100px\",\n              width:\"200px\"\n          }\n      }\n  });\n\n//from a link\n\nconst url_image_div = engine.make.div({\n\tparent:parent_div,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid blue\",\n            padding:\"10px\",\n        }\n    }\n});\n\n  const href = engine.make.a({\n      parent:url_image_div,\n      type:'url',\n      href:'https://www.mozilla.org',\n\t  text:'visit mozzila org and show your support.',\n      target:'_blank'\n  });\n\n    engine.make.image({\n        parent:href,\n        type:\"url\",\n        location:\"https://www.mozilla.org/media/protocol/img/logos/firefox/logo-lg-high-res.7ba3ce88e665.png\",\n        draw:{\n          all:{\n              height:\"100px\",\n              width:\"100px\"\n          }\n        }\n    });\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Image",
+  "discription": "how to make a image element in vegana js.",
+  "keywords": "vegana,api,engine,make,image"
+}

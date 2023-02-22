@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2stknj"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.data.set"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api takes and saves the data in given vegana memory group but only one key can be set at once with this api so if any key already exists in the memory group if fails to set the data."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2stknj": {
+      "id": "2iyza7ekkm2stknj",
+      "template": [
+        "2iyza7ekkm2stlnb"
+      ],
+      "containers": {
+        "2iyza7ekkm2stlnb": {
+          "id": "2iyza7ekkm2stlnb",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n/*\n this api takes key, data and vegana data group as parameters.\n*/\n\n//-----------------------------------------------\nengine.data.set(\"username\",\"gzbakku\",\"local\");\n//-----------------------------------------------\n\nlet username = engine.data.get(\"username\",\"local\");\n\nconsole.log(username);"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Data Set",
+  "discription": "save data with vegana data api.",
+  "keywords": "vegana,api,engine,data,set"
+}

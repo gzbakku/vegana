@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza8ggkm7un0ki"
+  ],
+  "rows": {
+    "2iyza8ggkm7un0ki": {
+      "id": "2iyza8ggkm7un0ki",
+      "template": [
+        "2iyza8ggkm7un1a2",
+        "2iyza8ggkm7un1lu",
+        "2iyza8ggkm7un1y2"
+      ],
+      "containers": {
+        "2iyza8ggkm7un1a2": {
+          "id": "2iyza8ggkm7un1a2",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana.set.div.input"
+            }
+          }
+        },
+        "2iyza8ggkm7un1lu": {
+          "id": "2iyza8ggkm7un1lu",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api sets element value for input type dom elements."
+            }
+          }
+        },
+        "2iyza8ggkm7un1y2": {
+          "id": "2iyza8ggkm7un1y2",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//=========================================\n/*\n\n\t//engine.set.div.text api params\n    \n    engine.set.input.value(dom_element_id_string,value);\n    \n*/        \n//=========================================  \n\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\",\n        }\n    }\n});\n\nconst inputElement = engine.make.input({\n\tparent:parent_div,\n    placeholder:\"text goes here\",\n    type:'string',\n    draw:{\n    \tall:{\n        \tborder:\"5px solid pink\",\n            padding:\"10px\",\n        }\n    },\n    function:()=>{\n    \tclick_count = 0;\n    }\n});\n\nlet click_count = 0;\nengine.make.button({\n\tparent:parent_div,\n    value:\"click me\",\n\tfunction:()=>{\n    \tclick_count += 1;\n        \n        //=========================================\n        //api example\n\n            engine.set.input.value(inputElement,`click count : ${click_count}`);\n\n        //=========================================\n        \n        \n    },\n    draw:{\n    \tall:{\n        \tborder:\"5px solid pink\",\n            padding:\"10px\",\n        }\n    }\n});\n\n//=========================================\n//api goes here\n\n\tengine.set.input.value(inputElement,\"gzbakku\");\n\n//=========================================\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Set Input Value",
+  "discription": "how to set input element value.",
+  "keywords": "vegana,api,engine,set,input,value"
+}

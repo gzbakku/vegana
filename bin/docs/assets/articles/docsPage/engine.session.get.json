@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5rskm6zdtqk"
+  ],
+  "rows": {
+    "2iyza5rskm6zdtqk": {
+      "id": "2iyza5rskm6zdtqk",
+      "template": [
+        "2iyza5rskm6zduuk",
+        "2iyza5rskm6zdwgc",
+        "2iyza5rskm6zdwsc"
+      ],
+      "containers": {
+        "2iyza5rskm6zduuk": {
+          "id": "2iyza5rskm6zduuk",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.session.get"
+            }
+          }
+        },
+        "2iyza5rskm6zdwgc": {
+          "id": "2iyza5rskm6zdwgc",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api fetches information stored with evgana sessions api and contains multiple sub apis to point to vegana session template."
+            }
+          }
+        },
+        "2iyza5rskm6zdwsc": {
+          "id": "2iyza5rskm6zdwsc",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//=================================\n//\tstart test session\n//=================================\nlet token_object = {\n\tsessionId:'asd897897',\n\tuid:\"as908sa09d\",\n    user:{\n    \tname:\"gzbakku\",\n       \tuid:'as098d908098098'\n    }\n};\n\nlet start_session = engine.session.start(token_object,token_object.user,token_object.user.uid,false);\n\nconsole.log({start_session:start_session});\n\n//=================================\n//\tget user object\n//=================================\n\nconst user = engine.session.get.user();\n\nconsole.log({user:user});\n\n//=================================\n//\tget token object\n//=================================\n\nconst token = engine.session.get.token();\n\nconsole.log({token:token});\n\n//=================================\n//\tget uid object\n//=================================\n\nconst uid = engine.session.get.uid();\n\nconsole.log({uid:uid});\n\n//=================================\n//\tget session_type object\n//=================================\n\nconst session_type = engine.session.get.session_type();\n\nconsole.log({session_type:session_type});\n\n//=================================\n//\tend test session\n//=================================\n\nconst end_session = engine.session.end();\n\nconsole.log({end_session:end_session});\n\n//=================================\n//\tplease dont leave a session floating\n//=================================\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Session Get",
+  "discription": "how to get stored session information in vegana js.",
+  "keywords": "vegana,api,engine,session,get,user,info,token,uid"
+}

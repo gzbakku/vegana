@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza9rkkm1ply8b"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.binder.boolean"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api was used before active api to check if checkbox is checked was added it just returns a JSON parsed object of the value from a dom element."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza9rkkm1ply8b": {
+      "id": "2iyza9rkkm1ply8b",
+      "template": [
+        "2iyza140km2qoizm"
+      ],
+      "containers": {
+        "2iyza140km2qoizm": {
+          "id": "2iyza140km2qoizm",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst checkbox = engine.make.input({\n  parent:pageId,  //change this to the id of parent dom element\n  type:'checkbox'\n});\n\nlet checked = engine.binder.boolean(checkbox);\n\nconsole.log(checked);"
+            }
+          },
+          "style": {
+            "width": "95%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Binder Boolean",
+  "discription": "this api was used before active api to check if checkbox is checked was added it just returns a JSON parsed object of the value from a dom element.",
+  "keywords": "vegana,api,engine,binder,boolean"
+}

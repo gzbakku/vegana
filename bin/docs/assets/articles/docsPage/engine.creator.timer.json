@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza824km4ibz4b"
+  ],
+  "rows": {
+    "2iyza824km4ibz4b": {
+      "id": "2iyza824km4ibz4b",
+      "template": [
+        "2iyza824km4ic17v",
+        "2iyza824km4ic6ii",
+        "2iyza824km4ic8pv"
+      ],
+      "containers": {
+        "2iyza824km4ic17v": {
+          "id": "2iyza824km4ic17v",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Vegana Creator Timer Api"
+            }
+          }
+        },
+        "2iyza824km4ic6ii": {
+          "id": "2iyza824km4ic6ii",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api triggers a function after given time after pointer down event or in simple words on long press."
+            }
+          }
+        },
+        "2iyza824km4ic8pv": {
+          "id": "2iyza824km4ic8pv",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nengine.make.div({\n\tparent:pageId,\n    text:\"long press me\",\n    timer:{\n    \tfunctionData:{\n        \tsome:true\n        },\n    \ttime:1000,//time in miliseconds\n        function:(id,functionData)=>{\n        \tconsole.log(\"its been 1 second.\");\n        }\n    }\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Creator Timer",
+  "discription": "vegana creator api to trigger fuction on long press or time given.",
+  "keywords": "vegana,api,engine,make,creator,timer"
+}

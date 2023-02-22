@@ -1,0 +1,50 @@
+{
+  "name": "vegana",
+  "version": "3.5.4",
+  "description": "vegana is a container based js framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "electron": "electron ."
+  },
+  "keywords": [
+    "vegana",
+    "js",
+    "framework",
+    "dritributed",
+    "lazy"
+  ],
+  "author": "tejasav dutt",
+  "license": "ISC",
+  "dependencies": {
+    "browserify": "^16.2.3",
+    "chalk": "^2.4.1",
+    "chokidar": "^3.3.0",
+    "cli-spinner": "^0.2.8",
+    "cors": "^2.8.5",
+    "cross-spawn": "^6.0.5",
+    "express": "^4.16.4",
+    "fs-extra": "^7.0.0",
+    "get_npm_root": "^1.0.1",
+    "http": "0.0.0",
+    "input": "^1.0.1",
+    "sass": "^1.49.11",
+    "socket.io": "^2.1.1",
+    "tinyify": "^2.4.3",
+    "uglifyify": "^5.0.2",
+    "uniqid": "^5.4.0",
+    "vegana-engine": "^1.0.0"
+  },
+  "bin": {
+    "vegana": "./bin/index.js"
+  },
+  "preferGlobal": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gzbakku/vegana.git"
+  },
+  "bugs": {
+    "url": "https://github.com/gzbakku/vegana/issues"
+  },
+  "homepage": "https://github.com/gzbakku/vegana#readme"
+}

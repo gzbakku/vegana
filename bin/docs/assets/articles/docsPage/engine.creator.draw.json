@@ -1,0 +1,53 @@
+{
+  "template": [
+    "2iyza824km4hobib",
+    "2iyza824km4hy5s9"
+  ],
+  "rows": {
+    "2iyza824km4hobib": {
+      "id": "2iyza824km4hobib",
+      "template": [
+        "2iyza824km4hocb7",
+        "2iyza824km4hovur",
+        "2iyza824km4hpncz"
+      ],
+      "containers": {
+        "2iyza824km4hocb7": {
+          "id": "2iyza824km4hocb7",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "Vegana Creator Draw Api"
+            }
+          }
+        },
+        "2iyza824km4hovur": {
+          "id": "2iyza824km4hovur",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "\nvegana creator draw api helps you to draw css for multiple platforms from a single object input, children platform properties overtake parent properties ie border property in all group will be replaced by border property in electron -> all group and then be replaced by border property of electron -> all -> linux group.\n"
+            }
+          }
+        },
+        "2iyza824km4hpncz": {
+          "id": "2iyza824km4hpncz",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\nengine.make.div({\n\tparent:pageId,\n    text:'see my borders',\n    draw:{\n    \tall:{\n        \t'border-radius':'10px',\n        \tpadding:'10px',\n        \tborder:\"5px solid red\"\n        },\n        browser:{\n        \tpc:{\n            \tborder:\"5px solid purple\"\n            \t//applied is user is on pc browser\n            },\n            mobile:{\n            \tborder:\"5px solid pink\"\n            \t//applied is user is on mobile browser\n            },\n        },\n        cordova:{\n        \tall:{\n            \t//applied is user is on cordova\n            },\n        \tios:{\n            \t//applied is user is on cordova ios\n            },\n            android:{\n            \t//applied is user is on cordova android\n            },\n        },\n        electron:{\n        \tall:{\n            \t//applied is user is on electron all\n                border:\"5px solid blue\"\n            },\n        \tmac:{\n            \t//applied is user is on electron mac\n            },\n            linux:{\n            \t//applied is user is on electron linux\n                border:\"5px solid yellow\"\n            },\n            windows:{\n            \t//applied is user is on electron windows\n            },\n        }\n    }\n});\n\n//--------------------------\n//output for each platform\n//--------------------------\n\n/*\n\tbrowser \t\t=> \"5px solid red\"\n    electron \t\t=> \"5px solid blue\"\n    electron-linux \t=> \"5px solid yellow\"\n*/\n\n//--------------------------\n//Platform Heirarchy\n//--------------------------\n/*\n\n\tall -> browser \t-> all -> pc \t/ mobile\n    all -> electron -> all -> linux / windows / mac\n    all -> cordova \t-> all -> ios \t/ android\n    \n    **all parent properties are replaced by children properties.\n\n*/\n\n\n"
+            }
+          }
+        }
+      }
+    },
+    "2iyza824km4hy5s9": {
+      "id": "2iyza824km4hy5s9",
+      "template": [],
+      "containers": {}
+    }
+  },
+  "title": "Vegana Api : Engine Make Creator Draw",
+  "discription": "vegana creator api to style a som element for any platforms from one input.",
+  "keywords": "vegana,api,engine,make,creator,draw,all,style"
+}

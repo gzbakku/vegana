@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.static.onWeb"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api runs a function on web if you are using vegana static."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "//==========================\n//\tapi params\n//==========================\n/*\n\n\tengine.static.onWeb(data,function);\n\n*/\n\nconst data = {\n\tname:\"gzbakku\"\n};\n\nengine.static.onWeb(data,(d)=>{\n\tconsole.log(d);\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Static onWeb Api",
+  "discription": "how to execute a function on web with vegana static",
+  "keywords": "vegana,api,engine,static,onWeb,on,web"
+}

@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza7uskm7vo9oe"
+  ],
+  "rows": {
+    "2iyza7uskm7vo9oe": {
+      "id": "2iyza7uskm7vo9oe",
+      "template": [
+        "2iyza7uskm7voaxa",
+        "2iyza7uskm7vock6",
+        "2iyza7uskm7vocvq"
+      ],
+      "containers": {
+        "2iyza7uskm7voaxa": {
+          "id": "2iyza7uskm7voaxa",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.sketch.colors api"
+            }
+          }
+        },
+        "2iyza7uskm7vock6": {
+          "id": "2iyza7uskm7vock6",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api manages your colors in your app."
+            }
+          }
+        },
+        "2iyza7uskm7vocvq": {
+          "id": "2iyza7uskm7vocvq",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//======================================\n//set color\n//======================================\n\nengine.sketch.colors.add(\"red\",\"#f55742\");\n\n//======================================\n//get color\n//======================================\n\nlet redColor = engine.sketch.colors.get(\"red\");\n\n//======================================\n//example color\n//======================================\n\nengine.make.div({\n\tparent:pageId,\n    text:'test div',\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\",\n            color:redColor\n        }\n    }\n});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Sketch Colors Api",
+  "discription": "how to manage and share colors in vegana js.",
+  "keywords": "vegana,api,engine,sketch,colors,add,get,manage"
+}

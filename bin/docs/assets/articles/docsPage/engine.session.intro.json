@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5rskm6zdtqk"
+  ],
+  "rows": {
+    "2iyza5rskm6zdtqk": {
+      "id": "2iyza5rskm6zdtqk",
+      "template": [
+        "2iyza5rskm6zduuk",
+        "2iyza5rskm6zdwgc",
+        "2iyza5rskm6zdwsc"
+      ],
+      "containers": {
+        "2iyza5rskm6zduuk": {
+          "id": "2iyza5rskm6zduuk",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana session api"
+            }
+          }
+        },
+        "2iyza5rskm6zdwgc": {
+          "id": "2iyza5rskm6zdwgc",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this is a simple wrapper around data api to manage session information easily,and extend some functionality to check session information.defined session api reduces code size and reduce complexity while implimenting authentication."
+            }
+          }
+        },
+        "2iyza5rskm6zdwsc": {
+          "id": "2iyza5rskm6zdwsc",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//=================================\n//\tsession start api params\n//=================================\n/*\n\t\n    engine.session.start(token_object,user_object,uniqe_user_id_string,remember_session_boolean);\n\t\n*/\n\nlet token_object = {\n\tsessionId:'asd897897',\n\tuid:\"as908sa09d\",\n    user:{\n    \tname:\"gzbakku\",\n       \tuid:'as098d908098098'\n    }\n};\n\nlet start_session = engine.session.start(token_object,token_object.user,token_object.user.uid,false);\n\nconsole.log({start_session:start_session});\n\n//=================================\n//\tsession end api params\n//=================================\n\nlet check_session = engine.session.check();\n\nconsole.log({check_session:check_session});\n\n//=================================\n//\tsession end api params\n//=================================\n\nlet end_session = engine.session.end();\n\nconsole.log({end_session:end_session});\n\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Session Introduction",
+  "discription": "introduction to vegana session api.",
+  "keywords": "vegana,api,engine,session,introduction"
+}

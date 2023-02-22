@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.text"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api applies innter html text to a dom element."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\nconst parent_div = engine.make.div({\n\tparent:pageId,\n    draw:{\n    \tall:{\n        \tborder:\"5px solid purple\",\n            padding:\"10px\"\n        }\n    }\n});\n\n//engine.make.text({id,text});\n\nengine.make.text({\n\tid:parent_div,\n    text:\"i am new text\"\n});\n\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make Text",
+  "discription": "how to add text to a dom element in vegana js.",
+  "keywords": "vegana,api,engine,make,text,add"
+}

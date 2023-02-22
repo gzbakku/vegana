@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza7ekkm2stknj"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.loader.load.sassPack"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api loads a lazy native sassPack module in vegana js."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza7ekkm2stknj": {
+      "id": "2iyza7ekkm2stknj",
+      "template": [
+        "2iyza7ekkm2stlnb"
+      ],
+      "containers": {
+        "2iyza7ekkm2stlnb": {
+          "id": "2iyza7ekkm2stlnb",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\n//make new sass pack\n/*\n\n\t$ vegana generate sass sample\n\n*/\n\nengine.loader.load.sassPack(sassPackName)\n\n//sassPackName should be full sassPackName\n\n//this returns a promise\nlet loadSassPack = await engine.loader.load.sassPack(\"samplePack\")\n.then(()=>{\n\treturn true;\n})\n.catch(()=>{\n\treturn false;\n});\n\n//output is true if it loads correctly\n"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Loader Load SassPack",
+  "discription": "how to load a lazy sassPack module in vegana js.",
+  "keywords": "vegana,api,engine,loader,load,sassPack"
+}

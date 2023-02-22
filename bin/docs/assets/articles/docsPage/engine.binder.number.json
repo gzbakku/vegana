@@ -1,0 +1,61 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza9rkkm1ply8b"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.binder.number"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "get number from a input field."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza9rkkm1ply8b": {
+      "id": "2iyza9rkkm1ply8b",
+      "template": [
+        "2iyza140km2qoizm"
+      ],
+      "containers": {
+        "2iyza140km2qoizm": {
+          "id": "2iyza140km2qoizm",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\nconst numberField = engine.make.input({\n  parent:pageId,  //change this to the id of parent dom element\n  type:'number',\n  placeholder:'number goes here'\n});\n\nlet numberInput = engine.binder.number(numberField);\n\nconsole.log(numberInput);"
+            }
+          },
+          "style": {
+            "width": "95%"
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Binder Number",
+  "discription": "get number from a input field.",
+  "keywords": "vegana,api,engine,binder,number"
+}

@@ -1,0 +1,101 @@
+{
+  "template": [
+    "2iyza9rkkm1pgl2c",
+    "2iyza9rkkm1ply8b"
+  ],
+  "rows": {
+    "2iyza9rkkm1pgl2c": {
+      "id": "2iyza9rkkm1pgl2c",
+      "template": [
+        "2iyza9rkkm1pgmf8",
+        "2iyza9rkkm1pgwzx"
+      ],
+      "containers": {
+        "2iyza9rkkm1pgmf8": {
+          "id": "2iyza9rkkm1pgmf8",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.add.function"
+            }
+          }
+        },
+        "2iyza9rkkm1pgwzx": {
+          "id": "2iyza9rkkm1pgwzx",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "some functions are called from across components and are triggered by user events so to avoid clutter this code can only be decalred once and shared across your vegana app."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    },
+    "2iyza9rkkm1ply8b": {
+      "id": "2iyza9rkkm1ply8b",
+      "template": [
+        "2iyza140km2p1j3p",
+        "2iyza9rkkm1plzsr",
+        "2iyza9rkkm1pmijn",
+        "2iyzaa0ckm1povc2"
+      ],
+      "containers": {
+        "2iyza9rkkm1plzsr": {
+          "id": "2iyza9rkkm1plzsr",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "how to share functions vegana components?"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        },
+        "2iyza9rkkm1pmijn": {
+          "id": "2iyza9rkkm1pmijn",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this function is separate from engine.add.object api so you can save the data shared via that api safely please don't save functions in local memory its compromising."
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        },
+        "2iyzaa0ckm1povc2": {
+          "id": "2iyzaa0ckm1povc2",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//example\nengine.add.function(\"whoAmI\",()=>{\n  return engine.global.object.user;\n});\n\nlet get = engine.global.function.whoAmI();\n\nconsole.log(get);"
+            }
+          },
+          "style": {
+            "width": "98%",
+            "height": "300px"
+          }
+        },
+        "2iyza140km2p1j3p": {
+          "id": "2iyza140km2p1j3p",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "how to use functions multiple times from different places in vegana js?"
+            }
+          },
+          "style": {
+            "width": "90%"
+          }
+        }
+      }
+    }
+  },
+  "title": "",
+  "discription": "how to use functions multiple times from different places in vegana js?",
+  "keywords": "vegana,api,engine,add,function"
+}

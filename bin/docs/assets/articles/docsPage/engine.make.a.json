@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza5mwkm50399y"
+  ],
+  "rows": {
+    "2iyza5mwkm50399y": {
+      "id": "2iyza5mwkm50399y",
+      "template": [
+        "2iyza5mwkm503cm6",
+        "2iyza5mwkm503dmm",
+        "2iyza5mwkm503e66"
+      ],
+      "containers": {
+        "2iyza5mwkm503cm6": {
+          "id": "2iyza5mwkm503cm6",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "engine.make.a"
+            }
+          }
+        },
+        "2iyza5mwkm503dmm": {
+          "id": "2iyza5mwkm503dmm",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api makes a \"A href\" dom element for native vegana app.vegana native href supports to form links with native router platform ie you can give it page,cont,panel and params for building internal links but you can also provide external urls.this api provides baseFunction which are triggered anytime the link is clicked then the default link behavior is triggered or superFunction which is triggered on click but does not follow with default link click behavior."
+            }
+          }
+        },
+        "2iyza5mwkm503e66": {
+          "id": "2iyza5mwkm503e66",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n\nlet draw = {\n    \tall:{\n        \tdisplay:'block',\n        \tpadding:'10px'\n        }\n    };\n\n//this will log the given and go to the link afterwards\n//if the location is available in app it will try to route through the internal router or else it will route to a link.\nlet link_follow = engine.make.a({\n\tparent:pageId,\n\ttype:\"local\",\n    text:\"to docsPage->addCont->objectPanel\",\n    page:\"docsPage\",\n    cont:\"addCont\",\n    panel:\"objectPanel\",\n    baseFunction:()=>{\n    \tconsole.log(\"to docsPage->addCont->objectPanel\");\n    },\n    draw:draw\n});\n\n//this will log the given and end the function.\nlet link_no_follow = engine.make.a({\n\tparent:pageId,\n\ttype:\"local\",\n    text:\"to docsPage->addCont->functionPanel\",\n    page:\"docsPage\",\n    cont:\"addCont\",\n    panel:\"functionPanel\",\n    superFunction:()=>{\n    \tconsole.log(\"to docsPage->addCont->functionPanel\");\n    },\n    draw:draw\n});\n\n//external link\nlet external_link = engine.make.a({\n\tparent:pageId,\n\ttype:\"url\",\n    href:\"https://some.com/some_link\",\n    text:\"to some.com\",\n    draw:draw\n});\n\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Make A",
+  "discription": "vegana make api to make a href dom element.",
+  "keywords": "vegana,api,engine,make,a"
+}

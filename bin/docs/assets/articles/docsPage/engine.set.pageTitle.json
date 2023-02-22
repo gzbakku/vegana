@@ -1,0 +1,47 @@
+{
+  "template": [
+    "2iyza8ggkm7un0ki"
+  ],
+  "rows": {
+    "2iyza8ggkm7un0ki": {
+      "id": "2iyza8ggkm7un0ki",
+      "template": [
+        "2iyza8ggkm7un1a2",
+        "2iyza8ggkm7un1lu",
+        "2iyza8ggkm7un1y2"
+      ],
+      "containers": {
+        "2iyza8ggkm7un1a2": {
+          "id": "2iyza8ggkm7un1a2",
+          "field": {
+            "type": "heading",
+            "data": {
+              "value": "vegana.set.pageTitle"
+            }
+          }
+        },
+        "2iyza8ggkm7un1lu": {
+          "id": "2iyza8ggkm7un1lu",
+          "field": {
+            "type": "paragraph",
+            "data": {
+              "value": "this api sets html document page title.usually this is set by vegana module tracker from the title key but you can access this api directly to set page title."
+            }
+          }
+        },
+        "2iyza8ggkm7un1y2": {
+          "id": "2iyza8ggkm7un1y2",
+          "field": {
+            "type": "code",
+            "data": {
+              "value": "\n//look at title when you execute this.\n\nconst setTitle = engine.set.pageTitle(\"test title\");\n\nconsole.log({setTitle:setTitle});\n"
+            }
+          }
+        }
+      }
+    }
+  },
+  "title": "Vegana Api : Engine Set Pagetitle",
+  "discription": "how to set page title in vegana js.",
+  "keywords": "vegana,api,engine,set,page,title,pageTitle"
+}
