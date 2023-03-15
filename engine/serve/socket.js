@@ -40,7 +40,7 @@ module.exports = {
       stdin.on('data',async (chunk)=>{
         //start functions are defined as global vars in serve index api
         if(run_cordova){start_cordova();}
-        if(run_static && global.start_static){start_static();}
+        if(run_static && global.start_static){start_static(null,true);}
         if(run_electron){
           if(typeof(global.start_electron) === "function"){
             await start_electron();

@@ -10,6 +10,9 @@ module.exports = {
   },
 
   dir:{
+    chdir:(path)=>{
+      process.chdir(path);
+    },
     cwd:()=>{
       return io.clean_path(process.cwd());
     },

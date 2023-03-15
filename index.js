@@ -37,6 +37,8 @@ global.sass_collect = ()=>{
 global.common_collect = collect.commonComp;
 global.get_variable = get_variable;
 
+
+
 starter();
 
 async function starter(){
@@ -127,3 +129,8 @@ function get_variable(name){
   }
   return false;
 }
+
+module.exports = {
+  serve:serve,
+  build:build
+};

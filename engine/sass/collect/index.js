@@ -2,7 +2,7 @@ const fs = require('fs');
 
 module.exports = {
 
-  init:async ()=>{
+  init:async (no_info)=>{
 
     const cwd = io.dir.cwd();
     const app = cwd + "/app";
@@ -36,9 +36,12 @@ module.exports = {
       return common.error("failed-write_vegana_tree_file");
     }
 
-    common.info("all sass files are included in the vegana_tree.scss file in the sass folder please import this file in your master file to finish the tree configration.");
-
-    common.success("sass files collected successfully");
+    if(!no_info){
+      common.info("all sass files are included in the vegana_tree.scss file in the sass folder please import this file in your master file to finish the tree configration.");
+      common.success("sass files collected successfully");
+    } else {
+      common.tell("sass files collected successfully");
+    }
 
     return true;
 

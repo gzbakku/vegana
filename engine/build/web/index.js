@@ -1,10 +1,11 @@
-const check = require('./check');
-const compile = require('./compiler');
-const sass = require('./sass');
+// const check = require('./check');
+// const compile = require('./compiler');
+// const sass = require('./sass');
 const edit = require('./edit');
 const copy = require('./copy');
 const make = require('./make');
 const get_base = require('./get_base');
+const serve_api = require("../../serve/index");
 
 async function init(base,no_base){
 
@@ -66,42 +67,20 @@ async function init(base,no_base){
     base = '';
   }
 
-  // console.log(base);
-
-  //check the files
-  if(true){
-    let doCheck = await check.init();
-    if(doCheck == false){
-      return common.error('check failed');
-    }
+  //edit config
+  if(!await edit.edit_config()){
+    return common.error("failed edit config production property");
   }
 
-  //compile bundle here
-  if(true){
-    let doCompile = await compile.init();
-    if(doCompile == false){
-      return common.error('failed-bundle_compilation');
-    }
-  }
+  //set production flag
+  global.VeganaBuildProduction = true;
 
-  //compile lazy
-  if(true){
-    let doLazyLoad = await compile.lazyLoader();
-    if(doLazyLoad == false){
-      return common.error('failed-lazy_module_compilations');
-    }
-  }
-
-  //compile css here
-  if(true){
-    let doSassCompilation = await sass.init();
-    if(doSassCompilation == false){
-      return common.error('failed-master_sass_compilation');
-    }
+  //compile all modules
+  if(!await serve_api.compile.init(true)){
+      return common.error("failed to compile static files");
   }
 
   //make folders
-
   if(true){
     let doMake = await make.init();
     if(!doMake){
@@ -110,7 +89,6 @@ async function init(base,no_base){
   }
 
   //edit index
-
   if(true){
     let doEdit = await edit.init(base);
     if(!doEdit){
@@ -119,7 +97,6 @@ async function init(base,no_base){
   }
 
   //copy built files
-
   if(true){
     let doCopy = await copy.init();
     if(!doCopy){

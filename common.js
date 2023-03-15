@@ -1,6 +1,18 @@
 const chalk = require('chalk');
+const Spinner = require('cli-spinner').Spinner;
 
 module.exports = {
+
+  loading:(m)=>{
+    var spinner = new Spinner(`%s : ${chalk.cyanBright(m)}`);
+    spinner.setSpinnerString('|/-\\');
+    spinner.start();
+    return {
+      stop:()=>{
+        spinner.stop();
+      }
+    };
+  },
 
   error : function(error,log){
     if(log === false){return false;}
@@ -23,6 +35,10 @@ module.exports = {
     return true;
   },
 
-  log:this.tell
+  log:this.tell,
+
+  time:()=>{
+    return new Date().getTime();
+  }
 
 };

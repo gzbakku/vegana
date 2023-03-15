@@ -4,6 +4,8 @@ const collect = require('./collect/index');
 
 module.exports = {
 
+  collect:collect,
+
   init:async (func)=>{
 
     if(!func || func === "help" || func === "-h" || func === "--help"){

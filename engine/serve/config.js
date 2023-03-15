@@ -4,7 +4,7 @@ module.exports = {
     init:init
 };
 
-async function init(){
+async function init(enable_config_production){
 
     const cwd = await io.dir.cwd();
     const app_dir = `${cwd}/app`; 
@@ -45,7 +45,9 @@ async function init(){
     }
 
     let read_updated = false;
-    if(read.production){read.production = false;read_updated = true;}
+    if(!enable_config_production){
+        if(read.production){read.production = false;read_updated = true;}
+    }
     if(read_updated){
         if(!await io.write(config_path,JSON.stringify(read,null,2))){
             return common.error(`failed update config.json => ${config_path}`);

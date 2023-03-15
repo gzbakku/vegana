@@ -29,7 +29,7 @@ async function init(type,name,laziness,outside,isGlobal){
     compLocation = base_dir + "app/pages/" + name + "Page/";
     if(!dontCheckDir && await io.exists(compLocation)){return common.error("page with given name already exists");}
   } else if(type === "cont"){
-    pgName = get_variable("--page");
+    pgName = get_variable("--page") || get_variable("--pageName");
     if(pgName){
       let pageDir = base_dir + "app/pages/" + pgName + '/';
       if(!await io.exists(pageDir)){common.error(`given page ${pgName} is invalid`);pgName=null;}
@@ -39,13 +39,13 @@ async function init(type,name,laziness,outside,isGlobal){
     compLocation = base_dir + "app/pages/" + pgName + "/conts/" + name + "Cont/";
     if(!dontCheckDir && await io.exists(compLocation)){return common.error("cont with given name already exists");}
   } else if(type === "panel"){
-    pgName = get_variable("--page");
+    pgName = get_variable("--page") || get_variable("--pageName");
     if(pgName){
       let pageDir = base_dir + "app/pages/" + pgName + '/';
       if(!await io.exists(pageDir)){common.error(`given page ${pgName} is invalid`);pgName = null;}
     }
     if(!pgName){pgName = await fsys.get_page();if(!pgName){return common.error("failed-get-page_name");}}
-    cnName = get_variable("--cont");
+    cnName = get_variable("--cont") || get_variable("--contName");
     if(cnName){
       let contDir = base_dir + "app/pages/" + pgName + '/conts/' + cnName + '/';
       if(!await io.exists(contDir)){common.error(`given cont ${cnName} is invalid`);cnName=null;}

@@ -6,10 +6,10 @@ const watcher = require('./watcher');
 const sass = require('./sass');
 const os = require("os");
 const common = require('../../common');
-const { log } = require('console');
 const snippets = require('./snippets');
 const transform = require('./transform');
 const config = require('./config');
+const only_compile = require('./only_compile');
 
 async function init(port,secure,outside){
 
@@ -53,81 +53,11 @@ async function init(port,secure,outside){
 
   console.log('>>> serve initiated');
 
-  //check the files
-
-  if(true){
-    let doCheck = await check.init();
-    if(doCheck == false){
-      return common.error('check failed');
-    }
-  }
-
-  //config
-  if(true){
-    let config_customize = await config.init();
-    if(config_customize == false){
-      return common.error('failed config customize');
-    }
-  }
-
-  //compile snippets here
-
-  if(true){
-    let compileSnippets = await snippets.init();
-    if(compileSnippets == false){
-      return common.error('failed collect snippets');
-    }
-  }
-
-  //load snippets into mem
-
-  if(true){
-    let loadSnippets = await transform.load();
-    if(loadSnippets == false){
-      return common.error('failed load snippets');
-    }
-  }
-
-  //transform all files in project
-
-  if(true){
-    let transformFiles = await transform.all_files();
-    if(transformFiles == false){
-      return common.error('failed transform files');
-    }
-  }
-
-  //compile here
-
-  if(true){
-    let doCompile = await compile.init();
-    if(doCompile == false){
-      return common.error('failed-bundle_compilation');
-    }
-  }
-
-  //compile lazy moduules here
-
-  if(true){
-    let doLazyLoad = await compile.lazyLoader();
-    if(doLazyLoad == false){
-      return common.error('failed-lazy_module_compilations');
-    }
-  }
-
-  // return;
-
-  //compile css here
-
-  if(true){
-    let doSassCompilation = await sass.init();
-    if(doSassCompilation == false){
-      return common.error('failed-master_sass_compilation');
-    }
+  if(!await only_compile.init()){
+    return common.error('compile files failed');
   }
 
   //start the server
-
   let startServer;
   if(true){
     startServer = await server.init(port,secure);
@@ -137,7 +67,7 @@ async function init(port,secure,outside){
   }
 
   //start the socket
-  //enter to compile native app is done in socket api
+  //enter event is handled in the socket api
   if(true){
     let startSocket = await socket.init(run_cordova,run_electron,run_static);
     if(startSocket == false){
@@ -146,7 +76,6 @@ async function init(port,secure,outside){
   }
 
   //start watcher
-
   let startWatcher = await watcher.init(run_static);
   if(startWatcher == false){
     return common.error('watcher failed');
@@ -192,10 +121,18 @@ async function init(port,secure,outside){
   if(run_static){
 
     const { fork } = require('node:child_process');
-    let controller,signal,child;
+    let controller,signal,child,static_reset = false;
     
-    global.start_static = (a)=>{
-
+    global.start_static = (a,forced_reset)=>{
+      if(forced_reset && !static_reset){
+        static_reset = true;
+        common.tell("press enter one more time to reset static server");
+      } else if(forced_reset && static_reset){
+        controller = null;
+        signal = null;
+        child = null;
+        static_reset = false;
+      }
       if(controller){
         common.tell("stopping static server");
         let error = false;
@@ -206,7 +143,10 @@ async function init(port,secure,outside){
           start_static("exit");
         });
         child.on("error",(e)=>{
-          if(error){return;}
+          if(error){
+            common.error("static server already stopped with error");
+            return;
+          }
           error = true;
           common.error("static server stopped with error : " + e);
           controller = null;
@@ -237,6 +177,8 @@ async function init(port,secure,outside){
     }
 
     start_static();
+
+    socket.reload();
     
   }
 
@@ -250,7 +192,9 @@ async function init(port,secure,outside){
 }
 
 module.exports= {
-  init:init
+  init:init,
+  compile:only_compile,
+  compiler:compile
 };
 
 global.start_cordova = start_cordova;

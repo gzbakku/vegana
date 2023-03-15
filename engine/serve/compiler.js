@@ -3,16 +3,17 @@ const lazy = require('./lazy');
 const sass = require('./sass');
 const browserify = require('browserify');
 const wasm = require('./wasm');
-const { log } = require('console');
-const { setEngine } = require('crypto');
+// const { setEngine } = require('crypto');
 const common = require('../../common');
+const tinyify = require('tinyify');
 
 module.exports = {
   init:init,
   bundle:bundle,
   appModule:appModule,
   lazyLoader:lazyLoader,
-  wasm:wasm.recompile
+  wasm:wasm.recompile,
+  compile:compile
 };
 
 async function init(){
@@ -171,7 +172,7 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
 
   return new Promise(async (resolve,reject)=>{
 
-    if(await io.exists(sassRead)){
+    if(sassRead && sassWrite && await io.exists(sassRead)){
       const compile_sass = await sass.render(sassRead,sassWrite)
       .then(()=>{return true;}).catch(()=>{return false;});
       if(!compile_sass){
@@ -186,9 +187,14 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
       }
     }
 
-    browserify({ debug: false })
-    .require(readLocation,{entry: true})
-    .bundle()
+    let yo = browserify({ debug: false })
+    .require(readLocation,{entry: true});
+
+    if(global.VeganaBuildProduction){
+      yo.plugin(tinyify, { flat: false });
+    }
+
+    yo.bundle()
     .on("error", (err)=>{
       if(err.message){
         reject(err.message);

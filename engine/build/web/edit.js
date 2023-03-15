@@ -2,7 +2,10 @@
 // const fs = require('fs-extra');
 // const shell = require('shelljs');
 
-module.exports = {init:init};
+module.exports = {
+  init:init,
+  edit_config:edit_config
+};
 
 async function init(base){
 
@@ -49,6 +52,25 @@ async function init(base){
     return false;
   } else {
     return true;
+  }
+
+}
+
+async function edit_config(){
+
+  const cwd = io.dir.cwd();
+  const path = `${cwd}/app/config.json`;
+  let read = await io.readJson(path);
+  if(!read){
+    return common.error(`failed read config => ${path}`);
+  }
+  read.production = true;
+
+  if(!await io.write(path,JSON.stringify(read,null,2))){
+    return common.error(`failed write config => ${path}`);
+  } else {
+    console.log("___________________________");
+    return common.tell("config production is set to : TRUE");
   }
 
 }
