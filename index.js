@@ -37,9 +37,9 @@ global.sass_collect = ()=>{
 global.common_collect = collect.commonComp;
 global.get_variable = get_variable;
 
-
-
-starter();
+if(!global.useVeganaAsModule){
+  starter();
+}
 
 async function starter(){
 
