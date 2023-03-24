@@ -8,15 +8,15 @@ module.exports = {
 
 async function init(){
 
-    if(false && !await runner.compile()){
+    if(true && !await runner.compile()){
         return false;
     }
 
-    if(false && !await copy.make_directories()){
+    if(true && !await copy.make_directories()){
         return false;
     }
 
-    if(false && !await copy.files()){
+    if(true && !await copy.files()){
         return false;
     }
 

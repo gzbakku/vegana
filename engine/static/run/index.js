@@ -23,12 +23,11 @@ async function init(){
     const path = `${cwd}/static_server_standalone.js`;
     require(path);
 
-
 }
 
 async function compile(){
 
-global.VeganaBuildProduction = true;
+    global.VeganaBuildProduction = true;
 
     //compile all modules
     if(!await serve_api.compile.init()){
