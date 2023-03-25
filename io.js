@@ -4,6 +4,8 @@ const get_npm_root = require("get_npm_root");
 
 module.exports = {
 
+  get_npm_root:get_npm_root,
+
   exists:async (location)=>{
     if(!location){return false;}
     return fs.exists(location);
