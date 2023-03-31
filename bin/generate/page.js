@@ -7,9 +7,9 @@ const pageId = "page-xxxx";
 const pageName = 'mmmmPage';
 
 //init page
-const init = () => {
+const init = (data) => {
   engine.make.init.page(pageId,"page");  //init page
-  build();                               //start build
+  return build(data);                    //start build
 }
 
 //these trackers will be triggered when this module is routed
@@ -27,11 +27,13 @@ const trackers = {
   ],
   function_data:{},
   //function will be triggered with the function data as input when the module is routed to.
-  function:(function_data)=>{}
+  function:(function_data)=>{},
+  onRoute:(data)=>{},
+  onBack:(url)=>{}
 };
 
 //build page
-function build(){
+async function build(data){
 
   engine.common.tell('building',log);
 

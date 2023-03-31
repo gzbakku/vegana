@@ -2,10 +2,6 @@ module.exports = {
 
   init:async (compName,uiLib)=>{
 
-    // console.log({compName:compName});
-    // console.log({uiLib:uiLib});
-    // return;
-
     //--------------------------------------------------
     //get ui workers
 
@@ -20,7 +16,8 @@ module.exports = {
     }
 
     //--------------------------------------------------
-    //get comp name and compname if not procided
+    //get comp name
+
     if(!compName){
       compName = await input.text("please provide a ui component name");
     }
@@ -49,12 +46,12 @@ module.exports = {
     }
 
     //--------------------------------------------------
-    //make comp files
+    //make comp directory
 
     const lib_dir = ui_dir + "/" + uiLib;
     const comp_dir = lib_dir + "/" + compName;
     const bin_dir = await io.dir.app();
-    const check_dir = false;
+    const check_dir = true;
 
     if(check_dir && await io.exists(comp_dir)){
       return common.error("comp with this name already exists in the ui lib.");
@@ -64,29 +61,62 @@ module.exports = {
       return common.error("failed-ensure-comp_dir");
     }
 
+    //--------------------------------------------------
+    //copy files
+
     const base_comp_path = bin_dir + '/generate/uiComp.js';
     const next_comp_path = comp_dir + "/comp.js";
-    const base_scss_path = bin_dir + '/generate/index.scss';
-    const next_scss_path = comp_dir + "/@comp.scss";
-
-    if(!await io.copy(base_scss_path,next_scss_path)){
-      return common.error("failed-generate-comp-scss-file");
-    }
     if(!await io.copy(base_comp_path,next_comp_path)){
       return common.error("failed-generate-comp-js-file");
     }
-
-    let readController = await io.read(next_comp_path);
-    if(!readController){
-      return common.error("failed-customize-controller_file");
+    
+    const base_scss_path = bin_dir + '/generate/index.scss';
+    const next_scss_path = comp_dir + "/@comp.scss";
+    if(!await io.copy(base_scss_path,next_scss_path)){
+      return common.error("failed-generate-comp-scss-file");
+    }
+    
+    const base_snippets_path = bin_dir + '/generate/ui_snippets.js';
+    const next_snippets_path = comp_dir + "/snippets.js";
+    if(!await io.copy(base_snippets_path,next_snippets_path)){
+      return common.error("failed-generate-comp-snippets-file");
     }
 
-    readController = readController.replace("xxxx",compName);
-    readController = readController.replace("nnnn",compName);
+    //--------------------------------------------------
+    //edit comp snippet
 
-    const writeController = await io.write(next_comp_path,readController);
-    if(!writeController){
-      return common.error("failed-write-controller_file");
+    let read_snippet = await io.read(next_snippets_path);
+    if(!read_snippet){
+      return common.error("failed-customize-snippets.js");
+    }
+
+    while(read_snippet.includes("cccc")){
+      read_snippet = read_snippet.replace("cccc",compName);
+    }
+
+    while(read_snippet.includes("uuuu")){
+      read_snippet = read_snippet.replace("uuuu",uiLib);
+    }
+
+    const write_snippet = await io.write(next_snippets_path,read_snippet);
+    if(!write_snippet){
+      return common.error("failed-write-customize-snippets.js");
+    }
+
+    //--------------------------------------------------
+    //edit comp js
+
+    let read_js = await io.read(next_comp_path);
+    if(!read_js){
+      return common.error("failed-read-customize-comp.js");
+    }
+
+    read_js = read_js.replace("xxxx",compName);
+    read_js = read_js.replace("nnnn",compName);
+
+    const write_js = await io.write(next_comp_path,read_js);
+    if(!write_js){
+      return common.error("failed-write-customize-comp.js");
     }
 
     //--------------------------------------------------

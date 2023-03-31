@@ -7,13 +7,33 @@ const pageId = "page-main";
 const pageName = 'mainPage';
 
 //init page
-const init = () => {
+const init = (data) => {
   engine.make.init.page(pageId,"page");  //init page
-  build();                               //start build
+  return build(data);                    //start build
 }
 
+//these trackers will be triggered when this module is routed
+const trackers = {
+  title:'main page title',
+  meta:[
+    {
+      name:'description',
+      content:'this is a main page description'
+    },
+    {
+      name:'keywords',
+      content:'page,vegana'
+    }
+  ],
+  function_data:{},
+  //function will be triggered with the function data as input when the module is routed to.
+  function:(function_data)=>{},
+  onRoute:(data)=>{},
+  onBack:(url)=>{}
+};
+
 //build page
-function build(){
+async function build(data){
 
   engine.common.tell('building',log);
 
@@ -28,7 +48,7 @@ function build(){
       parent:imageCont,
       class:'logo-image',
       type:'local',
-      location:'assets/images/logo.png'
+      location:'/assets/images/logo.png'
     });
 
   //sample greetings
@@ -50,7 +70,7 @@ function build(){
       parent:tagCont,
       class:'tag-image',
       type:'local',
-      location:'assets/images/logo-tag.png'
+      location:'/assets/images/logo-tag.png'
     });
 
   return true; //always return after the build completes
@@ -64,7 +84,8 @@ let pageControllers = {
   type:type,
   name:pageName,
   contModules:{},
-  contList:{}
+  contList:{},
+  trackers:trackers
 };
 module.exports = pageControllers;
 window.pageModules[pageName] = pageControllers;

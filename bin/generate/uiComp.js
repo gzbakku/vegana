@@ -16,11 +16,11 @@ const init = (pid,data) => {         //pid referes to the parentPageId, pass thi
   parentId = pid;               //set parent page ref
   compId = parentId + compRef;  //set comp id
   engine.make.init.comp(compId,parentId,'comp');
-  build(data);                      //start build you can also start fetch here.
+  return build(data);                      //start build you can also start fetch here.
 
 }
 
-function build(data){
+async function build(data){
 
   engine.common.tell('building',log);
 

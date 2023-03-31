@@ -1,66 +1,33 @@
 
-//import all the pages here which you want to be in the app and use engine.get.pageModule api to get the page
+//import all the pages here which you want to included in the bundle.
 const mainPage = require('./pages/mainPage/page');
+
+//this is the main page that you want to include with the bundle
+//you dont have to include a page with the bundle
+//if you dont include a page you can lazy load a page
 const startPage = mainPage; //declare the first page module here
 
+//load ui libs, these libs can be lazy loaded in future.
 require("./ui/index");
 
-/*
-set the base url to the native vegana cdn,or if hosting on non native platform please
-set the baseurl to where the files for the project are held.
+engine.config(require("./config.json"));
+engine.set.icon("assets/favicon.ico");
 
-like if index.html is available at "https://example.com/app1/index.html"
-then base url is "https://example.com/app1"
-*/
-engine.router.set.baseHref("");
-
-
-// load all the fonts here you can await on font addition if you want
-engine.sketch.fonts.add("text","nova-round","assets/fonts/NovaRound-Regular.ttf");  //sample font
-
-//------------------------------------------------------------------------------
-//init the page, pass anything you want to the page here
-
-
-//this function takes the url and routes through user defined logic that you will provide.
+//this function impliments the routing logic
 function route_logic(){
 
   //you will get page,cont,panel and params for you to route to.
-  let natives = engine.params.native.get();
+  let url = engine.make.url.parse();
 
   if(engine.router.active.page == null){
-    //when there is no page you have to init one then you will have to use router to go to a new page.
-    //you can only init a page once and only here.
-    startPage.init(/*pass conts and further data to the page*/);
+    //when there is no page you have to init one.
+    startPage.init(/*pass conts and further data to the page*/url);
   }
 
 }
 
-route_logic();
-
-//sample route function that goes to any page lazy or otherwise
-//you can use loading ui here so user knows the web app is active
-/*
-
-async function route(){
-
-  let natives = engine.params.native.get();
-  if(!natives.page || natives.page === "mainPage"){
-    return startPage.init();
-  }
-
-  if(!engine.get.pageModule(natives.page)){
-    let loadPage = await engine.loader.load.page(natives.page,true)
-    .then(()=>{return true;})
-    .catch(()=>{return false;});
-    if(!loadPage){return startPage.init();}
-  }
-
-  let mod = engine.get.pageModule(natives.page);
-  if(mod){
-    mod.init(natives);
-  }
-
+//if static usually you have already routed to the resource
+//static web is the html file static server sends to the user
+if(is_static || !is_static_web){
+  route_logic();
 }
-
-*/

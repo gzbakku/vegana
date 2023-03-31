@@ -1,0 +1,45 @@
+{
+  "production": false,
+  "layout": {
+    "fonts": [
+      {
+        "css_var_name": "font-text",
+        "sass_var_name": "font-text",
+        "sass_var_value": "var(--font-text)",
+        "tag": "text",
+        "name": "nova-round",
+        "location": "assets/fonts/NovaRound-Regular.ttf",
+        "style": null,
+        "global_url": null
+      }
+    ],
+    "colors": [
+      {
+        "css_var_name": "color-blue",
+        "sass_var_name": "color-blue",
+        "sass_var_value": "var(--color-blue)",
+        "name": "blue",
+        "color": "#3240bf"
+      },
+      {
+        "css_var_name": "color-dark_blue",
+        "sass_var_name": "color-dark_blue",
+        "sass_var_value": "var(--color-dark_blue)",
+        "name": "dark_blue",
+        "color": "#0b1466"
+      }
+    ]
+  },
+  "prod": {
+    "base_url": {
+      "web": "http://localhost:5566",
+      "static": "http://localhost:5567"
+    }
+  },
+  "dev": {
+    "base_url": {
+      "web": "http://localhost:5566",
+      "static": "http://localhost:5567"
+    }
+  }
+}

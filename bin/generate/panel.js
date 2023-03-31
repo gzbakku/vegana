@@ -10,7 +10,7 @@ const panelName = 'pnName';
 let parentId,panelId;
 
 //init dom build here
-const init = (pid) => {
+const init = (pid,data) => {
 
   engine.common.tell('panel initiated',log);
 
@@ -23,7 +23,7 @@ const init = (pid) => {
 
   engine.make.init.panel(panelId,parentId,"panel");
 
-  build();
+  return build(data);
 
 }
 
@@ -42,17 +42,13 @@ const trackers = {
   ],
   function_data:{},
   //function will be triggered with the function data as input when the module is routed to.
-  function:(function_data)=>{}
+  function:(function_data)=>{},
+  onRoute:(data)=>{},
+  onBack:(url)=>{}
 };
 
-//fetch data before dom build here
-function fetch(){
-  engine.common.tell('fetching',log);
-  build();
-}
-
 //build dom here
-function build(){
+async function build(data){
 
   engine.common.tell('building',log);
 

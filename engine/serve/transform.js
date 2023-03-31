@@ -15,6 +15,8 @@ async function all_files(){
     const path = `${cwd}/app`;
     if(!process_dir(path)){
         return common.error("failed transform general js & json files in project.");
+    } else {
+        return common.tell("all files transformed successfully");
     }
 
 }

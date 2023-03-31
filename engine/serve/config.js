@@ -18,6 +18,8 @@ async function init(enable_config_production){
         return common.error(`!!! failed config => ${config_path}`);
     }
 
+    // console.log(read);
+
     let sass_variables = {};
     let css_variables = {};
 
@@ -27,8 +29,8 @@ async function init(enable_config_production){
                 if(font.sass_var_name && font.sass_var_value){
                     sass_variables[font.sass_var_name] = font.sass_var_value;
                 }
-                if(font.css_var_name && font.tag){
-                    css_variables[font.css_var_name] = font.tag;
+                if(font.css_var_name && font.name){
+                    css_variables[font.css_var_name] = font.name;
                 }
             }
         }
@@ -73,9 +75,13 @@ async function init(enable_config_production){
     }
                      
     if(not_found){
-        common.tell(`please add the following to the sass varibales file at => ${sass_path}`);
-        console.log(`\n\n${border}\n`);
-        return common.error("border tag for auto generated variables not found.");
+        common.tell(`please add the following to the sass varibales file at => ${sass_path}\n`);
+        for(let item of borders){   
+            // console.log(`\n\n${borders}\n`);
+            console.log(`${item}`);
+        }
+        // console.log(`\n\n${borders}\n`);
+        return common.error("\nborder tag for auto generated variables not found.");
     }
 
     let hold = sass.split(border);

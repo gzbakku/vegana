@@ -9,7 +9,7 @@ const contName = 'mmmmCont';
 let parentId,contId;
 
 //any parent data can be imported in init function vars
-const init = (pid) => {                                                //pid = parent id(parent = page)
+const init = (pid,data) => {                                                //pid = parent id(parent = page)
 
   if(pid == null || pid == undefined){
     return engine.common.error('parent_page_id_not_found');            //check for prent page id
@@ -22,7 +22,7 @@ const init = (pid) => {                                                //pid = p
 
   engine.make.init.cont(contId,parentId,"cont");                       //initiate cont in router before building dom
 
-  build();                                                             //start dom build here
+  return build(data);                                                             //start dom build here
 
 }
 
@@ -41,11 +41,13 @@ const trackers = {
   ],
   function_data:{},
   //function will be triggered with the function data as input when the module is routed to.
-  function:(function_data)=>{}
+  function:(function_data)=>{},
+  onRoute:(data)=>{},
+  onBack:(url)=>{}
 };
 
 //build the cont dom here
-function build(){
+async function build(data){
 
   engine.common.tell('building',log);
 
