@@ -1,0 +1,15 @@
+{
+  "dev": {
+    "port": 5567,
+    "base_url": "http://localhost:5567"
+  },
+  "prod": {
+    "port": 5567,
+    "base_url": "http://localhost:5567",
+    "ssl": {
+      "key_file_location": "",
+      "cert_file_location": ""
+    }
+  },
+  "lastModified": 1680249354360
+}

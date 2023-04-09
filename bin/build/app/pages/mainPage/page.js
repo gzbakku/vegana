@@ -73,6 +73,12 @@ async function build(data){
       location:'/assets/images/logo-tag.png'
     });
 
+  //since we cant know when you finish processing the page in static html build
+  //you have to tell the static builder when u finish the build.
+  if(is_static){
+    return engine.static.publish();
+  }
+
   return true; //always return after the build completes
 
 }

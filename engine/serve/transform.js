@@ -59,8 +59,12 @@ async function process_dir(path){
 async function file(path,do_translate){
 
     let read = await io.read(path);
-    if(!read){
+    if(typeof(read) !== "string"){
         return common.error(`failed read file for transform => ${path}`);
+    }
+
+    if(read.length === 0){
+        return true;
     }
 
     if(
@@ -104,11 +108,9 @@ async function file(path,do_translate){
             rebuild += `${line}\n`;
             changed = true;
         } else if(line.includes("#TS")){
-            console.log("trabnslate found");
             while(line.includes("#TS")){
                 line = line.replace("#TS","$TS[]TS$");
             }
-            console.log(line);
             rebuild += `${line}\n`;
             changed = true;
         } else {

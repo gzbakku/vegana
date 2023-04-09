@@ -36,6 +36,7 @@ global.sass_collect = ()=>{
 }
 global.common_collect = collect.commonComp;
 global.get_variable = get_variable;
+global.tools = require("./tools");
 
 if(!global.useVeganaAsModule){
   starter();
@@ -131,6 +132,7 @@ function get_variable(name){
 }
 
 module.exports = {
+  tools:tools,
   serve:serve,
   build:build
 };

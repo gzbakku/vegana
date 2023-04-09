@@ -8,20 +8,20 @@ module.exports = {
 
     common.tell("configuring npm");
 
-    const npmInit = await cmd.run('npm init -y')
+    const init_npm = await cmd.run('npm init -y')
     .then((stdout)=>{
       return true;
     })
     .catch((err)=>{
       return false;
     });
-    if(npmInit == false){
+    if(init_npm == false){
       return common.error('npm_init failed');
     }
 
     common.tell('installing vegana-engine npm module');
 
-    const installVeganaEngine = await cmd.run('npm i vegana-engine')
+    const install_vegana_engine = await cmd.run('npm i vegana-engine')
     .then((stdout)=>{
       return true;
     })
@@ -29,8 +29,22 @@ module.exports = {
       return false;
     });
 
-    if(installVeganaEngine == false){
+    if(install_vegana_engine == false){
       return common.error('cannot_install vegana-engine');
+    }
+
+    common.tell('installing vegana-static npm module');
+
+    const install_vegana_static = await cmd.run('npm i vegana-static')
+    .then((stdout)=>{
+      return true;
+    })
+    .catch((err)=>{
+      return false;
+    });
+
+    if(install_vegana_static == false){
+      return common.error('cannot_install vegana-static');
     }
 
     return true;

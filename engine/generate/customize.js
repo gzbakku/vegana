@@ -15,22 +15,22 @@ module.exports = {
       return common.error('read_failed');
     }
 
-    let editTag = index.replace('xxxx',name);
+    let editTag = index.replaceAll('xxxx',name);
 
     if(editTag.match('mmmm')){
-      editTag = editTag.replace('mmmm',name);
+      editTag = editTag.replaceAll('mmmm',name);
     }
     if(editTag.match('nnnn')){
-      editTag = editTag.replace('nnnn',name);
+      editTag = editTag.replaceAll('nnnn',name);
     }
     if(editTag.match('pgName')){
-      editTag = editTag.replace('pgName',pgName);
+      editTag = editTag.replaceAll('pgName',pgName);
     }
     if(editTag.match('cnName')){
-      editTag = editTag.replace('cnName',cnName);
+      editTag = editTag.replaceAll('cnName',cnName);
     }
     if(editTag.match('pnName')){
-      editTag = editTag.replace('pnName',name + 'Panel');
+      editTag = editTag.replaceAll('pnName',name + 'Panel');
     }
 
     let write = await io.write(fileLocation,editTag);
