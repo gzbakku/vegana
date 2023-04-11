@@ -75,6 +75,7 @@ module.exports = {
     },
 
     get_module_type:(path)=>{
+        if(path.indexOf("snippets.js") >= 0){return "snippets";} else
         if(path.indexOf("/app/ui") >= 0){return "ui";} else
         if(path.indexOf("/app/wasm") >= 0){return "wasm";} else
         if(path.indexOf("globalComp.") >= 0){return "globalComp";} else
@@ -82,8 +83,7 @@ module.exports = {
         if(path.indexOf("page.") >= 0){return "page";} else
         if(path.indexOf("cont.") >= 0){return "cont";} else
         if(path.indexOf("panel.") >= 0){return "panel";} else
-        if(path.indexOf(".json") >= 0){return "json";} else
-        if(path.indexOf("snippets.js") >= 0){return "snippets";}
+        if(path.indexOf(".json") >= 0){return "json";}
     },
 
     get_lazy_parent:(type,parents,lazyBook)=>{

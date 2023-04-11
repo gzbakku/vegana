@@ -117,7 +117,8 @@ async function process_file(path){
         }
         if(item.length > 0){
             item = `//SNIPPET\n${item}`;
-            let regex = /(\/\/SNIPPET)[/\n\s]+(\/\/name=([\w.\-_+\d]+))[/\n\s]+([\S\s]+)/g;
+            // let regex = /(\/\/SNIPPET)[/\n\s]+(\/\/name=([\w.\-_+\d]+))[/\n\s]+([\S\s]+)/g;
+            let regex = /(\/\/SNIPPET)[\n\s]+(\/\/name=([\w.\-_+\d]+))[\n\s]+([\S\s]+)/g;
             let match = regex.exec(item);
             if(match){
                 collect[match[3]] = `//file=>${path}\n${match[4]}`;
