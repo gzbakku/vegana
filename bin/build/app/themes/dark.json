@@ -1,0 +1,21 @@
+{
+  "fonts": {
+    "text":{
+      "css_var_name": "--font-text",
+      "sass_var_name": "font-text",
+      "location": "assets/fonts/NovaRound-Regular.ttf"
+    }
+  },
+  "colors": {
+    "blue":{
+      "css_var_name": "--color-blue",
+      "sass_var_name": "color-blue",
+      "value": "#3240bf"
+    },
+    "dark_blue":{
+      "css_var_name": "--color-dark_blue",
+      "sass_var_name": "color-dark_blue",
+      "value": "#0b1466"
+    }
+  }
+}

@@ -19,6 +19,7 @@ const version = require('./engine/version');
 const docs = require('./engine/docs/index');
 const chalk = require('chalk');
 global.uniqid = require("uniqid");
+global.dir = require("./dir");
 const log = console.log;
 
 global.common = require('./common');
@@ -37,6 +38,7 @@ global.sass_collect = ()=>{
 global.common_collect = collect.commonComp;
 global.get_variable = get_variable;
 global.tools = require("./tools");
+global.get_var = get_var;
 
 if(!global.useVeganaAsModule){
   starter();
@@ -134,5 +136,86 @@ function get_variable(name){
 module.exports = {
   tools:tools,
   serve:serve,
-  build:build
+  build:build,
+  get_var:get_var
 };
+
+async function get_var(
+  argument_num,
+  var_name,
+  type,
+  message,
+  options,
+  dir
+){
+
+  let args = process.argv;
+
+  let val;
+  if(!val && var_name){
+    for(let item of args){
+        if(item.indexOf(var_name) >= 0){
+            val = item.replace(`${var_name}=`,'');
+            break;
+        }
+    }
+  }
+
+  if(
+      !val &&
+      typeof(argument_num) === "number" && 
+      args.length >= argument_num
+  ){
+      val = args[argument_num];
+  }
+
+  if(val){
+      if(val.length >= 2){
+          if(val[0] === "-" && val[1] === "-"){
+              val = undefined;
+          }
+      }
+  }
+
+  if(!val){
+      if((options instanceof Array) && options.length === 1){
+          val = await input.confirm(`${message} : ${options[0]}`);
+          if(!val){
+              return common.error("invalid input type");
+          } else {
+              val = options[0];
+          }
+      } else if(options instanceof Array){
+          val = await input.select(message,options);
+      } else if(type === "string"){
+          val = await input.text(message);
+      } else if(type === "number"){
+          let c = true;
+          while(c){
+              val = await input.text(message);
+              if(!isNaN(val)){
+                  val = Number(val);
+                  c = false;
+              }
+          }
+      } else if(type === "dir" && dir){
+          val = await dir.select_dir(dir);
+      } else if(type === "file" && dir){
+          val = await dir.select_file(dir);
+      } else {
+          return common.error("invalid input type");
+      }
+  }
+
+  if(type === "string" && (options instanceof Array) && options.length > 0){
+      if(options.indexOf(val) < 0){
+          return common.error("invalid option");
+      }
+  }
+  if(type === "number" && typeof(val) !== 'number'){
+      return common.error("expected a number");
+  }
+
+  return val;
+
+}

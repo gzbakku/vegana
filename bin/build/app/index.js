@@ -11,6 +11,7 @@ const startPage = mainPage; //declare the first page module here
 require("./ui/index");
 
 engine.config(require("./config.json"));
+engine.stylesheet(require("./stylesheet.json"));
 engine.set.icon("assets/favicon.ico");
 
 //this function impliments the routing logic

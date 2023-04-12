@@ -6,6 +6,7 @@ const transform = require("./transform");
 const compile = require("./compiler");
 const sass = require("./sass");
 const static = require("./static");
+const stylesheet = require("./stylesheet");
 const sass_collect = require("../sass/collect/index");
 
 module.exports = {
@@ -25,6 +26,14 @@ async function init(enable_config_production){
   //sass collect
   if(!await sass_collect.init(true)){
     return common.error('failed sass collect');
+  }
+
+  //stylesheet
+  if(true){
+    let stylesheet_customize = await stylesheet.init();
+    if(stylesheet_customize == false){
+      return common.error('failed stylesheet customize');
+    }
   }
 
   //config

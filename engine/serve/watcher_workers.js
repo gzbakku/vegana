@@ -75,6 +75,8 @@ module.exports = {
     },
 
     get_module_type:(path)=>{
+        if(path.indexOf("/themes/") >= 0){return "theme";} else
+        if(path.indexOf("stylesheet.json") >= 0){return "stylesheet";} else
         if(path.indexOf("snippets.js") >= 0){return "snippets";} else
         if(path.indexOf("/app/ui") >= 0){return "ui";} else
         if(path.indexOf("/app/wasm") >= 0){return "wasm";} else

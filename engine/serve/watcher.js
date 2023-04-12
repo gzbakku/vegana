@@ -5,6 +5,7 @@ const chokidar = require('chokidar');
 const transform = require('./transform');
 const sass = require('./sass');
 const snippets = require('./snippets');
+const stylesheet = require('./stylesheet');
 const workers = require("./watcher_workers");
 const class_worker = require("./watcher_class_worker");
 const common = require('../../common');
@@ -359,7 +360,7 @@ async function init(){
   });
 
   //watch bundle.js
-  let  blocked = false;
+  let blocked = false;
   let location_bundle = currentDirectory + 'app/';
   chokidar.watch(location_bundle)
   .on('change',async (path)=>{
@@ -399,7 +400,7 @@ async function init(){
     }
 
     if(file_type === "js"){
-      //this function reads the js file and finds any css classesd attached to a vegana make api worker
+      //this function reads the js file and finds any css classed attached to a vegana make api worker
       class_worker(path,module_type);
     }
 
@@ -415,6 +416,20 @@ async function init(){
       if(await compile.bundle()){socket.reload();}
     }
 
+    if(module_type === "theme" && file_type === "json"){
+      blocked = true;
+      if(!await stylesheet.copy_themes()){
+        common.error(`failed update stylesheet from file => ${path}`);
+      }
+      blocked = false;
+    } else
+    if(module_type === "stylesheet" && file_type === "json"){
+      blocked = true;
+      if(!await stylesheet.compile()){
+        common.error(`failed update stylesheet from file => ${path}`);
+      }
+      blocked = false;
+    } else
     if(module_type === "snippets"){
       if(!snippets.update_file(path)){
         common.error(`failed update snippets from file => ${path}`);
