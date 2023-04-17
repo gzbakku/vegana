@@ -216,7 +216,7 @@ async function get_var(
       }
   }
 
-  if((type === "confirm" || type === "flag") && (typeof(val) !== "boolean")){
+  if(type === "confirm" && (typeof(val) !== "boolean")){
     return common.error(`expected value to be a boolean => ${message}`);
   }
   if(type === "string" && (options instanceof Array) && options.length > 0){
@@ -228,7 +228,7 @@ async function get_var(
       return common.error("expected a number");
   }
 
-  if(type === "confirm" || type === "flag" && (typeof(val) === "boolean")){
+  if((type === "confirm" || type === "flag") && (typeof(val) === "boolean")){
     return {result:val};
   }
   return val;
