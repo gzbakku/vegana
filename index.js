@@ -154,6 +154,13 @@ async function get_var(
   let val;
   if(!val && var_name){
     for(let item of args){
+        if(var_name && (
+          type === "flag" || type === "confirm"
+        )){
+          if(var_name === item){
+            val = true;
+          }
+        } else
         if(item.indexOf(var_name) >= 0){
             val = item.replace(`${var_name}=`,'');
             break;
@@ -202,11 +209,16 @@ async function get_var(
           val = await dir.select_dir(dir);
       } else if(type === "file" && dir){
           val = await dir.select_file(dir);
+      } else if(type === "confirm"){
+          val = await input.confirm(message);
       } else {
           return common.error("invalid input type");
       }
   }
 
+  if((type === "confirm" || type === "flag") && (typeof(val) !== "boolean")){
+    return common.error(`expected value to be a boolean => ${message}`);
+  }
   if(type === "string" && (options instanceof Array) && options.length > 0){
       if(options.indexOf(val) < 0){
           return common.error("invalid option");
@@ -216,6 +228,9 @@ async function get_var(
       return common.error("expected a number");
   }
 
+  if(type === "confirm" || type === "flag" && (typeof(val) === "boolean")){
+    return {result:val};
+  }
   return val;
 
 }
