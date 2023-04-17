@@ -98,7 +98,7 @@ async function compile(){
     let sass_variables_string = '';
     for(let key in sass_variables){
         if(sass_variables_string.length > 0){sass_variables_string += '\n';}
-        sass_variables_string += `$${key}: ${sass_variables[key]};`;
+        sass_variables_string += `$${key}: var(${sass_variables[key]});`;
     }
 
     let combined = `\n${css_variables_string}\n\n${sass_variables_string}\n\n${border}`;

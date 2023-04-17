@@ -428,6 +428,7 @@ async function init(){
       if(!await stylesheet.compile()){
         common.error(`failed update stylesheet from file => ${path}`);
       }
+      await compile_js_bundle();
       blocked = false;
     } else
     if(module_type === "snippets"){

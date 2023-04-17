@@ -30,10 +30,16 @@ async function init(){
 
     let location = `https://fonts.google.com/download?family=${font_name}`;
 
+    let font_name_full = font_name.trim().replaceAll(' ','_');
+
+    console.log({
+        font_name_full:font_name_full
+    });
+
     let cwd = await io.dir.cwd();
     let downloads = `${cwd}/downloads`;
-    let dir_to_extract = `${downloads}/${font_name}`;
-    let download_location = `${downloads}/${font_name}.zip`;
+    let dir_to_extract = `${downloads}/${font_name_full}`;
+    let download_location = `${downloads}/${font_name_full}.zip`;
 
     if(!await io.dir.ensure(downloads)){
         return common.error(`failed ensure dir => ${downloads}`);
