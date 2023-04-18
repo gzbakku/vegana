@@ -212,7 +212,9 @@ async function get_var(
       } else if(type === "confirm"){
           val = await input.confirm(message);
       } else {
-          return common.error("invalid input type");
+          if(['flag'].indexOf(type) < 0){
+            return common.error("invalid input type");
+          }
       }
   }
 
