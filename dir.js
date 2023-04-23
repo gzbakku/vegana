@@ -23,8 +23,8 @@ async function remove_dir(path){
     });
 }
 
-async function root(){
-    return `${await get_npm_root()}/silvergram`;
+async function root(app){
+    return `${await get_npm_root()}/${app||"vegana"}`;
 }
 
 async function select_file(base_dir){
