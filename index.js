@@ -147,7 +147,7 @@ async function get_var(
   type,
   message,
   options,
-  dir
+  base_dir
 ){
 
   let args = process.argv;
@@ -206,10 +206,10 @@ async function get_var(
                   c = false;
               }
           }
-      } else if(type === "dir" && dir){
-          val = await dir.select_dir(dir);
-      } else if(type === "file" && dir){
-          val = await dir.select_file(dir);
+      } else if(type === "dir" && base_dir){
+          val = await dir.select_dir(base_dir);
+      } else if(type === "file" && base_dir){
+          val = await dir.select_file(base_dir);
       } else if(type === "confirm"){
           val = await input.confirm(message);
       } else {
