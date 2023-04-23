@@ -130,24 +130,6 @@ module.exports = {
     });
   },
 
-  // writeRaw:async (path,data)=>{
-  //   return await fs_native.create(path)
-  //   .then(async (file)=>{
-  //     return await file.write(data)
-  //     .then(()=>{
-  //       return true;
-  //     })
-  //     .catch((err)=>{
-  //       common.error(err);
-  //       return common.error("failed-writeRaw-io");
-  //     });
-  //   })
-  //   .catch((err)=>{
-  //     common.error(err);
-  //     return common.error("failed-writeRaw-open");
-  //   });
-  // },
-
   delete:(location)=>{
     return fs.remove(location)
     .then(()=>{
