@@ -147,10 +147,15 @@ async function get_var(
   type,
   message,
   options,
-  base_dir
+  base_dir,
+  log_args
 ){
 
   let args = process.argv;
+
+  if(log_args){
+    console.log(args);
+  }
 
   let val;
   if(!val && var_name){
@@ -219,6 +224,14 @@ async function get_var(
       }
   }
 
+  if(type === "number"){
+    if(!isNaN(val)){
+      val = Number(val);
+    } else {
+      return common.error("expected value to be a number");
+    }
+  }
+
   if(type === "confirm" && (typeof(val) !== "boolean")){
     return common.error(`expected value to be a boolean => ${message}`);
   }
@@ -228,6 +241,7 @@ async function get_var(
       }
   }
   if(type === "number" && typeof(val) !== 'number'){
+    console.log(typeof(val));
       return common.error("expected a number");
   }
 
