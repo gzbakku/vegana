@@ -138,7 +138,8 @@ module.exports = {
   serve:serve,
   build:build,
   get_var:get_var,
-  dir:dir
+  dir:dir,
+  io:io
 };
 
 async function get_var(
