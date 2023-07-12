@@ -64,6 +64,10 @@ async function select_dir(base_dir,browser_tree){
     let options = [];
     if(browser_tree.length > 0){
         options.push("<<< back");
+    } else {
+        if(items.dirs.length === 0){
+            return curent_dir;
+        }
     }
     options.push(">>> select this dir");
     for(let h of items.dirs){options.push(h);}
