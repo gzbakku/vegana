@@ -167,9 +167,10 @@ async function get_var(
     argument_num = data.argument_num;
   }
 
-  function inform(){
+  function inform(space){
     if(no_inform){return;}
-    let m = `\n`;
+    if(space){console.log();}
+    let m = ``;
     if(typeof(argument_num) === 'number'){
       m += `index=>${argument_num},`;
     }
@@ -199,18 +200,17 @@ async function get_var(
 
   let val;
   if(!val && var_name){
+    let vni = `${var_name}=`;
     for(let item of args){
-        if(var_name && (
-          type === "flag" || type === "confirm"
-        )){
-          if(var_name === item){
-            val = true;
-          }
-        } else
-        if(item.indexOf(var_name) >= 0){
-            val = item.replace(`${var_name}=`,'');
-            break;
+      if(item.indexOf(vni) >= 0){
+        val = item.replace(vni,'');
+        break;
+      } else if(item.indexOf(var_name) >= 0){
+        if(type === "flag" || type === "confirm"){
+          val = true;
+          break;
         }
+      }
     }
   }
 
@@ -219,19 +219,16 @@ async function get_var(
       typeof(argument_num) === "number" && 
       args.length >= argument_num
   ){
-      val = args[argument_num];
-  }
-
-  if(val){
-      if(val.length >= 2){
-          if(val[0] === "-" && val[1] === "-"){
-              val = undefined;
-          }
+      let vv = args[argument_num];
+      if(typeof(vv) === 'string' &&  vv.length > 2 && (
+        vv[0] !== "-" && vv[1] !== "-"
+      )){
+        val = vv;
       }
   }
 
   if(!val){
-      inform();
+      inform(true);
       if((options instanceof Array) && options.length === 1){
           val = await input.confirm(`${message} : ${options[0]}`);
           if(!val){
@@ -273,19 +270,23 @@ async function get_var(
     if(!isNaN(val)){
       val = Number(val);
     } else {
+      inform();
       return common.error("expected value to be a number");
     }
   }
 
   if(type === "confirm" && (typeof(val) !== "boolean")){
+    inform();
     return common.error(`expected value to be a boolean => ${message}`);
   }
   if(type === "string" && (options instanceof Array) && options.length > 0){
       if(options.indexOf(val) < 0){
+        inform();
         return common.error("invalid option");
       }
   }
   if(type === "number" && typeof(val) !== 'number'){
+    inform();
     return common.error("expected a number");
   }
 
