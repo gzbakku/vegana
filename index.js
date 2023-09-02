@@ -169,6 +169,7 @@ async function get_var(
 
   function inform(space){
     if(no_inform){return;}
+    if(type === "flag"){return;}
     if(space){console.log();}
     let m = ``;
     if(typeof(argument_num) === 'number'){
@@ -262,7 +263,7 @@ async function get_var(
       }
   }
 
-  if(!no_inform){
+  if(!no_inform && type !== "flag"){
     console.log(`input => ${val}`);
   }
 
