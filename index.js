@@ -149,12 +149,51 @@ async function get_var(
   message,
   options,
   base_dir,
-  log_args
+  log_args,
+  no_inform
 ){
+
+  let data;
+  if(argument_num instanceof Object){
+    if(structuredClone){data = structuredClone(argument_num);} 
+    else {data = argument_num;}
+    var_name = data.var_name;
+    type = data.type;
+    message = data.message;
+    options = data.options;
+    base_dir = data.base_dir;
+    log_args = data.log_args;
+    no_inform = data.no_inform;
+    argument_num = data.argument_num;
+  }
+
+  function inform(){
+    if(no_inform){return;}
+    let m = `\n`;
+    if(typeof(argument_num) === 'number'){
+      m += `index=>${argument_num},`;
+    }
+    if(typeof(var_name) !== 'string'){
+      m += ` input=>${type}`;
+    } else {
+      m += ` flag=>${var_name}`; 
+      if(options){
+        let op = '';
+        for(let item of options){
+          if(op.length > 0){op += `, `;}
+          op += `${item}`;
+        }
+        m += `=[${op}]`;
+      } else {
+        m += `=${type}`;
+      }
+    }
+    console.log(m);
+  }
 
   let args = process.argv;
 
-  if(log_args){
+  if(log_args && type !== "flag"){
     console.log(args);
   }
 
@@ -192,6 +231,7 @@ async function get_var(
   }
 
   if(!val){
+      inform();
       if((options instanceof Array) && options.length === 1){
           val = await input.confirm(`${message} : ${options[0]}`);
           if(!val){
@@ -225,6 +265,10 @@ async function get_var(
       }
   }
 
+  if(!no_inform){
+    console.log(`input => ${val}`);
+  }
+
   if(type === "number"){
     if(!isNaN(val)){
       val = Number(val);
@@ -238,12 +282,11 @@ async function get_var(
   }
   if(type === "string" && (options instanceof Array) && options.length > 0){
       if(options.indexOf(val) < 0){
-          return common.error("invalid option");
+        return common.error("invalid option");
       }
   }
   if(type === "number" && typeof(val) !== 'number'){
-    console.log(typeof(val));
-      return common.error("expected a number");
+    return common.error("expected a number");
   }
 
   if((type === "confirm" || type === "flag") && (typeof(val) === "boolean")){
