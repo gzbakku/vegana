@@ -276,6 +276,22 @@ async function get_var(
     }
   }
 
+  if((
+    type === "confirm" ||
+    type === "boolean" ||
+    type === "flag"
+  ) && val === "false"){
+      val = false;
+  }
+
+  if((
+      type === "confirm" ||
+      type === "boolean" ||
+      type === "flag"
+  ) && val === "true"){
+      val = true;
+  }
+
   if(type === "confirm" && (typeof(val) !== "boolean")){
     inform();
     return common.error(`expected value to be a boolean => ${message}`);
