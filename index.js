@@ -261,10 +261,11 @@ async function get_var(
             return common.error("invalid input type");
           }
       }
-  }
-
-  if(!no_inform && type !== "flag"){
-    console.log(`input => ${val}`);
+      if(!no_inform && type !== "flag"){
+        console.log(`input => ${val}`);
+      }
+  } else {
+    console.log(`input ${message}? => ${val}`);
   }
 
   if(type === "number"){
