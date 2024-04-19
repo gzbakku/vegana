@@ -262,10 +262,12 @@ async function get_var(
           }
       }
       if(!no_inform && type !== "flag"){
-        console.log(`input => ${val}`);
+        // console.log(`input => ${val}`);
+        console.log(chalk.cyanBright(`\n$$$ input => ${val}`));
       }
   } else {
-    console.log(`input ${message}? => ${val}`);
+    // console.log(`input ${message}? => ${val}`);
+    console.log(chalk.cyanBright(`\n$$$ input => ${message} => ${val}`));
   }
 
   if(type === "number"){
