@@ -27,21 +27,33 @@ async function init(base){
   for(var i in lines){
     let line = lines[i];
 
-    line = line.replace('http://localhost:5566/js/socket.io.js',base + '/js/socket.io.js');
-    line = line.replace('http://localhost:5566/css/master.css',base + '/css/master.css');
-    line = line.replace('http://localhost:5566/assets/favicon.ico',base + '/assets/favicon.ico');
-    line = line.replace('http://localhost:5566/js/bundle.js',base + '/js/bundle.js');
+    // line = line.replace('http://localhost:5566/js/socket.io.js',base + '/js/socket.io.js');
+
+    let add = true;
+
+    if(line.indexOf("http://localhost:5566/js/socket.io.js") >= 0){
+      add = false;
+    } else if(line.indexOf("http://localhost:5566/") >= 0){
+      line = line.replace('http://localhost:5566/',`${base}/`);
+    }
+
+    // line = line.replace('http://localhost:5566/css/master.css',base + '/css/master.css');
+    // line = line.replace('http://localhost:5566/assets/favicon.ico',base + '/assets/favicon.ico');
+    // line = line.replace('http://localhost:5566/js/bundle.js',base + '/js/bundle.js');
 
     line = line.replace('="/js/socket.io.js"','="'+base + '/js/socket.io.js"');
     line = line.replace('="/css/master.css"','="'+base + '/css/master.css"');
     line = line.replace('="/assets/favicon.ico"','="'+base + '/assets/favicon.ico"');
     line = line.replace('="/js/bundle.js"','="'+base + '/js/bundle.js"');
 
-    if(!final){
-      final = line.toString() + '\n';
-    } else {
-      final = final + '\n' + line.toString();
+    if(add){
+      if(!final){
+        final = line.toString() + '\n';
+      } else {
+        final = final + '\n' + line.toString();
+      }
     }
+  
   }
 
   // console.log(final);

@@ -1,6 +1,6 @@
 {
   "name": "vegana",
-  "version": "3.7.9",
+  "version": "3.8.0",
   "description": "vegana is a container based js framework",
   "main": "index.js",
   "scripts": {
