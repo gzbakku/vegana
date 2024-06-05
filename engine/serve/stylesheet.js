@@ -57,6 +57,17 @@ async function compile(){
             }
         }
     }
+    if(read.custom instanceof Object){
+        for(let name in read.custom){
+            let custom = read.custom[name];
+            if(custom.sass_var_name && custom.css_var_name){
+                sass_variables[custom.sass_var_name] = custom.css_var_name;
+            }
+            if(custom.css_var_name && custom.value){
+                css_variables[custom.css_var_name] = custom.value;
+            }
+        }
+    }
 
     const sass_path = `${cwd}/sass/sass_variables.scss`;
     let sass = await io.read(sass_path);
@@ -199,6 +210,15 @@ async function update_theme(themes_dir,file_name,stylesheet){
         if(!parsed.colors.hasOwnProperty(key)){
             parsed.colors[key] = stylesheet.colors[key];
             if(!updated){updated = true;}
+        }
+    }
+    if(stylesheet.custom){
+        if(!parsed.custom){parsed.custom = {};}
+        for(let key in stylesheet.custom){
+            if(!parsed.custom.hasOwnProperty(key)){
+                parsed.custom[key] = stylesheet.custom[key];
+                if(!updated){updated = true;}
+            }
         }
     }
 
