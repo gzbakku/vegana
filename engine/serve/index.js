@@ -184,7 +184,7 @@ async function init(port,secure,outside){
 
   if(run_cordova){
     console.log('>>> starting cordova');
-    start_cordova();
+    start_cordova(true);
   }
 
   return true;
@@ -200,13 +200,13 @@ module.exports= {
 global.start_cordova = start_cordova;
 
 //enter button reload happens in socket
-async function start_cordova(){
+async function start_cordova(from_dev){
   common.tell("serving cordova");
-  const do_build_api = await build_api.init('',true);
-  if(!do_build_api){
-    return common.error("failed-do_build_api")
-  }
-  const do_copy_build_to_cordova = await copy_build_to_cordova.init();
+  // const do_build_api = await build_api.init('',true);
+  // if(!do_build_api){
+  //   return common.error("failed-do_build_api")
+  // }
+  const do_copy_build_to_cordova = await copy_build_to_cordova.init(from_dev);
   if(!do_copy_build_to_cordova){
     return common.error("failed-do_copy_build_to_cordova")
   }

@@ -573,7 +573,7 @@ async function init(){
   chokidar.watch(location_static_server)
   .on('change',async (path)=>{
     common.tell('static_server updated');
-    start_static();
+    // start_static();
   });
 
   //static server
@@ -581,7 +581,7 @@ async function init(){
   chokidar.watch(location_static_server_config)
   .on('change',async (path)=>{
     common.tell('static_server_config updated');
-    start_static();
+    // start_static();
   });
 
   return true;
