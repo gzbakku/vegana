@@ -366,7 +366,7 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
 
     let yo = browserify({ debug: false })
     .require(readLocation,{entry: true});
-    if(global.VeganaBuildProduction){
+    if(global.VeganaBuildProduction || production){
       yo.plugin(tinyify, { flat: false });
     }
     if(true){
