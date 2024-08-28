@@ -47,6 +47,30 @@ module.exports = {
       return common.error('cannot_install vegana-static');
     }
 
+    const install_eslint = await cmd.run('npm i @eslint/js')
+    .then((stdout)=>{
+      return true;
+    })
+    .catch((err)=>{
+      return false;
+    });
+
+    if(install_eslint == false){
+      return common.error('cannot_install @eslint/js');
+    }
+
+    const install_globals = await cmd.run('npm i globals')
+    .then((stdout)=>{
+      return true;
+    })
+    .catch((err)=>{
+      return false;
+    });
+
+    if(install_globals == false){
+      return common.error('cannot_install globals');
+    }
+
     return true;
 
   }

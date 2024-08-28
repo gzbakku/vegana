@@ -53,7 +53,7 @@ async function init(port,secure,outside){
 
   console.log('>>> serve initiated');
 
-  if(!await only_compile.init()){
+  if(!await only_compile.init(false)){
     return common.error('compile files failed');
   }
 

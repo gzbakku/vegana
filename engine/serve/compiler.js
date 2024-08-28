@@ -16,18 +16,18 @@ module.exports = {
   compile:compile
 };
 
-async function init(){
+async function init(production){
   console.log('>>> compiling app');
   let currentDirectory = await io.dir.cwd(),
   readLocation = currentDirectory + '/compile.js',
   writeLocation = currentDirectory + '/js/bundle.js',
-  doCompile = await compile(readLocation,writeLocation);
+  doCompile = await compile(readLocation,writeLocation,false,false,false,production);
   if(doCompile == false){
     return common.error('failed-bundle_compilation');
   } else {return true;}
 }
 
-async function lazyLoader(){
+async function lazyLoader(production){
 
   return new Promise(async (resolve,reject)=>{
 
@@ -44,22 +44,22 @@ async function lazyLoader(){
     }
     if(adb.globals && adb.globals.length > 0){
       for(let global of adb.globals){
-        promises.push(compile(global.read,global.write,global.sassRead,global.sassWrite));
+        promises.push(compile(global.read,global.write,global.sassRead,global.sassWrite,false,production));
       }
     }
     if(adb.pages && adb.pages.length > 0){
       for(let page of adb.pages){
-        promises.push(compile(page.read,page.write,page.sassRead,page.sassWrite));
+        promises.push(compile(page.read,page.write,page.sassRead,page.sassWrite,false,production));
       }
     }
     if(adb.conts && adb.conts.length > 0){
       for(let cont of adb.conts){
-        promises.push(compile(cont.read,cont.write,cont.sassRead,cont.sassWrite));
+        promises.push(compile(cont.read,cont.write,cont.sassRead,cont.sassWrite,false,production));
       }
     }
     if(adb.panels && adb.panels.length > 0){
       for(let panel of adb.panels){
-        promises.push(compile(panel.read,panel.write,panel.sassRead,panel.sassWrite));
+        promises.push(compile(panel.read,panel.write,panel.sassRead,panel.sassWrite,false,production));
       }
     }
     if(adb.wasm && adb.wasm.length > 0){
@@ -69,7 +69,7 @@ async function lazyLoader(){
     }
     if(adb.uiLibs && adb.uiLibs.length > 0){
       for(let uiLib of adb.uiLibs){
-        promises.push(compile(uiLib.read,uiLib.write,uiLib.sassRead,uiLib.sassWrite));
+        promises.push(compile(uiLib.read,uiLib.write,uiLib.sassRead,uiLib.sassWrite,false,production));
       }
     }
 
@@ -86,13 +86,13 @@ async function lazyLoader(){
 
 }
 
-async function bundle(log){
+async function bundle(log_success,production){
   common.tell('compiling app bundle');
   let currentDirectory = await io.dir.cwd() + '/',
   readLocation = currentDirectory + 'compile.js',
   writeLocation = currentDirectory + 'js/bundle.js',
 
-  doCompile = await compile(readLocation,writeLocation,false,false,true)
+  doCompile = await compile(readLocation,writeLocation,false,false,true,production)
   .then(()=>{return true;}).catch(()=>{return false;});
 
   // console.log("\n\n");
@@ -168,7 +168,9 @@ async function appModule(type,parents,name,log){
 
 }
 
-async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success){
+async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success,production){
+
+  
 
   return new Promise(async (resolve,reject)=>{
 
@@ -187,25 +189,190 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
       }
     }
 
-    let yo = browserify({ debug: false })
-    .require(readLocation,{entry: true});
+    // console.log({
+    //   readLocation:readLocation,
+    //   writeLocation:writeLocation
+    // });
 
-    if(global.VeganaBuildProduction){
-      yo.plugin(tinyify, { flat: false });
+    // let hold = writeLocation.split("/");
+    // let last = hold[hold.length-1];
+    // let path = writeLocation.replace(last,"");
+
+    // console.log({
+    //   path:path,
+    //   last:last
+    // });
+
+    // let loc = "D:/workstation/expo/vegana/test/compile.js";
+
+    
+    
+    if(true){
+      // global.__webpack_require__ = ()=>{};
+      const esbuild = require('esbuild');
+      const { externalGlobalPlugin } = require("esbuild-plugin-external-global");
+      const eslint = require("esbuild-plugin-eslint").default;
+      try {
+        let hold = await esbuild.build({
+          entryPoints: [
+            readLocation
+          ],  // Input file
+          outfile: writeLocation,      // Output file
+          bundle: true,                   // Bundle all dependencies into one file
+          minify: production ? true : false,                   // Minify the output
+          format: 'cjs',
+          sourcemap: false,                // Generate a source map
+          // target: ['es2020','chrome58','edge16','firefox57','node12','safari11'],               // Target environment (ES2015 in this case)
+          target:"es2020",
+          platform: 'browser',            // Target platform (can be 'node' or 'browser')
+          plugins: [
+            externalGlobalPlugin({
+              'os': 'window.os',
+            }),
+            eslint({
+              "overrideConfig": {
+                "rules":{
+                  "no-unused-vars": "off",
+                  "no-undef": "off",
+                  "no-prototype-builtins":"off",
+                  "no-dupe-keys":"warn"
+                }
+              }
+            })
+          ],
+        });
+        // console.log('Build completed successfully.');
+        // console.log(hold);
+        resolve();
+      } catch (error) {
+        console.error('Build failed:', error);
+        reject();
+      }
     }
 
-    yo.bundle()
-    .on("error", (err)=>{
-      if(err.message){
-        reject(err.message);
-        return;
-      }
-      reject(err);
-    })
-    .on("end", (e,f)=>{
-      resolve();
-    })
-    .pipe(fs.createWriteStream(writeLocation));
+    // const babel = require("@babel/core");
+    // console.log(babel);
+    // fs.readFile(readLocation, 'utf8', (err, code) => {
+    //   if (err) {
+    //     console.error('Error reading file:', err);
+    //     return;
+    //   }
+    //   // Use Babel to transform the code
+    //   babel.transform(
+    //     code,
+    //     {
+    //       presets: ['@babel/preset-env'],
+    //     },
+    //     (err, result) => {
+    //       if(err){
+    //         console.error('Error transforming file:', err);
+    //         return;
+    //       }  
+    //       console.log("compiled");
+    //       console.log(result);   
+    //       // // Write the transformed code to a new file
+    //       // const outputFilePath = path.join(__dirname, 'dist', 'index.js');
+    //       // fs.writeFile(outputFilePath, result.code, (err) => {
+    //       //   if (err) {
+    //       //     console.error('Error writing file:', err);
+    //       //     return;
+    //       //   }
+    //       //   console.log('File successfully compiled to:', outputFilePath);
+    //       // });
+    //     }
+    //   );
+    // });
+
+    // if(true){
+    //   const webpack = require('webpack');
+    //   console.log({mode:production ? "production" : "development"});
+    //   const ESLintPlugin = require('eslint-webpack-plugin');
+    //   webpack(
+    //     [
+    //       { 
+    //         mode:production ? "production" : "development",
+    //         entry: readLocation, 
+    //         output: {
+    //           path:path,
+    //           filename:last
+    //         },
+    //         "target": "web",
+    //         // plugins: [new ESLintPlugin({
+    //         //   emitError :true,
+    //         //   failOnError:true,
+    //         //   // rules: [
+    //         //   //   {
+    //         //   //     test: "/\.js$/",
+    //         //   //     exclude: "/node_modules/",
+    //         //   //     use: 'eslint-loader',
+    //         //   //   },
+    //         //   // ],
+    //         // })],
+    //         // stats: {
+    //         //   errors: true, // ⚠️  Absolutely not recommended
+    //         //   warnings: false
+    //         // },
+    //         module: {
+    //           rules: [
+    //             // {
+    //             //   test: "/\.m?js$/",
+    //             //   exclude: "/node_modules/",
+    //             //   use: {
+    //             //     loader: "babel-loader",
+    //             //     options: {
+    //             //       presets: ['@babel/preset-env']
+    //             //     }
+    //             //   }
+    //             // },
+    //             {
+    //               test: "/\.js$/",
+    //               exclude: "/node_modules/",
+    //               use: 'eslint-loader',
+    //               enforce: 'pre',
+    //             },
+    //           ]
+    //         }
+    //         // stats: 'errors-only',
+    //       },
+    //     ],
+    //     (err, stats) => {
+    //       console.log({err:err});
+    //       console.log({stats:stats});
+    //       console.log(stats.hasErrors());
+    //       console.log(stats.stats.compilation);
+    //       if (stats.hasErrors()) {
+    //         // console.log(stats.);
+    //       }
+    //       if(err){
+    //         console.error(err);
+    //         return reject(err);
+    //       }
+    //       process.stdout.write(stats.toString() + '\n');
+    //       resolve();
+    //     }
+    //   );
+    //   // console.log({w_compiler:w_compiler});
+    // }
+
+    // let yo = browserify({ debug: false })
+    // .require(readLocation,{entry: true});
+    // if(global.VeganaBuildProduction){
+    //   yo.plugin(tinyify, { flat: false });
+    // }
+    // if(true){
+    //   yo.bundle()
+    //   .on("error", (err)=>{
+    //     if(err.message){
+    //       reject(err.message);
+    //       return;
+    //     }
+    //     reject(err);
+    //   })
+    //   .on("end", (e,f)=>{
+    //     resolve();
+    //   })
+    //   .pipe(fs.createWriteStream(writeLocation));
+    // }
 
   })
   .then(()=>{

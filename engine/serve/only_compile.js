@@ -84,7 +84,7 @@ async function init(enable_config_production){
 
   //compile here
   if(true){
-    let doCompile = await compile.init();
+    let doCompile = await compile.init(enable_config_production);
     if(doCompile == false){
       return common.error('failed-bundle_compilation');
     }
@@ -92,7 +92,7 @@ async function init(enable_config_production){
 
   //compile lazy modules here
   if(true){
-    let doLazyLoad = await compile.lazyLoader();
+    let doLazyLoad = await compile.lazyLoader(enable_config_production);
     if(doLazyLoad == false){
       return common.error('failed-lazy_module_compilations');
     }

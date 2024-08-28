@@ -8,6 +8,9 @@ module.exports = {
 
     let files = [
       'index.html',
+      '.eslintrc',
+      'eslint.config.mjs',
+      'eslint.json',
       'compile.js',
       'lazy.json',
       'css',
