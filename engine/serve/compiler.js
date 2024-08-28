@@ -194,61 +194,68 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
     //   writeLocation:writeLocation
     // });
 
-    // let hold = writeLocation.split("/");
-    // let last = hold[hold.length-1];
-    // let path = writeLocation.replace(last,"");
-
     // console.log({
     //   path:path,
     //   last:last
     // });
 
     // let loc = "D:/workstation/expo/vegana/test/compile.js";
-
     
-    
-    if(true){
-      // global.__webpack_require__ = ()=>{};
-      const esbuild = require('esbuild');
-      const { externalGlobalPlugin } = require("esbuild-plugin-external-global");
-      const eslint = require("esbuild-plugin-eslint").default;
-      try {
-        let hold = await esbuild.build({
-          entryPoints: [
-            readLocation
-          ],  // Input file
-          outfile: writeLocation,      // Output file
-          bundle: true,                   // Bundle all dependencies into one file
-          minify: production ? true : false,                   // Minify the output
-          format: 'cjs',
-          sourcemap: false,                // Generate a source map
-          // target: ['es2020','chrome58','edge16','firefox57','node12','safari11'],               // Target environment (ES2015 in this case)
-          target:"es2020",
-          platform: 'browser',            // Target platform (can be 'node' or 'browser')
-          plugins: [
-            externalGlobalPlugin({
-              'os': 'window.os',
-            }),
-            eslint({
-              "overrideConfig": {
-                "rules":{
-                  "no-unused-vars": "off",
-                  "no-undef": "off",
-                  "no-prototype-builtins":"off",
-                  "no-dupe-keys":"warn"
-                }
-              }
-            })
-          ],
-        });
-        // console.log('Build completed successfully.');
-        // console.log(hold);
-        resolve();
-      } catch (error) {
-        console.error('Build failed:', error);
-        reject();
-      }
-    }
+    // if(true){
+    //   // global.__webpack_require__ = ()=>{};
+    //   const esbuild = require('esbuild');
+    //   const { externalGlobalPlugin } = require("esbuild-plugin-external-global");
+    //   const eslint = require("esbuild-plugin-eslint").default;
+    //   try {
+    //     let hold = await esbuild.build({
+    //       entryPoints: [
+    //         readLocation
+    //       ],  // Input file
+    //       outfile: writeLocation,      // Output file
+    //       bundle: true,                   // Bundle all dependencies into one file
+    //       minify: production ? true : false,                   // Minify the output
+    //       format: 'cjs',
+    //       sourcemap: false,                // Generate a source map
+    //       // target: ['es2020','chrome58','edge16','firefox57','node12','safari11'],               // Target environment (ES2015 in this case)
+    //       target:"es2020",
+    //       platform: 'browser',            // Target platform (can be 'node' or 'browser')
+    //       plugins: [
+    //         externalGlobalPlugin({
+    //           'os': 'window.os',
+    //         }),
+    //         eslint({
+    //           "overrideConfig": {
+    //             "rules":{
+    //               "no-unused-vars": "off",
+    //               "no-undef": "off",
+    //               "no-prototype-builtins":"off",
+    //               "no-dupe-keys":"off",
+    //               "no-constant-condition":"off",
+    //               "no-async-promise-executor":"off",
+    //               "no-constant-binary-expression":"off",
+    //               "no-useless-escape":"off",
+    //               "no-func-assign":"off",
+    //               "no-unsafe-negation":"off",
+    //               "no-unreachable":"off",
+    //               "no-empty":"off",
+    //               "no-redeclare":"off",
+    //               "valid-typeof":"off",
+    //               "no-self-assign":"off",
+    //               "duplicate-object-key":"off",
+    //               "impossible-typeof":"off"
+    //             }
+    //           }
+    //         })
+    //       ],
+    //     });
+    //     // console.log('Build completed successfully.');
+    //     // console.log(hold);
+    //     resolve();
+    //   } catch (error) {
+    //     console.error('Build failed:', error);
+    //     reject();
+    //   }
+    // }
 
     // const babel = require("@babel/core");
     // console.log(babel);
@@ -284,6 +291,9 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
     // });
 
     // if(true){
+    //   let hold = writeLocation.split("/");
+    //   let last = hold[hold.length-1];
+    //   let path = writeLocation.replace(last,"");
     //   const webpack = require('webpack');
     //   console.log({mode:production ? "production" : "development"});
     //   const ESLintPlugin = require('eslint-webpack-plugin');
@@ -354,25 +364,25 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
     //   // console.log({w_compiler:w_compiler});
     // }
 
-    // let yo = browserify({ debug: false })
-    // .require(readLocation,{entry: true});
-    // if(global.VeganaBuildProduction){
-    //   yo.plugin(tinyify, { flat: false });
-    // }
-    // if(true){
-    //   yo.bundle()
-    //   .on("error", (err)=>{
-    //     if(err.message){
-    //       reject(err.message);
-    //       return;
-    //     }
-    //     reject(err);
-    //   })
-    //   .on("end", (e,f)=>{
-    //     resolve();
-    //   })
-    //   .pipe(fs.createWriteStream(writeLocation));
-    // }
+    let yo = browserify({ debug: false })
+    .require(readLocation,{entry: true});
+    if(global.VeganaBuildProduction){
+      yo.plugin(tinyify, { flat: false });
+    }
+    if(true){
+      yo.bundle()
+      .on("error", (err)=>{
+        if(err.message){
+          reject(err.message);
+          return;
+        }
+        reject(err);
+      })
+      .on("end", (e,f)=>{
+        resolve();
+      })
+      .pipe(fs.createWriteStream(writeLocation));
+    }
 
   })
   .then(()=>{
