@@ -15,6 +15,8 @@ module.exports = {
 
 async function init(enable_config_production){
 
+  console.log("only_compile");
+
   //check the files
   if(true){
     let doCheck = await check.init();

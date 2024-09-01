@@ -367,9 +367,40 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
     let yo = browserify({ debug: false })
     .require(readLocation,{entry: true});
     if(global.VeganaBuildProduction || production){
-      yo.plugin(tinyify, { flat: false });
+      yo
+      .transform(require('unassertify'), { global: true })
+      .transform(require('@browserify/envify'), { global: true });
+      let UglifyJS = require("uglify-js");
+      let ss = "";
+      let reader = yo.bundle()
+      .on("error", (err)=>{
+        if(err.message){
+          reject(err.message);
+          return;
+        }
+        reject(err);
+      })
+      .on("end", (e,f)=>{
+        resolve();
+      });
+      reader.on('data', function(chunk){
+        ss += chunk.toString();
+      });
+      reader.on('end', function(){
+        let result = UglifyJS.minify(ss);
+        // console.log({after:ss.length - result.code.length});
+        fs.writeFile(writeLocation,result.code,(err)=>{
+            if (err) {
+              console.error('Error writing file:', writeLocation);
+              return reject(err);
+            }
+            // console.log('File successfully compiled to:', writeLocation);
+        });
+      });
     }
-    if(true){
+    
+    else {
+
       yo.bundle()
       .on("error", (err)=>{
         if(err.message){
@@ -382,6 +413,29 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
         resolve();
       })
       .pipe(fs.createWriteStream(writeLocation));
+
+      // console.log(hh);
+      //     let ss = '';
+      //     hh.on('data', function(chunk){
+      //       // console.log('Chunk read');
+      //       // console.log(chunk.toString());
+      //       ss += chunk.toString();
+      //    });
+      //    var UglifyJS = require("uglify-js");
+      //    hh.on('end', function(chunk){
+      //     // console.log('Chunk read');
+      //     // console.log(chunk.toString());
+      //     // ss += chunk.toString();
+      //     // console.log(ss.length);
+      //     var result = UglifyJS.minify(ss);
+      //     console.log({after:ss.length - result.code.length});
+      //  });
+      // var UglifyJS = require("uglify-js");
+      //  var result = UglifyJS.minify(hh);
+      // console.log({after:result.code.length});
+      // .pipe(require('minify-stream')({ sourceMap: false }))
+      // .pipe(fs.createWriteStream(writeLocation));
+
     }
 
   })
