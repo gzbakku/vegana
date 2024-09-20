@@ -387,15 +387,39 @@ async function compile(readLocation,writeLocation,sassRead,sassWrite,log_success
         ss += chunk.toString();
       });
       reader.on('end', function(){
-        let result = UglifyJS.minify(ss);
+        let result = UglifyJS.minify(ss,{
+          toplevel: false,
+          warnings:"verbose",
+          // mangle: {
+          //   properties:false
+          // },
+          // // mangle:true,
+          module:false,
+          // keep_fnames:false,
+          // keep_fargs:false,
+          sourceMap:true
+        });
         // console.log({after:ss.length - result.code.length});
-        fs.writeFile(writeLocation,result.code,(err)=>{
+        if(!result.code){
+          common.error(`failed compile at => ${readLocation}`);
+          // common.error(result.error);
+          return reject(result.error);
+        } else {
+          fs.writeFile(writeLocation,result.code,(err)=>{
+              if (err) {
+                console.error('Error writing file:', writeLocation);
+                return reject(err);
+              }
+              // console.log('File successfully compiled to:', writeLocation);
+          });
+          fs.writeFile(`${writeLocation}.map`,result.map,(err)=>{
             if (err) {
               console.error('Error writing file:', writeLocation);
               return reject(err);
             }
             // console.log('File successfully compiled to:', writeLocation);
-        });
+          });
+        }
       });
     }
     
