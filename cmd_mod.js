@@ -51,17 +51,18 @@ module.exports=  {
           reject(err);
         }
         if(stderr){
-          console.log(stderr);
+          // console.log(stderr);
           resolve(stderr);
         }
         if(stdout){
-          console.log(stdout);
+          // console.log(stdout);
           resolve(stdout);
         }
       });
 
       // runner.stdout.on('data', (data)=>{console.log(data);});
       runner.stdout.pipe(process.stdout);
+      // runner.stderr.pipe(process.stdout);
 
     });
 

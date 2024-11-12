@@ -17,9 +17,11 @@ module.exports = {
     common.tell("executing cordova commands");
 
     let do_run_cordova = await run_cordova();
-    if(!run_cordova){
+    if(!do_run_cordova){
       return common.error('failed-run_cordova');
     }
+
+    return common.success("cordova build success");
 
   }
 
@@ -29,5 +31,7 @@ async function run_cordova(){
   let cordova_path = io.dir.cwd() + '/cordova';
   process.chdir(cordova_path);
   const run = await cmd.run("cordova build ");
-  console.log(run);
+  // console.log(run);
+  common.info("VEGANA CMD EXIT");
+  return true;
 }
