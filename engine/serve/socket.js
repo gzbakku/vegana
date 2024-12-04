@@ -24,20 +24,12 @@ module.exports = {
       });
     });
 
-    server.listen(7879);
-
-    console.log('>>> vegana loader listening on port 7879');
-
-    return true;
-
-  },
-
-  reload : ()=>{
-    io.emit('reload','now');
-    // console.log("reload called");
     if((run_cordova || run_electron || run_static) && !stdin){
       stdin = process.openStdin();
       stdin.on('data',async (chunk)=>{
+        // console.log(`\n\nSTD INPUT : ${chunk}\n\n`);
+        let str = chunk.toString();
+        if(str !== "\r\n"){return;}
         //start functions are defined as global vars in serve index api
         if(run_cordova){start_cordova(true);}
         if(run_static && global.start_static){start_static(null,true);}
@@ -48,6 +40,32 @@ module.exports = {
         }
       });
     }
+
+    server.listen(7879);
+
+    console.log('>>> vegana loader listening on port 7879');
+
+    return true;
+
+  },
+
+  reload : ()=>{
+    io.emit('reload','now');
+    console.log("reload called");
+    // if((run_cordova || run_electron || run_static) && !stdin){
+    //   stdin = process.openStdin();
+    //   stdin.on('data',async (chunk)=>{
+    //     console.log(`\n\nSTD INPUT : ${chunk}\n\n`);
+    //     //start functions are defined as global vars in serve index api
+    //     if(run_cordova){start_cordova(true);}
+    //     if(run_static && global.start_static){start_static(null,true);}
+    //     if(run_electron){
+    //       if(typeof(global.start_electron) === "function"){
+    //         await start_electron();
+    //       }
+    //     }
+    //   });
+    // }
     if(run_static && global.start_static){start_static();}
     return true;
   }
