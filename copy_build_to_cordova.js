@@ -20,7 +20,7 @@ async function init(from_dev){
 
     let from = currentDirectory + 'build/web/' + file;
     if(from_dev){
-      from = currentDirectory + '/' + file;
+      from = currentDirectory + '' + file;
     }
 
     let to = currentDirectory + 'cordova/www/' + file;
@@ -29,7 +29,7 @@ async function init(from_dev){
       if(!await io.exists(to)){
         let work = await io.copy(from,to);
         if(!work){
-          common.error('failed-process_built_for-' + file);
+          common.error(`failed-process_built_for-assets => ${from} => ${to}`);
           control = false;
           break;
         }
@@ -39,7 +39,7 @@ async function init(from_dev){
     } else {
       let work = await io.copy(from,to);
       if(!work){
-        common.error('failed-process_built_for-' + file);
+        common.error(`failed-process_built_for => ${from} => ${to}`);
         control = false;
         break;
       }

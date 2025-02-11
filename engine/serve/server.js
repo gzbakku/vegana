@@ -10,7 +10,15 @@ app.use(cors());
 //prod
 let projectLocation = process.cwd() + '/';
 
-app.use(express.static(projectLocation));
+app.use(express.static(projectLocation,{
+  setHeaders: (res, path) => {
+    const ext = path.split('.').pop();
+    // console.log(`${ext} ${path}`);
+    if(ext === "wasm"){
+      res.setHeader('Content-Type', "application/wasm");
+    }
+  }
+}));
 
 app.get('/*', function(req, res){
   res.sendFile(projectLocation + 'index.html');

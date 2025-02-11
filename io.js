@@ -71,9 +71,17 @@ module.exports = {
       return true;
     })
     .catch((error)=>{
-      common.error(error);
+      console.error(error);
       return common.error("failed-copy-io");
     });
+    // return fs_native.cp(from,to)
+    // .then(()=>{
+    //   return true;
+    // })
+    // .catch((error)=>{
+    //   common.error(error);
+    //   return common.error("failed-copy-io");
+    // });
   },
 
   readJson:async (location,if_no_string_return_true_bool)=>{
