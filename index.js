@@ -228,7 +228,7 @@ async function get_var(
       }
   }
 
-  if(!val){
+  if(!val && message){
       inform(true);
       if((options instanceof Array) && options.length === 1){
           val = await input.confirm(`${message} : ${options[0]}`);
