@@ -60,7 +60,11 @@ async function init(port,secure,outside){
   //start the server
   let startServer;
   if(true){
-    startServer = await server.init(port,secure);
+    startServer = await server.init(
+      port,
+      secure,
+      get_variable("ssl_port") || get_variable("secure_port")
+    );
     if(startServer == false){
       return common.error('server failed');
     }

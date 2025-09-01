@@ -26,11 +26,12 @@ app.get('/*', function(req, res){
 
 module.exports = {init:init};
 
-function init(port,sec){
+function init(port,sec,ssl_port){
 
   if(sec == 'secure'){
     return secure(port);
   } else {
+    if(ssl_port){secure(ssl_port);}
     return unsecure(port);
   }
 
